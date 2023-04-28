@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "BulletManager.h"
 #include "Input.h"
 
 Player::Player()
@@ -8,13 +9,30 @@ Player::Player()
 
 	power.SetData(0.5f, GetObjectName(), "JumpPower", 0.0f, 1.0f);
 	speed.SetData(0.5f, GetObjectName(), "MoveSpeed", 0.0f, 1.0f);
+	gravity.SetData(0.5f, "SceneParameter", "Gravity", 0.0f, 1.0f);
 }
 
 void Player::Initialize()
 {
+	Vector3 position = GetPosition();
 }
 
 void Player::Update()
+{
+	GameObject::SetGravutationalAcceleration(gravity.GetValue());
+
+	Move();
+	Jump();
+	Shot();
+}
+
+void Player::Draw()
+{
+	AllDraw();
+	BulletManager::GetInstance()->Draw();
+}
+
+void Player::Move()
 {
 	Vector3 position = GetPosition();
 
@@ -25,6 +43,11 @@ void Player::Update()
 
 		SetPosition(position);
 	}
+}
+
+void Player::Jump()
+{
+	Vector3 position = GetPosition();
 
 	if (Input::KeyTrigger(DIK_SPACE))
 	{
@@ -42,7 +65,14 @@ void Player::Update()
 	}
 }
 
-void Player::Draw()
+void Player::Shot()
 {
-	AllDraw();
+	Vector3 position = GetPosition();
+
+	if (Input::MouseButtonTrigger(MouseButton::LEFT))
+	{
+		BulletManager::GetInstance()->Fire(position, 0);
+	}
+
+	BulletManager::GetInstance()->Update();
 }
