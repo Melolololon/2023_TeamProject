@@ -1,4 +1,6 @@
 #include "Game.h"
+#include "Player.h"
+#include "Bullet.h"
 
 #pragma region ライブラリインクルード
 
@@ -23,6 +25,7 @@ Game* Game::GetInstance()
 	return &game;
 }
 
+Player* player;
 
 void Game::Run()
 {
@@ -72,7 +75,10 @@ void Game::Initialize()
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
+	player = new Player();
+	player->Initialize();
 
+	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 0, -40));
 }
 
 
@@ -86,10 +92,20 @@ void Game::Update()
 {
 	MelLib::SceneManager::GetInstance()->Update();
 	MelLib::SceneEditer::GetInstance()->Update();
+	//MelLib::SceneManager::GetInstance()->Update();
+	//MelLib::SceneEditer::GetInstance()->Update();
+	//MelLib::GameObjectManager::GetInstance()->Update();
+
+	player->Update();
 }
 
 void Game::Draw()
 {
+	//MelLib::SceneManager::GetInstance()->Draw();
+	//MelLib::SceneEditer::GetInstance()->Draw();
+
+	//MelLib::GameObjectManager::GetInstance()->Draw();
+	player->Draw();
 	MelLib::SceneManager::GetInstance()->Draw();
 	MelLib::SceneEditer::GetInstance()->Draw();
 
