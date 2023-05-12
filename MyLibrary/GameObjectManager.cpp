@@ -169,6 +169,45 @@ void GameObjectManager::Update()
 			////自分と比較、比較済の組み合わせはcontinue
 			if (objI >= objJ)continue;
 
+			
+#pragma region タグを確認して必要ないならスキップ
+
+
+			std::vector<std::string>obj1Tags = obj1->GetTags();
+			std::vector<std::string>obj1SkipTags = obj1->GetSkipCollisionCheckTags();
+			std::vector<std::string>obj2Tags = obj2->GetTags();
+			std::vector<std::string>obj2SkipTags = obj2->GetSkipCollisionCheckTags();
+			bool skip = false;
+			for (auto& sTag : obj1SkipTags) 
+			{
+				for (auto& tag : obj2Tags)
+				{
+					if (sTag == tag)
+					{
+						skip = true;
+						break;
+					}
+				}
+				if (skip)break;
+			}
+			if (skip)continue;
+
+			for (auto& sTag : obj2SkipTags)
+			{
+				for (auto& tag : obj1Tags)
+				{
+					if (sTag == tag)
+					{
+						skip = true;
+						break;
+					}
+				}
+				if (skip)break;
+			}
+
+			if (skip)continue;
+#pragma endregion
+
 			unsigned int checkNum = 1;
 			auto getCheckNum = [](const GameObject& obj1, ShapeType3D type1, const GameObject& obj2, ShapeType3D type2)
 			{
@@ -444,11 +483,16 @@ void GameObjectManager::Update()
 						{
 							for (int colJ = 0; colJ < capsuleDataVec2Size; colJ++)
 							{
-								if (Collision::CapsuleAndCapsule(capsuleDataVec1[colI], capsuleDataVec2[colJ]))
+								CapsuleCalcResult res1;
+								CapsuleCalcResult res2;
+
+								if (Collision::CapsuleAndCapsule(capsuleDataVec1[colI], &res1, capsuleDataVec2[colJ],&res2))
 								{
 									obj1->SetHitCapsuleData(capsuleDataVec2[colJ]);
 									obj2->SetHitCapsuleData(capsuleDataVec1[colI]);
 
+									obj1->SetCapsuleCalcResult(res1);
+									obj2->SetCapsuleCalcResult(res2);
 
 									//hitを呼び出す
 									obj1->Hit
@@ -1278,8 +1322,8 @@ void GameObjectManager::Update()
 				}
 			}
 
-			if (collisionFlags[objI].board
-				&& collisionFlags[objJ].segment)
+			if (collisionFlags[objJ].board
+				&& collisionFlags[objI].segment)
 			{
 				std::unordered_map < std::string, std::vector<BoardData>>boardDatas = obj2->GetBoardDatas();
 				std::unordered_map < std::string, std::vector<Segment3DData>>segmentDatas = obj1->GetSegmentDatas();
@@ -1359,7 +1403,7 @@ void GameObjectManager::Update()
 							for (int colJ = 0; colJ < capsuleDataSize; colJ++)
 							{
 								BoardCalcResult result1;
-								Segment3DCalcResult result2;
+								CapsuleCalcResult result2;
 
 								if (Collision::BoardAndCapsule(boardDataVec[colI], &result1, capsuleDataVec[colJ], &result2))
 								{
@@ -1416,7 +1460,7 @@ void GameObjectManager::Update()
 							for (int colJ = 0; colJ < capsuleDataSize; colJ++)
 							{
 								BoardCalcResult result1;
-								Segment3DCalcResult result2;
+								CapsuleCalcResult result2;
 
 								if (Collision::BoardAndCapsule(boardDataVec[colI], &result1, capsuleDataVec[colJ], &result2))
 								{
