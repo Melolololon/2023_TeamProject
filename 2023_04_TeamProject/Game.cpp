@@ -1,4 +1,6 @@
 #include "Game.h"
+#include "Player.h"
+#include "Bullet.h"
 
 #pragma region ライブラリインクルード
 
@@ -20,6 +22,7 @@ Game* Game::GetInstance()
 	return &game;
 }
 
+Player* player;
 
 void Game::Run()
 {
@@ -63,10 +66,12 @@ void Game::Initialize()
 	GameObjectManager::GetInstance()->SetCollisionFlag3D(initFlag);*/
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
-
 	
 #pragma endregion
+	player = new Player();
+	player->Initialize();
 
+	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 0, -40));
 }
 
 
@@ -81,6 +86,8 @@ void Game::Update()
 	//MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
+
+	player->Update();
 }
 
 void Game::Draw()
@@ -89,5 +96,5 @@ void Game::Draw()
 	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
-
+	player->Draw();
 }

@@ -1,4 +1,5 @@
 #include "BulletManager.h"
+#define PI 3.141592
 
 BulletManager* BulletManager::GetInstance()
 {
@@ -37,8 +38,8 @@ void BulletManager::Fire(Vector3 position, float rotation, float velocityMagnifi
 	Bullet& bullet = bullets.front();
 	bullet.position = position;
 	// 角度から速度のベクトルを計算
-	bullet.velocity.x = bullet.velocity.x * cosf(rotation);
-	bullet.velocity.y = bullet.velocity.x * sinf(rotation);
+	bullet.velocity.x = bullet.velocity.x * cosf(rotation * (PI / 180));
+	bullet.velocity.y = bullet.velocity.y * sinf(rotation * (PI / 180));
 	bullet.velocity *= velocityMagnification;
 
 	bullet.power = power;

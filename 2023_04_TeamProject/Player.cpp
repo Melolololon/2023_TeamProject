@@ -7,14 +7,15 @@ Player::Player()
 {
 	modelObjects["main"].Create(MelLib::ModelData::Get(ShapeType3D::BOX), GetObjectName());
 
-	power.SetData(0.5f, GetObjectName(), "JumpPower", 0.0f, 1.0f);
+	// imgui
+	power.SetData(1.0f, GetObjectName(), "JumpPower", 0.0f, 1.0f);
 	speed.SetData(0.5f, GetObjectName(), "MoveSpeed", 0.0f, 1.0f);
-	gravity.SetData(0.5f, "SceneParameter", "Gravity", 0.0f, 1.0f);
+	gravity.SetData(0.1f, "SceneParameter", "Gravity", 0.0f, 1.0f);
 }
 
 void Player::Initialize()
 {
-	Vector3 position = GetPosition();
+
 }
 
 void Player::Update()
@@ -29,6 +30,7 @@ void Player::Update()
 void Player::Draw()
 {
 	AllDraw();
+	// ’e‚Ì•`‰æ
 	BulletManager::GetInstance()->Draw();
 }
 
@@ -71,7 +73,7 @@ void Player::Shot()
 
 	if (Input::MouseButtonTrigger(MouseButton::LEFT))
 	{
-		BulletManager::GetInstance()->Fire(position, 0);
+		BulletManager::GetInstance()->Fire(position, Input::GetMouseAngle());
 	}
 
 	BulletManager::GetInstance()->Update();

@@ -6,8 +6,7 @@
 
 using namespace MelLib;
 
-class Player :
-	public GameObject
+class Player : public GameObject
 {
 	GuiFloat power;
 	GuiFloat speed;

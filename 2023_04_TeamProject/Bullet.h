@@ -18,7 +18,7 @@ public:
 	// 座標
 	Vector3 position{};
 	// 速度
-	Vector3 velocity = { 1.0f, 0.0f, 0.0f };
+	Vector3 velocity = { 1.0f, 1.0f, 0.0f };
 	// 攻撃力
 	float power = 0.0f;
 	// 開始フレーム
