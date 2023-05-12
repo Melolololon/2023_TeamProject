@@ -11,8 +11,6 @@ Player::Player()
 	power.SetData(1.0f, GetObjectName(), "JumpPower", 0.0f, 1.0f);
 	speed.SetData(0.5f, GetObjectName(), "MoveSpeed", 0.0f, 1.0f);
 	gravity.SetData(0.1f, "SceneParameter", "Gravity", 0.0f, 1.0f);
-
-	SetScale({ 4,4,4 });
 }
 
 void Player::Initialize()
@@ -36,33 +34,14 @@ void Player::Draw()
 	BulletManager::GetInstance()->Draw();
 }
 
-std::shared_ptr<GameObject> Player::GetNewPtr()
-{
-	return std::shared_ptr<Player>();
-}
-
 void Player::Move()
 {
 	Vector3 position = GetPosition();
-	Vector3 cpos = Camera::Get()->GetCameraPosition();
 
 	if (Input::KeyState(DIK_A) || Input::KeyState(DIK_D))
 	{
-		if (Input::KeyState(DIK_A))
-		{
-			position.x -= speed.GetValue();
-			cpos.x -= speed.GetValue();
-		}
-		else if (Input::KeyState(DIK_D))
-		{
-			position.x += speed.GetValue();
-			cpos.x += speed.GetValue();
-		}
-
-
-
-		cpos.z += Camera::Get()->GetCameraToTargetDistance();
-		Camera::Get()->SetRotateCriteriaPosition(cpos);
+		if (Input::KeyState(DIK_A)) position.x -= speed.GetValue();
+		else if (Input::KeyState(DIK_D)) position.x += speed.GetValue();
 
 		SetPosition(position);
 	}
