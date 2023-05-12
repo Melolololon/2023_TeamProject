@@ -416,6 +416,8 @@ namespace MelLib
 
 		Value3<Vector3> GetPosition()const { return position; }
 		
+		Vector3 GetScale()const { return scale; }
+
 		/// <summary>
 		/// 回転後に平行移動する移動量を取得します。
 		/// </summary>
@@ -473,6 +475,12 @@ namespace MelLib
 		Vector3 boardHitPos;
 		Vector3 triangleHitPos;
 		Vector3 planeHitPos;
+
+
+		// 自分自身のの最近点
+		Vector3 thisCapsuleLineClosestPoint;
+		// 相手の最近点
+		Vector3 otherCapsuleLineClosestPoint;
 	};
 
 	//線分
@@ -559,7 +567,10 @@ namespace MelLib
 
 
 #pragma region カプセル
-
+	struct CapsuleCalcResult 
+	{
+		Segment3DCalcResult segment3DCalcResult;
+	};
 
 	//カプセル
 	class CapsuleData
