@@ -21,6 +21,10 @@ public:
 
 	void Draw() override;
 
+	// ポインター
+	// エディタで配置するのに使う
+	std::shared_ptr<GameObject> GetNewPtr() override;
+
 private:
 
 	// 移動

@@ -10,7 +10,6 @@
 #include<Input.h>
 #include<ImguiManager.h>
 
-#include<GuiValue.h>
 #pragma endregion
 
 
@@ -24,7 +23,7 @@ Game* Game::GetInstance()
 }
 
 Player* player;
-
+MelLib::ModelObject stage;
 void Game::Run()
 {
 	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(true);
@@ -37,7 +36,7 @@ void Game::Run()
 
 		if (MelLib::Input::KeyTrigger(DIK_ESCAPE))MelLib::Library::EndFlagTrue();
 		if (MelLib::Library::GetIsEnd())break;
-		
+
 		//ImGui::ShowDemoWindow();
 
 		Update();
@@ -52,7 +51,7 @@ void Game::Run()
 void Game::Initialize()
 {
 
-	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0,0,255,255),L"MELLib");
+	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0, 0, 255, 255), L"MELLib");
 	MelLib::Library::SetFramesPerSecond60(true);
 
 #pragma region マネージャー初期化
@@ -67,12 +66,19 @@ void Game::Initialize()
 	GameObjectManager::GetInstance()->SetCollisionFlag3D(initFlag);*/
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
-	
+
 #pragma endregion
 	player = new Player();
 	player->Initialize();
 
-	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 0, -40));
+	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
+	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 8, 0));
+	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
+
+	bool res = MelLib::ModelData::Load("stage1_1/stage1_1.obj", false, "Stage");
+	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
+	stage.SetAngle({ 0, 90, 00 });
+	stage.SetPosition({ 0,-40,0 });
 }
 
 
@@ -98,4 +104,6 @@ void Game::Draw()
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
 	player->Draw();
+
+	stage.Draw();
 }
