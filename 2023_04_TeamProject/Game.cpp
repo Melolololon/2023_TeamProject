@@ -73,13 +73,14 @@ void Game::Initialize()
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 	
 	MelLib::SceneEditer::GetInstance()->Initialize();
-	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Player>(), "Player");
 #pragma endregion
-	player = new Player();
-	player->Initialize();
+	//player = new Player();
+	//player->Initialize();
 
 	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 0, -40));
 }
+
 
 
 void Game::Finalize()
@@ -96,7 +97,7 @@ void Game::Update()
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
 
-	player->Update();
+	//player->Update();
 }
 
 void Game::Draw()
@@ -105,7 +106,7 @@ void Game::Draw()
 	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
-	player->Draw();
+	//player->Draw();
 	MelLib::SceneManager::GetInstance()->Draw();
 	MelLib::SceneEditer::GetInstance()->Draw();
 
