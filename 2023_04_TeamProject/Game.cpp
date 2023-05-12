@@ -8,6 +8,7 @@
 #include<Input.h>
 #include<ImguiManager.h>
 
+#include<GuiValue.h>
 #pragma endregion
 
 
