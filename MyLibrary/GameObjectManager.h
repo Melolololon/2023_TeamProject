@@ -44,7 +44,6 @@ namespace MelLib
 
 
 	private:
-
 		std::vector<std::shared_ptr<GameObject>>objects;
 		//’Ç‰Á‚³‚ê‚½‚à‚Ì‚ðˆêŽž“I‚É“ü‚ê‚Ä‚¨‚­”z—ñ
 		std::vector<std::shared_ptr<GameObject>>addObjects;
