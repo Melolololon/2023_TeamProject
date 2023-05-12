@@ -11,6 +11,7 @@
 #include<GuiValue.h>
 #pragma endregion
 
+#include"Play.h"
 
 Game::Game() {}
 
@@ -65,7 +66,7 @@ void Game::Initialize()
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
 
-	
+	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 #pragma endregion
 
 }
@@ -79,16 +80,13 @@ void Game::Finalize()
 
 void Game::Update()
 {
-	//MelLib::SceneManager::GetInstance()->Update();
+	MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
-	//MelLib::GameObjectManager::GetInstance()->Update();
 }
 
 void Game::Draw()
 {
-	//MelLib::SceneManager::GetInstance()->Draw();
+	MelLib::SceneManager::GetInstance()->Draw();
 	//MelLib::SceneEditer::GetInstance()->Draw();
-
-	//MelLib::GameObjectManager::GetInstance()->Draw();
 
 }
