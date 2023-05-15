@@ -1,6 +1,8 @@
 #include "Game.h"
+#include "Player.h"
+#include "Bullet.h"
 
-#pragma region ƒ‰ƒCƒuƒ‰ƒŠƒCƒ“ƒNƒ‹[ƒh
+#pragma region ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 
 #include<Library.h>
 #include<SceneManager.h>
@@ -23,6 +25,7 @@ Game* Game::GetInstance()
 	return &game;
 }
 
+Player* player;
 
 void Game::Run()
 {
@@ -54,7 +57,7 @@ void Game::Initialize()
 	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0,0,255,255),L"MELLib");
 	MelLib::Library::SetFramesPerSecond60(true);
 
-#pragma region ƒ}ƒl[ƒWƒƒ[‰Šú‰»
+#pragma region ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼åˆæœŸåŒ–
 
 	/*CollisionFlag initFlag;
 	initFlag.board = true;
@@ -66,19 +69,20 @@ void Game::Initialize()
 	GameObjectManager::GetInstance()->SetCollisionFlag3D(initFlag);*/
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
-
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
-	
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
+	player = new Player();
+	player->Initialize();
 
+	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 0, -40));
 }
 
 
 void Game::Finalize()
 {
-	MelLib::Library::Finalize();//â‘Î‚ÉÅŒã‚É‘‚­
+	MelLib::Library::Finalize();//çµ¶å¯¾ã«æœ€å¾Œã«æ›¸ã
 }
 
 
@@ -86,6 +90,11 @@ void Game::Update()
 {
 	MelLib::SceneManager::GetInstance()->Update();
 	MelLib::SceneEditer::GetInstance()->Update();
+	//MelLib::SceneManager::GetInstance()->Update();
+	//MelLib::SceneEditer::GetInstance()->Update();
+	//MelLib::GameObjectManager::GetInstance()->Update();
+
+	player->Update();
 }
 
 void Game::Draw()
@@ -93,4 +102,9 @@ void Game::Draw()
 	MelLib::SceneManager::GetInstance()->Draw();
 	MelLib::SceneEditer::GetInstance()->Draw();
 
+	//MelLib::SceneManager::GetInstance()->Draw();
+	//MelLib::SceneEditer::GetInstance()->Draw();
+
+	//MelLib::GameObjectManager::GetInstance()->Draw();
+	player->Draw();
 }
