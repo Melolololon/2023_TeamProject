@@ -164,9 +164,14 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="slime.h" />
     <ClInclude Include="Play.h" />
+=========
     <ClInclude Include="Player.h" />
+>>>>>>>>> Temporary merge branch 2
+    <ClInclude Include="Player.h" />
+>>>>>>>>> Temporary merge branch 2
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">

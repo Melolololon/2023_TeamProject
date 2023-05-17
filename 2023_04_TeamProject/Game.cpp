@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Bullet.h"
 
-#pragma region ƒ‰ƒCƒuƒ‰ƒŠƒCƒ“ƒNƒ‹[ƒh
+#pragma region ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 
 #include<Library.h>
 #include<SceneManager.h>
@@ -11,7 +11,6 @@
 #include<ImguiManager.h>
 #include<SceneEditer.h>
 
-#include<GuiValue.h>
 #pragma endregion
 
 #include"Play.h"
@@ -26,7 +25,7 @@ Game* Game::GetInstance()
 }
 
 Player* player;
-
+MelLib::ModelObject stage;
 void Game::Run()
 {
 	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(true);
@@ -39,7 +38,7 @@ void Game::Run()
 
 		if (MelLib::Input::KeyTrigger(DIK_ESCAPE))MelLib::Library::EndFlagTrue();
 		if (MelLib::Library::GetIsEnd())break;
-		
+
 		//ImGui::ShowDemoWindow();
 
 		Update();
@@ -54,10 +53,10 @@ void Game::Run()
 void Game::Initialize()
 {
 
-	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0,0,255,255),L"MELLib");
+	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0, 0, 255, 255), L"MELLib");
 	MelLib::Library::SetFramesPerSecond60(true);
 
-#pragma region ƒ}ƒl[ƒWƒƒ[‰Šú‰»
+#pragma region ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼åˆæœŸåŒ–
 
 	/*CollisionFlag initFlag;
 	initFlag.board = true;
@@ -78,14 +77,21 @@ void Game::Initialize()
 	//player = new Player();
 	//player->Initialize();
 
-	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 0, -40));
+	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
+	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 8, 0));
+	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
+
+	bool res = MelLib::ModelData::Load("stage1_1/stage1_1.obj", false, "Stage");
+	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
+	stage.SetAngle({ 0, 90, 00 });
+	stage.SetPosition({ 0,-40,0 });
 }
 
 
 
 void Game::Finalize()
 {
-	MelLib::Library::Finalize();//â‘Î‚ÉÅŒã‚É‘‚­
+	MelLib::Library::Finalize();//çµ¶å¯¾ã«æœ€å¾Œã«æ›¸ã
 }
 
 
