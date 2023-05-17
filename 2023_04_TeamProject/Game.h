@@ -1,4 +1,6 @@
 #pragma once
+#include<GuiValue.h>
+
 class Game final
 {
 private:
