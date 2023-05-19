@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "BaseEnemy.h"
 
 #pragma region ライブラリインクルード
 
@@ -25,7 +26,10 @@ Game* Game::GetInstance()
 }
 
 Player* player;
+BaseEnemy* enemy;
+
 MelLib::ModelObject stage;
+
 void Game::Run()
 {
 	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(true);
@@ -74,12 +78,15 @@ void Game::Initialize()
 #pragma endregion
 	player = new Player();
 	player->Initialize();
+	enemy = new BaseEnemy("surakiti");
+	enemy->SetPlayer(player);
+
 
 	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
 	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 8, 0));
 	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
 
-	bool res = MelLib::ModelData::Load("stage1_1/stage1_1.obj", false, "Stage");
+	bool res = MelLib::ModelData::Load("Resource/stage1_1/stage1_1.obj", false, "Stage");
 	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
 	stage.SetPosition({ 0,-40,0 });
@@ -101,6 +108,7 @@ void Game::Update()
 	//MelLib::GameObjectManager::GetInstance()->Update();
 
 	player->Update();
+	enemy->Update();
 }
 
 void Game::Draw()
@@ -113,6 +121,7 @@ void Game::Draw()
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
 	player->Draw();
+	enemy->Draw();
 
 	stage.Draw();
 }
