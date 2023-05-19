@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "BaseEnemy.h"
+#include "Stage.h"
 
 #pragma region ライブラリインクルード
 
@@ -27,6 +28,7 @@ Game* Game::GetInstance()
 
 Player* player;
 BaseEnemy* enemy;
+
 
 MelLib::ModelObject stage;
 
@@ -73,6 +75,8 @@ void Game::Initialize()
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
+
+	MelLib::SceneEditer::GetInstance()->SetEditerFlag(false);
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
@@ -102,7 +106,7 @@ void Game::Finalize()
 void Game::Update()
 {
 	MelLib::SceneManager::GetInstance()->Update();
-	MelLib::SceneEditer::GetInstance()->Update();
+	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
@@ -114,7 +118,7 @@ void Game::Update()
 void Game::Draw()
 {
 	MelLib::SceneManager::GetInstance()->Draw();
-	MelLib::SceneEditer::GetInstance()->Draw();
+	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::SceneManager::GetInstance()->Draw();
 	//MelLib::SceneEditer::GetInstance()->Draw();
