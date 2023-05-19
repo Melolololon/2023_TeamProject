@@ -158,6 +158,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="slime.cpp" />
     <ClCompile Include="Play.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseEnemy.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="slime.h" />
     <ClInclude Include="Play.h" />
+    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">

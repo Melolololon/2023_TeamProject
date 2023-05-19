@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "BaseEnemy.h"
+#include "Stage.h"
 
 #pragma region ライブラリインクルード
 
@@ -27,6 +28,8 @@ Game* Game::GetInstance()
 
 Player* player;
 BaseEnemy* enemy;
+Stage* testStage;
+
 
 MelLib::ModelObject stage;
 
@@ -90,6 +93,10 @@ void Game::Initialize()
 	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
 	stage.SetPosition({ 0,-40,0 });
+
+	// ステージ動作テスト
+	testStage = new Stage();
+	testStage->Initialize();
 }
 
 
