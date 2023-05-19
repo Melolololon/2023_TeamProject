@@ -34,4 +34,5 @@ void BaseEnemy::Move()
 	moveY = (float)(sin(rad) * moveAmount + ePos.y);
 
 	SetPosition({ moveX , moveY , ePos.z });
+	SetAngle({ 0,DirectX::XMConvertToDegrees(rad) - 90.0f,0 });
 }
