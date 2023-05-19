@@ -4,6 +4,10 @@ class Stage :
     public MelLib::GameObject
 {
 private:
+	// デバッグ用
+	MelLib::GuiFloat addPosY;
+
+private:
 	// メッシュから三角形の判定を取得
 	void SetMeshTriangle();
 

@@ -76,6 +76,8 @@ void Game::Initialize()
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
+
+	MelLib::SceneEditer::GetInstance()->SetEditerFlag(false);
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
@@ -94,9 +96,8 @@ void Game::Initialize()
 	stage.SetAngle({ 0, 90, 00 });
 	stage.SetPosition({ 0,-40,0 });
 
-	// ステージ動作テスト
-	testStage = new Stage();
-	testStage->Initialize();
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Player>());
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 }
 
 
@@ -109,26 +110,26 @@ void Game::Finalize()
 void Game::Update()
 {
 	MelLib::SceneManager::GetInstance()->Update();
-	MelLib::SceneEditer::GetInstance()->Update();
+	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
 
-	player->Update();
+	//player->Update();
 	enemy->Update();
 }
 
 void Game::Draw()
 {
 	MelLib::SceneManager::GetInstance()->Draw();
-	MelLib::SceneEditer::GetInstance()->Draw();
+	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::SceneManager::GetInstance()->Draw();
 	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
-	player->Draw();
+	//player->Draw();
 	enemy->Draw();
 
-	stage.Draw();
+	//stage.Draw();
 }

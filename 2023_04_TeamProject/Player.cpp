@@ -19,7 +19,9 @@ Player::Player()
 
 void Player::Initialize()
 {
-
+	sphereDatas["main"].resize(1);
+	sphereDatas["main"][0].SetPosition(GetPosition());
+	sphereDatas["main"][0].SetRadius(GetScale().x / 2);
 }
 
 void Player::Update()

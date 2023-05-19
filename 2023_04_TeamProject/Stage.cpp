@@ -24,6 +24,9 @@ void Stage::SetMeshTriangle()
 Stage::Stage():GameObject("Stage")
 {
 	modelObjects["main"].Create(MelLib::ModelData::Get("Stage"),GetObjectName());
+	
+	
+	addPosY.SetData(0.0f, "StageTestWindow", "AddPosY", -20, 20);
 }
 
 void Stage::Initialize()
@@ -34,15 +37,17 @@ void Stage::Initialize()
 
 void Stage::Update()
 {
+	SetAngle({ 0, 90, 00 });
+	SetPosition({ 0,-40 + addPosY.GetValue(),0});
 }
 
 void Stage::Draw()
 {
+	AllDraw();
 }
 
 void Stage::Hit(const GameObject& object, const MelLib::ShapeType3D shapeType, const std::string& shapeName, const MelLib::ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
-
 }
 
 std::shared_ptr<MelLib::GameObject> Stage::GetNewPtr()
