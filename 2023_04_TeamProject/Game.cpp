@@ -28,7 +28,6 @@ Game* Game::GetInstance()
 
 Player* player;
 BaseEnemy* enemy;
-Stage* testStage;
 
 
 MelLib::ModelObject stage;
@@ -95,9 +94,6 @@ void Game::Initialize()
 	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
 	stage.SetPosition({ 0,-40,0 });
-
-	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Player>());
-	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 }
 
 
@@ -115,7 +111,7 @@ void Game::Update()
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
 
-	//player->Update();
+	player->Update();
 	enemy->Update();
 }
 
@@ -128,8 +124,8 @@ void Game::Draw()
 	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
-	//player->Draw();
+	player->Draw();
 	enemy->Draw();
 
-	//stage.Draw();
+	stage.Draw();
 }
