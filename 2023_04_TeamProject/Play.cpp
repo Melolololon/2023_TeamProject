@@ -14,8 +14,8 @@ void Play::Initialize()
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
 
-	//MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Player>());
-	//MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Player>());
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 }
 
 void Play::Update()
