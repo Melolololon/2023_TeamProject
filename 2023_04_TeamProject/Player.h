@@ -33,5 +33,9 @@ private:
 	void Jump();
 	// ŽËŒ‚
 	void Shot();
+
+private:
+
+	Vector2 mousecenter = Vector2(Library::GetWindowWidth() / 2.0f, 640.0);
 };
 
