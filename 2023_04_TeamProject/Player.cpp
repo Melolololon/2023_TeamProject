@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "BulletManager.h"
 #include "Input.h"
+#include "Library.h"
+#define PI 3.141592
 
 Player::Player()
 	:GameObject("Player")
@@ -38,7 +40,7 @@ void Player::Draw()
 
 std::shared_ptr<GameObject> Player::GetNewPtr()
 {
-	return std::shared_ptr<Player>();
+	return std::make_shared<Player>();
 }
 
 void Player::Move()
@@ -58,8 +60,6 @@ void Player::Move()
 			position.x += speed.GetValue();
 			cpos.x += speed.GetValue();
 		}
-
-
 
 		cpos.z += Camera::Get()->GetCameraToTargetDistance();
 		Camera::Get()->SetRotateCriteriaPosition(cpos);
@@ -91,10 +91,12 @@ void Player::Jump()
 void Player::Shot()
 {
 	Vector3 position = GetPosition();
+	Vector2 mousevec = Input::GetMouseVector(mousecenter);
+	float angle = -atan2f(mousevec.y, mousevec.x) * 180 / PI;
 
 	if (Input::MouseButtonTrigger(MouseButton::LEFT))
 	{
-		BulletManager::GetInstance()->Fire(position, Input::GetMouseAngle());
+		BulletManager::GetInstance()->Fire(position, angle);
 	}
 
 	BulletManager::GetInstance()->Update();
