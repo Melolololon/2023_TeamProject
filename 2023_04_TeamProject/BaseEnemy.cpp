@@ -3,7 +3,8 @@
 BaseEnemy::BaseEnemy(const std::string& name)
 	:GameObject(name)
 {
-	modelObjects["main"].Create(MelLib::ModelData::Get(ShapeType3D::BOX), GetObjectName());
+	MelLib::ModelData::Load("Resource/surakiti/surakiti.obj",false,"surakiti");
+	modelObjects["main"].Create(MelLib::ModelData::Get("surakiti"), GetObjectName());
 }
 
 BaseEnemy::~BaseEnemy()
