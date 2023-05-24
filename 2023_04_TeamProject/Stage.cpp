@@ -1,5 +1,7 @@
 #include "Stage.h"
 
+#include"LibMath.h"
+
 void Stage::SetMeshTriangle()
 {
 	std::vector<std::vector<MelLib::TriangleData>> triDatas;
@@ -13,8 +15,11 @@ void Stage::SetMeshTriangle()
 		MelLib::TriangleData& t = triDatas[0][i];
 
 		// 横は無視
-		if (t.GetNormal().z != 0.0f)continue;
-
+		// 90度回転した状態がデフォだからxが側面(当たらない部分)になる
+		if (t.GetNormal().x != 0.0f)
+		{
+			continue;
+		}
 		triangleDatas["main"].push_back(t);
 	}
 
