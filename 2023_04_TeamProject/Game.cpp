@@ -27,7 +27,8 @@ Game* Game::GetInstance()
 }
 
 Player* player;
-BaseEnemy* enemy;
+//BaseEnemy* enemy;
+std::list<std::unique_ptr<BaseEnemy>> enemy;
 
 
 MelLib::ModelObject stage;
@@ -81,8 +82,9 @@ void Game::Initialize()
 #pragma endregion
 	//player = new Player();
 	//player->Initialize();
-	enemy = new BaseEnemy("surakiti");
-	enemy->SetPlayer(player);
+	for (int i = 0; i < 3; i++) {
+		enemy.push_back(BaseEnemy::Create("surakiti", player));
+	}
 
 
 	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
@@ -112,9 +114,11 @@ void Game::Update()
 	//MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
-
+  
 	//player->Update();
-	//enemy->Update();
+	//for (std::unique_ptr<BaseEnemy>& enemyObj : enemy) {
+	//	enemyObj->Update();
+	//}
 }
 
 void Game::Draw()
@@ -126,8 +130,11 @@ void Game::Draw()
 	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
+
 	//player->Draw();
-	//enemy->Draw();
+	//for (std::unique_ptr<BaseEnemy>& enemyObj : enemy) {
+	//	enemyObj->Draw();
+	//}
 
 	stage.Draw();
 }
