@@ -7,6 +7,8 @@ using namespace MelLib;
 class BaseEnemy:public GameObject
 {
 public:
+	static std::unique_ptr<BaseEnemy> Create(const std::string& name, Player* player);
+public:
 	BaseEnemy(const std::string& name);
 	~BaseEnemy();
 	void Initialize() override;
@@ -15,6 +17,7 @@ public:
 	void Move();
 
 	void SetPlayer(Player* player) { this->player = player; }
+	Player* GetPlayer() { return player; }
 private:
 	Player* player;
 	float moveX;

@@ -1,5 +1,15 @@
 #include "BaseEnemy.h"
 
+std::unique_ptr<BaseEnemy> BaseEnemy::Create(const std::string& name, Player* player) {
+	std::unique_ptr<BaseEnemy> enemy = std::make_unique<BaseEnemy>(name);
+
+	enemy->SetPlayer(player);
+	enemy->SetPosition({static_cast<float>(rand() % 10),0.0f,0.0f});
+
+	return enemy;
+}
+
+
 BaseEnemy::BaseEnemy(const std::string& name)
 	:GameObject(name)
 {
