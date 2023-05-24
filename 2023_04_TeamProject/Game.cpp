@@ -74,14 +74,13 @@ void Game::Initialize()
 	GameObjectManager::GetInstance()->SetCollisionFlag3D(initFlag);*/
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
-	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 
 	MelLib::SceneEditer::GetInstance()->SetEditerFlag(false);
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
-	player = new Player();
-	player->Initialize();
+	//player = new Player();
+	//player->Initialize();
 	enemy = new BaseEnemy("surakiti");
 	enemy->SetPlayer(player);
 
@@ -94,6 +93,9 @@ void Game::Initialize()
 	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
 	stage.SetPosition({ 0,-40,0 });
+
+
+	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 }
 
 
@@ -111,8 +113,8 @@ void Game::Update()
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
 
-	player->Update();
-	enemy->Update();
+	//player->Update();
+	//enemy->Update();
 }
 
 void Game::Draw()
@@ -124,8 +126,8 @@ void Game::Draw()
 	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
-	player->Draw();
-	enemy->Draw();
+	//player->Draw();
+	//enemy->Draw();
 
 	stage.Draw();
 }

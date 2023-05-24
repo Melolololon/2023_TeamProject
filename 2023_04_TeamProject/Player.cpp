@@ -4,6 +4,8 @@
 #include "Library.h"
 #define PI 3.141592
 
+#include"Stage.h"
+
 Player::Player()
 	:GameObject("Player")
 {
@@ -15,6 +17,7 @@ Player::Player()
 	gravity.SetData(0.1f, "SceneParameter", "Gravity", 0.0f, 1.0f);
 
 	SetScale({ 4,4,4 });
+
 }
 
 void Player::Initialize()
@@ -22,6 +25,12 @@ void Player::Initialize()
 	sphereDatas["main"].resize(1);
 	sphereDatas["main"][0].SetPosition(GetPosition());
 	sphereDatas["main"][0].SetRadius(GetScale().x / 2);
+
+	segment3DDatas["main"].resize(1);
+	MelLib::Value2<MelLib::Vector3>segmentPos;
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius());
+	segmentPos.v2 = GetPosition() - MelLib::Vector3(sphereDatas["main"][0].GetRadius());
+	segment3DDatas["main"][0].SetPosition(segmentPos);
 }
 
 void Player::Update()
@@ -43,6 +52,32 @@ void Player::Draw()
 std::shared_ptr<GameObject> Player::GetNewPtr()
 {
 	return std::make_shared<Player>();
+}
+
+void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
+{
+	Vector3 position = GetPosition();
+	if (typeid(object) == typeid(Stage)
+		&& shapeType == ShapeType3D::SEGMENT)
+	{
+		// è∞îªíË
+		if (GetHitTriangleData().GetNormal().y == 1.0f) 
+		{
+			FallEnd();
+
+			/*position.y = 0;
+			SetPosition(position);*/
+
+			Segment3DCalcResult result = GetSegmentCalcResult();
+			
+			const float ADD_Y = result.triangleHitPos.y - GetPosition().y + sphereDatas["main"][0].GetRadius();
+			AddPosition(Vector3(0, ADD_Y + 0.1f,0));
+			
+		}
+		else // ï«îªíË 
+		{
+		}
+	}
 }
 
 void Player::Move()
@@ -81,13 +116,13 @@ void Player::Jump()
 
 	CalcMovePhysics();
 
-	if (position.y < 0)
+	/*if (position.y < 0)
 	{
 		FallEnd();
 
 		position.y = 0;
 		SetPosition(position);
-	}
+	}*/
 }
 
 void Player::Shot()
