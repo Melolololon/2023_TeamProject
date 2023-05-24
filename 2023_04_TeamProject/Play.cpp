@@ -2,10 +2,20 @@
 
 #include<GameObjectManager.h>
 
+#pragma region オブジェクト
+#include"Player.h"
+#include"Stage.h"
+#pragma endregion
+
+
 void Play::Initialize()
 {
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
+
+
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Player>());
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 }
 
 void Play::Update()
