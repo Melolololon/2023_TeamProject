@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "BulletManager.h"
+
+#include<GameObjectManager.h>
 #include "Input.h"
 #include "Library.h"
 #define PI 3.141592
@@ -14,7 +16,7 @@ Player::Player()
 	// imgui
 	power.SetData(1.0f, GetObjectName(), "JumpPower", 0.0f, 1.0f);
 	speed.SetData(0.5f, GetObjectName(), "MoveSpeed", 0.0f, 1.0f);
-	gravity.SetData(0.1f, "SceneParameter", "Gravity", 0.0f, 1.0f);
+	gravity.SetData(0.005f, "SceneParameter", "Gravity", 0.0f, 1.0f);
 
 	SetScale({ 4,4,4 });
 
@@ -26,27 +28,51 @@ void Player::Initialize()
 	sphereDatas["main"][0].SetPosition(GetPosition());
 	sphereDatas["main"][0].SetRadius(GetScale().x / 2);
 
-	segment3DDatas["main"].resize(1);
 	MelLib::Value2<MelLib::Vector3>segmentPos;
-	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius());
-	segmentPos.v2 = GetPosition() - MelLib::Vector3(sphereDatas["main"][0].GetRadius());
-	segment3DDatas["main"][0].SetPosition(segmentPos);
+	float offset = 0.01f;
+#pragma region °”»’è
+
+	segment3DDatas["ground"].resize(2);
+	// ‰E‘¤
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(+sphereDatas["main"][0].GetRadius() + offset, sphereDatas["main"][0].GetRadius(), 0);
+	segmentPos.v2 = GetPosition() - MelLib::Vector3(+sphereDatas["main"][0].GetRadius() + offset, sphereDatas["main"][0].GetRadius(), 0);
+	segment3DDatas["ground"][0].SetPosition(segmentPos);
+	// ¶‘¤
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
+	segmentPos.v2 = GetPosition() - MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
+	segment3DDatas["ground"][1].SetPosition(segmentPos);
+
+#pragma endregion
+
+#pragma region •Ç”»’è
+
+	segment3DDatas["wall"].resize(2);
+	// ã‘¤
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), +sphereDatas["main"][0].GetRadius() + offset, 0);
+	segmentPos.v2 = GetPosition() - MelLib::Vector3(sphereDatas["main"][0].GetRadius(), +sphereDatas["main"][0].GetRadius() + offset, 0);
+	segment3DDatas["wall"][0].SetPosition(segmentPos);
+	// ‰º‘¤
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), -sphereDatas["main"][0].GetRadius() - offset, 0);
+	segmentPos.v2 = GetPosition() - MelLib::Vector3(sphereDatas["main"][0].GetRadius(), -sphereDatas["main"][0].GetRadius() - offset, 0);
+	segment3DDatas["wall"][1].SetPosition(segmentPos);
+
+#pragma endregion
+	tags.push_back("Player");
+	skipCollisionCheckTags.push_back("Bullet");
 }
 
 void Player::Update()
 {
 	GameObject::SetGravutationalAcceleration(gravity.GetValue());
 
-	Move();
 	Jump();
+	Move();
 	Shot();
 }
 
 void Player::Draw()
 {
 	AllDraw();
-	// ’e‚Ì•`‰æ
-	BulletManager::GetInstance()->Draw();
 }
 
 std::shared_ptr<GameObject> Player::GetNewPtr()
@@ -65,17 +91,27 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 		{
 			FallEnd();
 
-			/*position.y = 0;
-			SetPosition(position);*/
-
 			Segment3DCalcResult result = GetSegmentCalcResult();
 			
 			const float ADD_Y = result.triangleHitPos.y - GetPosition().y + sphereDatas["main"][0].GetRadius();
-			AddPosition(Vector3(0, ADD_Y + 0.1f,0));
+			AddPosition(Vector3(0, ADD_Y,0));
 			
+			jumping = false;
 		}
 		else // •Ç”»’è 
 		{
+			Segment3DCalcResult result = GetSegmentCalcResult();
+
+			if (GetHitTriangleData().GetNormal().x == 1.0f)
+			{
+				const float ADD_X = result.triangleHitPos.x - GetPosition().x + sphereDatas["main"][0].GetRadius();
+				AddPosition(Vector3(ADD_X, 0, 0));
+			}
+			else if (GetHitTriangleData().GetNormal().x == -1.0f)
+			{
+				const float ADD_X = result.triangleHitPos.x - GetPosition().x - sphereDatas["main"][0].GetRadius();
+				AddPosition(Vector3(ADD_X, 0, 0));
+			}
 		}
 	}
 }
@@ -90,39 +126,38 @@ void Player::Move()
 		if (Input::KeyState(DIK_A))
 		{
 			position.x -= speed.GetValue();
-			cpos.x -= speed.GetValue();
 		}
 		else if (Input::KeyState(DIK_D))
 		{
 			position.x += speed.GetValue();
-			cpos.x += speed.GetValue();
 		}
-
-		cpos.z += Camera::Get()->GetCameraToTargetDistance();
-		Camera::Get()->SetRotateCriteriaPosition(cpos);
-
-		SetPosition(position);
 	}
+
+	cpos = Vector3(position.x, position.y + 10, 0);
+	Camera::Get()->SetRotateCriteriaPosition(cpos);
+
+	SetPosition(position);
 }
 
 void Player::Jump()
 {
 	Vector3 position = GetPosition();
 
-	if (Input::KeyTrigger(DIK_SPACE))
+	if (Input::KeyTrigger(DIK_SPACE) && !jumping)
 	{
+		power.SetValue(0.5f);
 		FallStart(power.GetValue());
+		jumping = true;
+	}
+
+	if (!jumping)
+	{
+		power.SetValue(0.0f);
+		FallStart(power.GetValue());
+		jumping = true;
 	}
 
 	CalcMovePhysics();
-
-	/*if (position.y < 0)
-	{
-		FallEnd();
-
-		position.y = 0;
-		SetPosition(position);
-	}*/
 }
 
 void Player::Shot()
@@ -133,8 +168,8 @@ void Player::Shot()
 
 	if (Input::MouseButtonTrigger(MouseButton::LEFT))
 	{
-		BulletManager::GetInstance()->Fire(position, angle);
+		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
+		MelLib::GameObjectManager::GetInstance()->AddObject(b);
+		b->SetParameter(position, angle);
 	}
-
-	BulletManager::GetInstance()->Update();
 }

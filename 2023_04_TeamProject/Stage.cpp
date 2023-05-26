@@ -13,7 +13,7 @@ void Stage::SetMeshTriangle()
 		MelLib::TriangleData& t = triDatas[0][i];
 
 		// ‰¡‚Í–³Ž‹
-		if (t.GetNormal().z != 0.0f)continue;
+		if (t.GetNormal().x != 0.0f)continue;
 
 		triangleDatas["main"].push_back(t);
 	}
