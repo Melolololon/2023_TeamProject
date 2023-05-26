@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "BaseEnemy.h"
+#include "Stage.h"
 
 #pragma region ライブラリインクルード
 
@@ -28,6 +29,7 @@ Game* Game::GetInstance()
 Player* player;
 //BaseEnemy* enemy;
 std::list<std::unique_ptr<BaseEnemy>> enemy;
+
 
 MelLib::ModelObject stage;
 
@@ -73,17 +75,16 @@ void Game::Initialize()
 	GameObjectManager::GetInstance()->SetCollisionFlag3D(initFlag);*/
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
-	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
+
+	MelLib::SceneEditer::GetInstance()->SetEditerFlag(false);
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
-	player = new Player();
-	player->Initialize();
-	//enemy = new BaseEnemy("surakiti");
+	//player = new Player();
+	//player->Initialize();
 	for (int i = 0; i < 3; i++) {
 		enemy.push_back(BaseEnemy::Create("surakiti", player));
 	}
-	//enemy.SetPlayer(player);
 
 
 	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
@@ -94,6 +95,9 @@ void Game::Initialize()
 	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
 	stage.SetPosition({ 0,-40,0 });
+
+
+	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 }
 
 
@@ -106,30 +110,31 @@ void Game::Finalize()
 void Game::Update()
 {
 	MelLib::SceneManager::GetInstance()->Update();
-	MelLib::SceneEditer::GetInstance()->Update();
+	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
-
-	player->Update();
-	for (std::unique_ptr<BaseEnemy>& enemyObj : enemy) {
-		enemyObj->Update();
-	}
+  
+	//player->Update();
+	//for (std::unique_ptr<BaseEnemy>& enemyObj : enemy) {
+	//	enemyObj->Update();
+	//}
 }
 
 void Game::Draw()
 {
 	MelLib::SceneManager::GetInstance()->Draw();
-	MelLib::SceneEditer::GetInstance()->Draw();
+	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::SceneManager::GetInstance()->Draw();
 	//MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::GameObjectManager::GetInstance()->Draw();
-	player->Draw();
-	for (std::unique_ptr<BaseEnemy>& enemyObj : enemy) {
-		enemyObj->Draw();
-	}
+
+	//player->Draw();
+	//for (std::unique_ptr<BaseEnemy>& enemyObj : enemy) {
+	//	enemyObj->Draw();
+	//}
 
 	stage.Draw();
 }
