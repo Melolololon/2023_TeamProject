@@ -11,6 +11,8 @@ class BulletManager
 public:
 	static BulletManager* GetInstance();
 
+	void Initialize();
+
 	void Update();
 
 	void Draw();
@@ -30,6 +32,7 @@ public:
 	void AllClear();
 
 private:
-	std::forward_list<Bullet> bullets;
+	std::forward_list<Bullet> ordBullets;
+	std::array<std::shared_ptr<Bullet>, 20>bullets;
 };
 

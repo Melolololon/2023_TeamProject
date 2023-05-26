@@ -54,5 +54,17 @@ private:
 private:
 
 	Vector2 mousecenter = Vector2(Library::GetWindowWidth() / 2.0f, 640.0);
+
+	// 弾
+	static const int BULLET_MAX = 20;
+	//std::array<std::shared_ptr<Bullet>, BULLET_MAX>bullets;
+	Bullet bullets[BULLET_MAX]{};
+
+	// ジャンプ中
+	bool jumping = false;
+	// 接地判定
+	bool onGround = false;
+	// 接地判定(前フレーム用)
+	bool onGroundPre = false;
 };
 
