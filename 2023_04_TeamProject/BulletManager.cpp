@@ -1,5 +1,5 @@
 #include "BulletManager.h"
-#define PI 3.141592
+#include "GameObjectManager.h"
 
 BulletManager* BulletManager::GetInstance()
 {
@@ -7,14 +7,24 @@ BulletManager* BulletManager::GetInstance()
 	return &instance;
 }
 
+void BulletManager::Initialize()
+{
+	for (auto& bullet : bullets) 
+	{
+		bullet = std::make_shared<Bullet>();
+		GameObjectManager::GetInstance()->AddObject(bullet);
+	}
+}
+
+
 void BulletManager::Update()
 {
 	// 寿命が尽きた弾を全削除
-	bullets.remove_if([](Bullet& x) { return x.frame >= x.end_frame; });
+	ordBullets.remove_if([](Bullet& x) { return x.frame >= x.end_frame; });
 
 	// 全弾更新
-	for (std::forward_list<Bullet>::iterator it = bullets.begin();
-		it != bullets.end(); it++)
+	for (std::forward_list<Bullet>::iterator it = ordBullets.begin();
+		it != ordBullets.end(); it++)
 	{
 		it->frame++;
 		it->position = it->position + it->velocity;
@@ -24,7 +34,7 @@ void BulletManager::Update()
 
 void BulletManager::Draw()
 {
-	for (auto& bullet : bullets)
+	for (auto& bullet : ordBullets)
 	{
 		bullet.Draw();
 	}
@@ -32,20 +42,10 @@ void BulletManager::Draw()
 
 void BulletManager::Fire(Vector3 position, float rotation, float velocityMagnification, float power)
 {
-	// リストに要素を追加
-	bullets.emplace_front();
 	// 追加した要素の参照
-	Bullet& bullet = bullets.front();
-	bullet.position = position;
-	// 角度から速度のベクトルを計算
-	bullet.velocity.x = bullet.velocity.x * cosf(rotation * (PI / 180));
-	bullet.velocity.y = bullet.velocity.y * sinf(rotation * (PI / 180));
-	bullet.velocity *= velocityMagnification;
-
-	bullet.power = power;
+	GameObjectManager::GetInstance()->AddObject(std::make_shared<Bullet>());
 }
 
 void BulletManager::AllClear()
 {
-	bullets.clear();
 }
