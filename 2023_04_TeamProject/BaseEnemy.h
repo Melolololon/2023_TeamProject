@@ -7,7 +7,7 @@ using namespace MelLib;
 class BaseEnemy:public GameObject
 {
 public:
-	static std::unique_ptr<BaseEnemy> Create(const std::string& name, Player* player);
+	static std::shared_ptr<BaseEnemy> Create(const std::string& name, Player* player);
 public:
 	BaseEnemy(const std::string& name);
 	~BaseEnemy();
@@ -16,12 +16,23 @@ public:
 	void Draw() override;
 	void Move();
 
+	void Hit
+	(
+		const GameObject& object,
+		const ShapeType3D shapeType,
+		const std::string& shapeName,
+		const ShapeType3D hitObjShapeType,
+		const std::string& hitShapeName
+	) override;
+
+	void Damage();
+
 	void SetPlayer(Player* player) { this->player = player; }
 	Player* GetPlayer() { return player; }
 private:
-	Player* player;
-	float moveX;
-	float moveY;
-	float moveAmount = 0.01f;
+	Player* player = nullptr;
+	float moveX = 0.0f;
+	float moveY = 0.0f;
+	float moveAmount = 0.1f;
 };
 
