@@ -29,7 +29,7 @@ void Player::Initialize()
 	sphereDatas["main"][0].SetRadius(GetScale().x / 2);
 
 	MelLib::Value2<MelLib::Vector3>segmentPos;
-	float offset = 0.01f;
+	float offset = -0.01f;
 #pragma region è∞îªíË
 
 	segment3DDatas["ground"].resize(2);
@@ -41,8 +41,8 @@ void Player::Initialize()
 	segmentPos.v1 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
 	segmentPos.v2 = GetPosition() - MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
 	segment3DDatas["ground"][1].SetPosition(segmentPos);
-
 #pragma endregion
+
 
 #pragma region ï«îªíË
 
@@ -87,7 +87,7 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 		&& shapeType == ShapeType3D::SEGMENT)
 	{
 		// è∞îªíË
-		if (GetHitTriangleData().GetNormal().y == 1.0f) 
+		if (GetHitTriangleData().GetNormal().y == 1.0f && shapeName == "ground")
 		{
 			FallEnd();
 
@@ -96,9 +96,9 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 			const float ADD_Y = result.triangleHitPos.y - GetPosition().y + sphereDatas["main"][0].GetRadius();
 			AddPosition(Vector3(0, ADD_Y,0));
 			
-			jumping = false;
+			jump = ON_GROUND;
 		}
-		else // ï«îªíË 
+		if(shapeName == "wall") // ï«îªíË 
 		{
 			Segment3DCalcResult result = GetSegmentCalcResult();
 
@@ -143,18 +143,21 @@ void Player::Jump()
 {
 	Vector3 position = GetPosition();
 
-	if (Input::KeyTrigger(DIK_SPACE) && !jumping)
+	if (Input::KeyTrigger(DIK_SPACE) && jump == ON_GROUND)
 	{
 		power.SetValue(0.5f);
 		FallStart(power.GetValue());
-		jumping = true;
+		jump = JUMPING;
 	}
-
-	if (!jumping)
+	if (jump == ON_GROUND)
+	{
+		jump = STAY_IN_AIR;
+	}
+	if (jump == STAY_IN_AIR)
 	{
 		power.SetValue(0.0f);
 		FallStart(power.GetValue());
-		jumping = true;
+		jump = FALLING;
 	}
 
 	CalcMovePhysics();
