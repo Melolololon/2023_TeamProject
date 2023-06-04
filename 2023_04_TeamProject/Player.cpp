@@ -254,13 +254,23 @@ void Player::Animation()
 
 void Player::SetUpperBodyAnimation(const std::string& animName)
 {
+	// ショットが現在単発だからアニメーションがおかしくなる
 
 	if (isShot) 
 	{
 		// ショットアニメーションセット
+		for (const auto& bone : SET_SHOT_ANIM_BONE)
+		{
+			modelObjects["main"].SetAnimation("Shot", bone);
+		}
+
 	}
 	else 
 	{
 		// 通常セット
+		for (const auto& bone : SET_SHOT_ANIM_BONE)
+		{
+			modelObjects["main"].SetAnimation(animName, bone);
+		}
 	}
 }

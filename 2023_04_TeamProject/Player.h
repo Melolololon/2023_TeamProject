@@ -106,13 +106,13 @@ private:
 	// ショットアニメーションを割り当てるボーン
 	const std::vector<std::string> SET_SHOT_ANIM_BONE =
 	{
-		"R_ARM_1",
-		"R_ARM_2",
-		"R_ARM_3",
-		"L_ARM_1",
-		"L_ARM_2",
-		"L_ARM_3",
-		"HEAD",
+		"R_Arm_1",
+		"R_Arm_2",
+		"R_Arm_3",
+		"L_Arm_1",
+		"L_Arm_2",
+		"L_Arm_3",
+		"Head",
 	};
 
 	// 自身の状態
