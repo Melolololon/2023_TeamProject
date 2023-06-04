@@ -8,10 +8,15 @@
 
 #include"Stage.h"
 
+void Player::LoadResource()
+{
+	MelLib::ModelData::Load("Resource/player/player.fbx", false, "player");
+}
+
 Player::Player()
 	:GameObject("Player")
 {
-	modelObjects["main"].Create(MelLib::ModelData::Get(ShapeType3D::BOX), GetObjectName());
+	modelObjects["main"].Create(MelLib::ModelData::Get("player"), GetObjectName());
 
 	// imgui
 	power.SetData(1.0f, GetObjectName(), "JumpPower", 0.0f, 1.0f);

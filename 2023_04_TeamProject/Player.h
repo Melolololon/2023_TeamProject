@@ -13,6 +13,8 @@ class Player : public GameObject
 	GuiFloat gravity;
 
 public:
+	static void LoadResource();
+
 	Player();
 
 	void Initialize() override;
@@ -51,6 +53,10 @@ private:
 	// 射撃
 	void Shot();
 
+#pragma region 市川追加関数
+
+#pragma endregion
+
 private:
 
 	Vector2 mousecenter = Vector2(Library::GetWindowWidth() / 2.0f, 640.0);
@@ -66,5 +72,9 @@ private:
 	bool onGround = false;
 	// 接地判定(前フレーム用)
 	bool onGroundPre = false;
+
+#pragma region 市川追加関数
+
+#pragma endregion
 };
 

@@ -80,11 +80,14 @@ void Game::Initialize()
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
+
+
+
 	//player = new Player();
 	//player->Initialize();
-	for (int i = 0; i < 3; i++) {
+	/*for (int i = 0; i < 3; i++) {
 		enemy.push_back(BaseEnemy::Create("surakiti", player));
-	}
+	}*/
 
 
 	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
@@ -92,6 +95,8 @@ void Game::Initialize()
 	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
 
 	bool res = MelLib::ModelData::Load("Resource/stage1_1/stage1_1.obj", false, "Stage");
+	Player::LoadResource();
+
 	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
 	stage.SetPosition({ 0,-40,0 });
