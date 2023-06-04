@@ -66,7 +66,20 @@ private:
 	void Shot();
 
 #pragma region 市川追加関数
+	
+	/// <summary>
+	/// 移動による回転
+	/// </summary>
+	/// <param name="rotLeft">左かどうか。falseだと右。</param>
+	void MoveRot(const bool rotLeft);
 
+	void Animation();
+
+	/// <summary>
+	/// 上半身のアニメーション設定
+	/// </summary>
+	/// <param name="animName">セットするアニメーション名</param>
+	void SetUpperBodyAnimation(const std::string& animName);
 #pragma endregion
 
 private:
@@ -85,7 +98,23 @@ private:
 	// 接地判定(前フレーム用)
 	bool onGroundPre = false;
 
-#pragma region 市川追加関数
+#pragma region 市川追加変数
+
+	const MelLib::Vector3 START_ANGLE = MelLib::Vector3(0, 0, 0);
+	const MelLib::Vector3 DEFORT_ANGLE = MelLib::Vector3(0, -90, 0);
+
+	// ショットアニメーションを割り当てるボーン
+	const std::vector<std::string> SET_SHOT_ANIM_BONE =
+	{
+		"R_ARM_1",
+		"R_ARM_2",
+		"R_ARM_3",
+		"L_ARM_1",
+		"L_ARM_2",
+		"L_ARM_3",
+		"HEAD",
+	};
+
 	// 自身の状態
 	ThisState thisState = ThisState::STOP;
 

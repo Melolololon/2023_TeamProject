@@ -29,6 +29,8 @@ Player::Player()
 
 void Player::Initialize()
 {
+	SetAngle(START_ANGLE);
+
 	sphereDatas["main"].resize(1);
 	sphereDatas["main"][0].SetPosition(GetPosition());
 	sphereDatas["main"][0].SetRadius(GetScale().x / 2);
@@ -64,6 +66,8 @@ void Player::Initialize()
 #pragma endregion
 	tags.push_back("Player");
 	skipCollisionCheckTags.push_back("Bullet");
+
+	modelObjects["main"].SetAnimationPlayFlag(true);
 }
 
 void Player::Update()
@@ -74,7 +78,7 @@ void Player::Update()
 	Jump();
 	Move();
 	Shot();
-	SetAnimation();
+	Animation();
 }
 
 void Player::Draw()
@@ -133,10 +137,12 @@ void Player::Move()
 		if (Input::KeyState(DIK_A))
 		{
 			position.x -= speed.GetValue();
+			MoveRot(true);
 		}
 		else if (Input::KeyState(DIK_D))
 		{
 			position.x += speed.GetValue();
+			MoveRot(false);
 		}
 
 		thisState = ThisState::DASH;
@@ -189,36 +195,72 @@ void Player::Shot()
 	}
 }
 
-void Player::SetAnimation()
+void Player::MoveRot(const bool rotLeft)
+{
+	// 回転範囲を正の数じゃなくて負の数の方が振り返りでプレイヤーの顔見れていいかも
+
+	// 最大回転量
+	const float ANGLE_MAX = 90.0f;
+	// 1フレームの回転量
+	const float FRAME_ANGLE = 15.0f;
+
+	// 回転量
+	float rotAngle = FRAME_ANGLE;
+	if (rotLeft) rotAngle *= -1;
+
+	MelLib::Vector3 angle = GetAngle();
+	if(angle.y > ANGLE_MAX + DEFORT_ANGLE.y)
+	{
+		angle.y = ANGLE_MAX + DEFORT_ANGLE.y;
+	}
+	else if (angle.y < -ANGLE_MAX + DEFORT_ANGLE.y)
+	{
+		angle.y = -ANGLE_MAX + DEFORT_ANGLE.y;
+	}
+	else 
+	{
+		angle.y += rotAngle;
+	}
+
+	SetAngle(angle);
+}
+
+void Player::Animation()
 {
 	std::string animName;
 	switch (thisState)
 	{
 	case Player::ThisState::STOP:
-		animName = "STOP";
+		animName = "Stop";
 		break;
 	case Player::ThisState::DASH:
-		animName = "DASH";
+		animName = "Dash";
 		break;
 	case Player::ThisState::JUMP:
-		animName = "MOVE";
+		animName = "Jump";
 		break;
 	case Player::ThisState::DEAD:
-		animName = "DEAD";
+		animName = "Dead";
 		break;
 	default:
 		break;
 	}
 
+	modelObjects["main"].SetAnimation(animName);
 	SetUpperBodyAnimation(animName);
+
+	modelObjects["main"].Update();
 }
 
 void Player::SetUpperBodyAnimation(const std::string& animName)
 {
+
 	if (isShot) 
 	{
+		// ショットアニメーションセット
 	}
 	else 
 	{
+		// 通常セット
 	}
 }
