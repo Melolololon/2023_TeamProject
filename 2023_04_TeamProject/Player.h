@@ -12,6 +12,18 @@ class Player : public GameObject
 	GuiFloat speed;
 	GuiFloat gravity;
 
+
+#pragma region 市川追加列挙
+	// アニメーション制御用
+	enum class ThisState 
+	{
+		STOP,
+		DASH,
+		JUMP,
+		DEAD,
+	};
+#pragma endregion
+
 public:
 	static void LoadResource();
 
@@ -74,7 +86,12 @@ private:
 	bool onGroundPre = false;
 
 #pragma region 市川追加関数
+	// 自身の状態
+	ThisState thisState = ThisState::STOP;
 
+	// ショット中かどうか
+	// ショットと移動などのその他行動が混ざるので、個別にフラグを用意
+	bool isShot = false;
 #pragma endregion
 };
 

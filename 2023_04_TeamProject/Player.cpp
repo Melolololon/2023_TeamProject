@@ -69,10 +69,12 @@ void Player::Initialize()
 void Player::Update()
 {
 	GameObject::SetGravutationalAcceleration(gravity.GetValue());
+	thisState = ThisState::STOP;
 
 	Jump();
 	Move();
 	Shot();
+	SetAnimation();
 }
 
 void Player::Draw()
@@ -136,6 +138,8 @@ void Player::Move()
 		{
 			position.x += speed.GetValue();
 		}
+
+		thisState = ThisState::DASH;
 	}
 
 	cpos = Vector3(position.x, position.y + 10, 0);
@@ -153,6 +157,8 @@ void Player::Jump()
 		power.SetValue(0.5f);
 		FallStart(power.GetValue());
 		jumping = true;
+
+		thisState = ThisState::JUMP;
 	}
 
 	if (!jumping)
@@ -167,6 +173,8 @@ void Player::Jump()
 
 void Player::Shot()
 {
+	isShot = false;
+
 	Vector3 position = GetPosition();
 	Vector2 mousevec = Input::GetMouseVector(mousecenter);
 	float angle = -atan2f(mousevec.y, mousevec.x) * 180 / PI;
@@ -176,5 +184,41 @@ void Player::Shot()
 		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
 		MelLib::GameObjectManager::GetInstance()->AddObject(b);
 		b->SetParameter(position, angle);
+
+		isShot = true;
+	}
+}
+
+void Player::SetAnimation()
+{
+	std::string animName;
+	switch (thisState)
+	{
+	case Player::ThisState::STOP:
+		animName = "STOP";
+		break;
+	case Player::ThisState::DASH:
+		animName = "DASH";
+		break;
+	case Player::ThisState::JUMP:
+		animName = "MOVE";
+		break;
+	case Player::ThisState::DEAD:
+		animName = "DEAD";
+		break;
+	default:
+		break;
+	}
+
+	SetUpperBodyAnimation(animName);
+}
+
+void Player::SetUpperBodyAnimation(const std::string& animName)
+{
+	if (isShot) 
+	{
+	}
+	else 
+	{
 	}
 }
