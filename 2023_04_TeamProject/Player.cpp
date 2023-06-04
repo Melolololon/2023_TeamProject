@@ -209,17 +209,14 @@ void Player::MoveRot(const bool rotLeft)
 	if (rotLeft) rotAngle *= -1;
 
 	MelLib::Vector3 angle = GetAngle();
-	if(angle.y > ANGLE_MAX + DEFORT_ANGLE.y)
+	angle.y += rotAngle;
+	if(angle.y >= ANGLE_MAX + DEFORT_ANGLE.y)
 	{
 		angle.y = ANGLE_MAX + DEFORT_ANGLE.y;
 	}
-	else if (angle.y < -ANGLE_MAX + DEFORT_ANGLE.y)
+	else if (angle.y <= -ANGLE_MAX + DEFORT_ANGLE.y)
 	{
 		angle.y = -ANGLE_MAX + DEFORT_ANGLE.y;
-	}
-	else 
-	{
-		angle.y += rotAngle;
 	}
 
 	SetAngle(angle);
@@ -254,7 +251,7 @@ void Player::Animation()
 
 void Player::SetUpperBodyAnimation(const std::string& animName)
 {
-	// ショットが現在単発だからアニメーションがおかしくなる
+	// ショットが現在単発だからアニメーションがおかしくなる 
 
 	if (isShot) 
 	{
