@@ -90,6 +90,8 @@ void Player::Update()
 	Move();
 	Shot();
 	Animation();
+	
+	hitGround = false;
 }
 
 void Player::Draw()
@@ -121,6 +123,7 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 			AddPosition(Vector3(0, ADD_Y,0));
 			
 			jumping = false;
+			hitGround = true;
 		}
 		else // •Ç”»’è 
 		{
@@ -183,7 +186,6 @@ void Player::Jump()
 		FallStart(power.GetValue());
 		jumping = true;
 
-		thisState = ThisState::JUMP;
 	}
 
 	if (!jumping)
@@ -192,6 +194,8 @@ void Player::Jump()
 		FallStart(power.GetValue());
 		jumping = true;
 	}
+
+	if (!hitGround)thisState = ThisState::JUMP;
 
 	CalcMovePhysics();
 }

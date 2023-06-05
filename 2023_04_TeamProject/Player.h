@@ -142,7 +142,7 @@ private:
 	// ショットアニメーションをショット終了から何秒後に終わるかセットし、カウントするタイマー
 	MelLib::FrameTimer shotAnimEndTimer;
 
-
+	bool hitGround = false;
 
 #pragma endregion
 };
