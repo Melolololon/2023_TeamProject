@@ -4,7 +4,7 @@ std::shared_ptr<BaseEnemy> BaseEnemy::Create(const std::string& name, Player* pl
 	std::shared_ptr<BaseEnemy> enemy = std::make_shared<BaseEnemy>(name);
 
 	enemy->SetPlayer(player);
-	enemy->SetPosition({static_cast<float>(rand() % 10),0.0f,0.0f});
+	enemy->SetPosition({ static_cast<float>(rand() % 10),0.0f,0.0f });
 
 	return enemy;
 }
@@ -13,8 +13,9 @@ std::shared_ptr<BaseEnemy> BaseEnemy::Create(const std::string& name, Player* pl
 BaseEnemy::BaseEnemy(const std::string& name)
 	:GameObject(name)
 {
-	MelLib::ModelData::Load("Resource/surakiti/surakiti.obj",false,"surakiti");
-	modelObjects["main"].Create(MelLib::ModelData::Get("surakiti"), GetObjectName());
+	/*MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
+	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());*/
+	modelObjects["main"].Create(MelLib::ModelData::Get(ShapeType3D::BOX), GetObjectName());
 }
 
 BaseEnemy::~BaseEnemy()

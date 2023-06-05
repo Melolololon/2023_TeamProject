@@ -82,9 +82,6 @@ void Game::Initialize()
 #pragma endregion
 	//player = new Player();
 	//player->Initialize();
-	for (int i = 0; i < 3; i++) {
-		enemy.push_back(BaseEnemy::Create("surakiti", player));
-	}
 
 
 	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);

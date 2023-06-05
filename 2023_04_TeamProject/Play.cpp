@@ -6,6 +6,7 @@
 #include"Player.h"
 #include"Stage.h"
 #include "BaseEnemy.h"
+#include "Dorakiti.h"
 #pragma endregion
 
 
@@ -18,12 +19,12 @@ void Play::Initialize()
 	MelLib::GameObjectManager::GetInstance()->AddObject(player);
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 
-	std::list<std::shared_ptr<BaseEnemy>> enemy;
+	std::list<std::shared_ptr<Dorakiti>> enemy;
 	for (int i = 0; i < 5; i++) {
-		enemy.push_back(BaseEnemy::Create("surakiti", player.get()));
+		enemy.push_back(Dorakiti::Create("surakiti", player.get()));
 	}
 
-	for (std::shared_ptr<BaseEnemy>& enemyObj : enemy) {
+	for (std::shared_ptr<Dorakiti>& enemyObj : enemy) {
 		MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
 	}
 }

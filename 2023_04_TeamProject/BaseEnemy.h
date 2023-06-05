@@ -14,7 +14,7 @@ public:
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
-	void Move();
+	virtual void Move();
 
 	void Hit
 	(
@@ -29,7 +29,7 @@ public:
 
 	void SetPlayer(Player* player) { this->player = player; }
 	Player* GetPlayer() { return player; }
-private:
+protected:
 	Player* player = nullptr;
 	float moveX = 0.0f;
 	float moveY = 0.0f;
