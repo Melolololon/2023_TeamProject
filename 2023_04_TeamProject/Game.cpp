@@ -15,6 +15,7 @@
 
 #pragma endregion
 
+#include"Title.h"
 #include"Play.h"
 
 Game::Game() {}
@@ -95,15 +96,16 @@ void Game::Initialize()
 	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
 
 	bool res = MelLib::ModelData::Load("Resource/stage1_1/stage1_1.obj", false, "Stage");
+	res = MelLib::Texture::Load("Resource/title.png", "title");
 	Player::LoadResource();
 	BackGround::LoadResource();
 
-	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
+	/*stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
-	stage.SetPosition({ 0,-40,0 });
+	stage.SetPosition({ 0,-40,0 });*/
 
 
-	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
+	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
 }
 
 
