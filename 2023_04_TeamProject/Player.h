@@ -76,17 +76,26 @@ private:
 	/// <param name="rotLeft">左かどうか。falseだと右。</param>
 	void MoveRot(const bool rotLeft);
 
+	// アニメーション
 	void Animation();
 
 	/// <summary>
-	/// 上半身のアニメーション設定
+	/// 腕のアニメーション設定
 	/// </summary>
 	/// <param name="animName">セットするアニメーション名</param>
-	void SetUpperBodyAnimation(const std::string& animName);
+	void SetArmAnimation(const std::string& animName);
 
 	/// <summary>
-	/// ゴールした時
+	/// ダッシュアニメーションによるY軸座標の加算処理
 	/// </summary>
+	void DashAnimationAddPosition();
+
+	// アニメーションデータのセット
+	void SetAnimationData();
+
+	void SetArmAnimationData();
+
+	// ゴールした時
 	void Clear();
 #pragma endregion
 

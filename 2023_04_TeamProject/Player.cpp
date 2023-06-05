@@ -163,7 +163,8 @@ void Player::Move()
 			MoveRot(false);
 		}
 
-		thisState = ThisState::DASH;
+		//if(!jumping)
+			thisState = ThisState::DASH;
 	}
 
 	cpos = Vector3(position.x, position.y + 10, 0);
@@ -264,12 +265,14 @@ void Player::Animation()
 	}
 
 	modelObjects["main"].SetAnimation	(animName);
-	SetUpperBodyAnimation(animName);
+	SetArmAnimation(animName);
+	SetAnimationData();
 
 	modelObjects["main"].Update();
+	if (animName == "Dash")DashAnimationAddPosition();
 }
 
-void Player::SetUpperBodyAnimation(const std::string& animName)
+void Player::SetArmAnimation(const std::string& animName)
 {
 	// ショットアニメーションはループしないようにする
 	// ダッシュとか停止でショットアニメーション分けないと首伸びてキモイ
@@ -299,6 +302,57 @@ void Player::SetUpperBodyAnimation(const std::string& animName)
 		{
 			modelObjects["main"].SetAnimation(animName, bone);
 		}
+	}
+}
+
+void Player::DashAnimationAddPosition()
+{
+	const int ANIM_FRAME = modelObjects["main"].GetAnimationFrame();
+	bool up = ANIM_FRAME >= 0 && ANIM_FRAME < 30;
+	up = up || ANIM_FRAME <= 60 && ANIM_FRAME < 90;
+
+	bool down = ANIM_FRAME >= 30 && ANIM_FRAME < 60;
+	down = down || ANIM_FRAME >= 90 && ANIM_FRAME < 120;
+
+	const float FRAME_ADD = 0.05f;
+	if (up) 
+	{
+		AddPosition(MelLib::Vector3(0, FRAME_ADD, 0));
+	}
+	else 
+	{
+		AddPosition(MelLib::Vector3(0, -FRAME_ADD, 0));
+	}
+}
+
+void Player::SetAnimationData()
+{
+	const std::string CURRENT_ANIMATION_OTHER = modelObjects["main"].GetCurrentAnimationName("UpBody");
+	if (CURRENT_ANIMATION_OTHER == "Dash") 
+	{
+		modelObjects["main"].SetAnimationEndStopFlag(false);
+	}
+	else 
+	{
+		modelObjects["main"].SetAnimationEndStopFlag(true);
+	}
+
+	SetArmAnimationData();
+}
+
+void Player::SetArmAnimationData()
+{
+	bool endStop = true;
+
+	// ダッシュ中かつショットしてなかったらだったらアニメーションストップしない
+	if (thisState == ThisState::DASH && !isShotAnimation)
+	{
+		endStop = false;
+	}
+
+	for (const auto& name : SET_SHOT_ANIM_BONE)
+	{
+		modelObjects["main"].SetAnimationEndStopFlag(endStop, name);
 	}
 }
 
