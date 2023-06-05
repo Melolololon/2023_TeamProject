@@ -3,6 +3,7 @@
 
 #include<GuiValue.h>
 #include "Bullet.h"
+#include "Gauge.h"
 
 using namespace MelLib;
 
@@ -71,5 +72,11 @@ private:
 
 	// ジャンプ中
 	JumpState jump = STAY_IN_AIR;
+
+	// HP
+	float HP = 100;
+
+	// HPゲージ
+	Gauge HPGauge{};
 };
 

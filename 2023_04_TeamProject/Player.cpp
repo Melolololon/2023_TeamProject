@@ -20,6 +20,9 @@ Player::Player()
 
 	SetScale({ 4,4,4 });
 
+	HPGauge.Initialize(MelLib::Color(255, 255, 255, 255), Vector2(100, 3), HP);
+	HPGauge.SetPosition({ 100, 100 });
+	HPGauge.SetValue(&HP);
 }
 
 void Player::Initialize()
@@ -68,11 +71,16 @@ void Player::Update()
 	Jump();
 	Move();
 	Shot();
+
+	if(Input::KeyTrigger(DIK_0)) HP--;
+
+	HPGauge.Update();
 }
 
 void Player::Draw()
 {
 	AllDraw();
+	HPGauge.Draw();
 }
 
 std::shared_ptr<GameObject> Player::GetNewPtr()

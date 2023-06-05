@@ -1,8 +1,9 @@
 #include "Game.h"
 #include "Player.h"
-#include "Bullet.h"
 #include "BaseEnemy.h"
 #include "Stage.h"
+#include "Gauge.h"
+#include "Texture.h"
 
 #pragma region ライブラリインクルード
 
@@ -84,7 +85,6 @@ void Game::Initialize()
 	enemy = new BaseEnemy("surakiti");
 	enemy->SetPlayer(player);
 
-
 	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
 	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 8, 0));
 	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
@@ -120,7 +120,7 @@ void Game::Update()
 void Game::Draw()
 {
 	MelLib::SceneManager::GetInstance()->Draw();
-	//MelLib::SceneEditer::GetInstance()->Draw();
+	//MelLib::SceneEditer::GetInstance()->Draw();&
 
 	//MelLib::SceneManager::GetInstance()->Draw();
 	//MelLib::SceneEditer::GetInstance()->Draw();

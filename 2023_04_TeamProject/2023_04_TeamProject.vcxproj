@@ -154,6 +154,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="slime.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Gauge.h" />
     <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
