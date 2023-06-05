@@ -2,8 +2,7 @@
 
 void Goal::LoadResource()
 {
-	// ƒ‚ƒfƒ‹–³‚¢‚©‚ç•·‚­
-	MelLib::ModelData::Load("",false,"Goal");
+	MelLib::ModelData::Load("Resource/goal/goal_2.obj",false,"Goal");
 }
 
 Goal::Goal():GameObject("Goal")

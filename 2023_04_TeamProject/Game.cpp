@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "BaseEnemy.h"
 #include "Stage.h"
+#include"Goal.h"
 
 #pragma region ライブラリインクルード
 
@@ -99,10 +100,11 @@ void Game::Initialize()
 	res = MelLib::Texture::Load("Resource/title.png", "title");
 	Player::LoadResource();
 	BackGround::LoadResource();
+	Goal::LoadResource();
 
-	/*stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
+	stage.Create(MelLib::ModelData::Get("Goal"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
-	stage.SetPosition({ 0,-40,0 });*/
+	stage.SetPosition({ 0,20,0 });
 
 
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
