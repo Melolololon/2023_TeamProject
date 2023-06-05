@@ -35,6 +35,7 @@ void Play::Update()
 
 void Play::Draw()
 {
+	backGround.Draw();
 	MelLib::GameObjectManager::GetInstance()->Draw();
 }
 

@@ -1,8 +1,11 @@
 #pragma once
 #include<GuiValue.h>
+#include<Sprite2D.h>
 
 class Game final
 {
+private:
+
 private:
 	Game();
 	~Game();

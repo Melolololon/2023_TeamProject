@@ -7,6 +7,7 @@
 #define PI 3.141592
 
 #include"Stage.h"
+#include"Goal.h"
 
 void Player::LoadResource()
 {
@@ -72,6 +73,12 @@ void Player::Initialize()
 
 void Player::Update()
 {
+	if (thisState == ThisState::CLEAR) 
+	{
+		Clear();
+		return;
+	}
+
 	GameObject::SetGravutationalAcceleration(gravity.GetValue());
 	thisState = ThisState::STOP;
 
@@ -93,6 +100,8 @@ std::shared_ptr<GameObject> Player::GetNewPtr()
 
 void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
+	if (thisState == ThisState::CLEAR)return;
+
 	Vector3 position = GetPosition();
 	if (typeid(object) == typeid(Stage)
 		&& shapeType == ShapeType3D::SEGMENT)
@@ -124,6 +133,11 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 				AddPosition(Vector3(ADD_X, 0, 0));
 			}
 		}
+	}
+
+	if (typeid(object) == typeid(Goal)) 
+	{
+		thisState = ThisState::CLEAR;
 	}
 }
 
@@ -270,4 +284,9 @@ void Player::SetUpperBodyAnimation(const std::string& animName)
 			modelObjects["main"].SetAnimation(animName, bone);
 		}
 	}
+}
+
+void Player::Clear()
+{
+	// ゴールアニメーション
 }

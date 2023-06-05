@@ -1,10 +1,13 @@
 #pragma once
 #include <Scene.h>
+
+#include"BackGround.h"
+
 class Play :
     public MelLib::Scene
 {
 private:
-
+    BackGround backGround;
 
 public:
     void Initialize()override;//‰Šú‰»

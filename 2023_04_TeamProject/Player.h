@@ -21,6 +21,7 @@ class Player : public GameObject
 		DASH,
 		JUMP,
 		DEAD,
+		CLEAR
 	};
 #pragma endregion
 
@@ -80,6 +81,11 @@ private:
 	/// </summary>
 	/// <param name="animName">セットするアニメーション名</param>
 	void SetUpperBodyAnimation(const std::string& animName);
+
+	/// <summary>
+	/// ゴールした時
+	/// </summary>
+	void Clear();
 #pragma endregion
 
 private:

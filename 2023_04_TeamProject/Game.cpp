@@ -96,6 +96,7 @@ void Game::Initialize()
 
 	bool res = MelLib::ModelData::Load("Resource/stage1_1/stage1_1.obj", false, "Stage");
 	Player::LoadResource();
+	BackGround::LoadResource();
 
 	stage.Create(MelLib::ModelData::Get("Stage"), "Stage");
 	stage.SetAngle({ 0, 90, 00 });
