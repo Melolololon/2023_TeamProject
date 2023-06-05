@@ -26,6 +26,8 @@ Player::Player()
 
 	SetScale({ 4,4,4 });
 
+	// ショット撃ってから0.25秒で攻撃中止
+	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
 }
 
 void Player::Initialize()
@@ -38,6 +40,7 @@ void Player::Initialize()
 
 	MelLib::Value2<MelLib::Vector3>segmentPos;
 	float offset = 0.01f;
+
 #pragma region 床判定
 
 	segment3DDatas["ground"].resize(2);
@@ -65,6 +68,7 @@ void Player::Initialize()
 	segment3DDatas["wall"][1].SetPosition(segmentPos);
 
 #pragma endregion
+
 	tags.push_back("Player");
 	skipCollisionCheckTags.push_back("Bullet");
 
@@ -193,7 +197,6 @@ void Player::Jump()
 
 void Player::Shot()
 {
-	isShot = false;
 
 	Vector3 position = GetPosition();
 	Vector2 mousevec = Input::GetMouseVector(mousecenter);
@@ -205,7 +208,10 @@ void Player::Shot()
 		MelLib::GameObjectManager::GetInstance()->AddObject(b);
 		b->SetParameter(position, angle);
 
-		isShot = true;
+		isShotAnimation = true;
+		// ショット撃ったらリセットして再生
+		shotAnimEndTimer.ResetTimeZero();
+		shotAnimEndTimer.SetStartFlag(true);
 	}
 }
 
@@ -257,7 +263,7 @@ void Player::Animation()
 		break;
 	}
 
-	modelObjects["main"].SetAnimation(animName);
+	modelObjects["main"].SetAnimation	(animName);
 	SetUpperBodyAnimation(animName);
 
 	modelObjects["main"].Update();
@@ -265,16 +271,26 @@ void Player::Animation()
 
 void Player::SetUpperBodyAnimation(const std::string& animName)
 {
-	// ショットが現在単発だからアニメーションがおかしくなる 
+	// ショットアニメーションはループしないようにする
+	// ダッシュとか停止でショットアニメーション分けないと首伸びてキモイ
 
-	if (isShot) 
+	// 時間でショットアニメーション終了
+	if (shotAnimEndTimer.GetMaxOverFlag())
+	{
+		isShotAnimation = false;
+		
+		// タイマー終了
+		shotAnimEndTimer.ResetTimeZero();
+		shotAnimEndTimer.SetStartFlag(false);
+	}
+
+	if (isShotAnimation) 
 	{
 		// ショットアニメーションセット
 		for (const auto& bone : SET_SHOT_ANIM_BONE)
 		{
 			modelObjects["main"].SetAnimation("Shot", bone);
 		}
-
 	}
 	else 
 	{

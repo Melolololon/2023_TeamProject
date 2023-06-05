@@ -1,7 +1,9 @@
 #pragma once
 #include <GameObject.h>
 
+#include<FrameTimer.h>
 #include<GuiValue.h>
+
 #include "Bullet.h"
 
 using namespace MelLib;
@@ -126,7 +128,13 @@ private:
 
 	// ショット中かどうか
 	// ショットと移動などのその他行動が混ざるので、個別にフラグを用意
-	bool isShot = false;
+	bool isShotAnimation = false;
+
+	// ショットアニメーションをショット終了から何秒後に終わるかセットし、カウントするタイマー
+	MelLib::FrameTimer shotAnimEndTimer;
+
+
+
 #pragma endregion
 };
 
