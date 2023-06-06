@@ -2,10 +2,15 @@
 #include "Input.h"
 #include"Stage.h"
 
+void Bullet::LoadResource()
+{
+	MelLib::ModelData::Load("Resource/playerBullet/playerBullet.obj", false, "PlayerBullet");
+}
+
 Bullet::Bullet()
 	:GameObject("Bullet")
 {
-	modelObjects["main"].Create(MelLib::ModelData::Get(ShapeType3D::BOX), GetObjectName());
+	modelObjects["main"].Create(MelLib::ModelData::Get("PlayerBullet"), GetObjectName());
 }
 
 void Bullet::Initialize()
@@ -17,6 +22,7 @@ void Bullet::Initialize()
 	collisionCheckDistance = sphereDatas["main"][0].GetRadius();
 	tags.push_back("Bullet");
 	skipCollisionCheckTags.push_back("Player");
+
 }
 
 void Bullet::Update()
