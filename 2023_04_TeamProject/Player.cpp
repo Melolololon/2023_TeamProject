@@ -28,6 +28,7 @@ Player::Player()
 
 	// ショット撃ってから0.25秒で攻撃中止
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
+
 }
 
 void Player::Initialize()
@@ -52,6 +53,7 @@ void Player::Initialize()
 	segmentPos.v1 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
 	segmentPos.v2 = GetPosition() - MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
 	segment3DDatas["ground"][1].SetPosition(segmentPos);
+
 
 #pragma endregion
 
@@ -99,6 +101,7 @@ void Player::Update()
 	Shot();
 	Animation();
 	
+
 	hitGround = false;
 }
 
@@ -164,17 +167,20 @@ void Player::Move()
 		if (Input::KeyState(DIK_A))
 		{
 			position.x -= speed.GetValue();
-			MoveRot(true);
+			playerDirLeft = true;
 		}
 		else if (Input::KeyState(DIK_D))
 		{
 			position.x += speed.GetValue();
-			MoveRot(false);
+			playerDirLeft = false;
 		}
 
-		//if(!jumping)
-			thisState = ThisState::DASH;
+		// 移動で少し浮くからhitGroundじゃダメ
+		// 一旦浮かなくした
+		if(hitGround) thisState = ThisState::DASH;
 	}
+
+	MoveRot();
 
 	cpos = Vector3(position.x, position.y + 10, 0);
 	Camera::Get()->SetRotateCriteriaPosition(cpos);
@@ -219,6 +225,12 @@ void Player::Shot()
 		MelLib::GameObjectManager::GetInstance()->AddObject(b);
 		b->SetParameter(position, angle);
 
+		if (!isShotAnimation) 
+		{
+			// 腕のアニメーションデータをリセット
+			ResetArmAnimationData();
+		}
+
 		isShotAnimation = true;
 		// ショット撃ったらリセットして再生
 		shotAnimEndTimer.ResetTimeZero();
@@ -226,8 +238,9 @@ void Player::Shot()
 	}
 }
 
-void Player::MoveRot(const bool rotLeft)
+void Player::MoveRot()
 {
+
 	// 回転範囲を正の数じゃなくて負の数の方が振り返りでプレイヤーの顔見れていいかも
 
 	// 最大回転量
@@ -237,7 +250,7 @@ void Player::MoveRot(const bool rotLeft)
 
 	// 回転量
 	float rotAngle = FRAME_ANGLE;
-	if (rotLeft) rotAngle *= -1;
+	if (playerDirLeft) rotAngle *= -1;
 
 	MelLib::Vector3 angle = GetAngle();
 	angle.y += rotAngle;
@@ -279,7 +292,7 @@ void Player::Animation()
 	SetAnimationData();
 
 	modelObjects["main"].Update();
-	if (animName == "Dash")DashAnimationAddPosition();
+	//if (animName == "Dash")DashAnimationAddPosition();
 }
 
 void Player::SetArmAnimation(const std::string& animName)
@@ -327,11 +340,13 @@ void Player::DashAnimationAddPosition()
 	const float FRAME_ADD = 0.05f;
 	if (up) 
 	{
-		AddPosition(MelLib::Vector3(0, FRAME_ADD, 0));
+		//AddPosition(MelLib::Vector3(0, FRAME_ADD, 0));
+		modelObjects["main"].SetPosition(modelObjects["main"].GetPosition() + MelLib::Vector3(0, FRAME_ADD, 0));
 	}
 	else 
 	{
-		AddPosition(MelLib::Vector3(0, -FRAME_ADD, 0));
+		//AddPosition(MelLib::Vector3(0, -FRAME_ADD, 0));
+		modelObjects["main"].SetPosition(modelObjects["main"].GetPosition() + MelLib::Vector3(0, -FRAME_ADD, 0));
 	}
 }
 
@@ -363,6 +378,14 @@ void Player::SetArmAnimationData()
 	for (const auto& name : SET_SHOT_ANIM_BONE)
 	{
 		modelObjects["main"].SetAnimationEndStopFlag(endStop, name);
+	}
+}
+
+void Player::ResetArmAnimationData()
+{
+	for (const auto& name : SET_SHOT_ANIM_BONE)
+	{
+		modelObjects["main"].SetAnimationFrame(0);
 	}
 }
 

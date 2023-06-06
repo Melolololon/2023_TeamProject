@@ -74,7 +74,7 @@ private:
 	/// 移動による回転
 	/// </summary>
 	/// <param name="rotLeft">左かどうか。falseだと右。</param>
-	void MoveRot(const bool rotLeft);
+	void MoveRot();
 
 	// アニメーション
 	void Animation();
@@ -94,6 +94,8 @@ private:
 	void SetAnimationData();
 
 	void SetArmAnimationData();
+
+	void ResetArmAnimationData();
 
 	// ゴールした時
 	void Clear();
@@ -142,8 +144,12 @@ private:
 	// ショットアニメーションをショット終了から何秒後に終わるかセットし、カウントするタイマー
 	MelLib::FrameTimer shotAnimEndTimer;
 
+	bool playerDirLeft = false;
+
 	bool hitGround = false;
 	bool setGoalAnimData = false;
+
+	MelLib::Value2<MelLib::Vector3> resetGroundSegmentPos[2];
 #pragma endregion
 };
 

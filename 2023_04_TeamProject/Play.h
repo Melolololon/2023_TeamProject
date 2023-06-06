@@ -8,7 +8,7 @@ class Play :
 {
 private:
     BackGround backGround;
-
+    MelLib::Sprite2D operationSprite;
 public:
     void Initialize()override;//‰Šú‰»
     void Update()override;

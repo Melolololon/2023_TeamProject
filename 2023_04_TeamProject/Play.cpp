@@ -28,6 +28,9 @@ void Play::Initialize()
 		MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
 	}
 
+
+	operationSprite.Create(MelLib::Texture::Get("operation"));
+
 	// ƒeƒXƒg
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(10,0,0)));
 }
@@ -41,6 +44,7 @@ void Play::Draw()
 {
 	backGround.Draw();
 	MelLib::GameObjectManager::GetInstance()->Draw();
+	operationSprite.Draw();
 }
 
 void Play::Finalize()
