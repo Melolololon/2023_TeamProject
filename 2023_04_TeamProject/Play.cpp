@@ -12,6 +12,8 @@
 
 void Play::Initialize()
 {
+	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
+
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 

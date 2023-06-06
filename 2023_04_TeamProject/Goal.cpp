@@ -9,17 +9,18 @@ Goal::Goal(const MelLib::Vector3& pos):GameObject("Goal")
 {
 
 	modelObjects["main"].Create(MelLib::ModelData::Get("Goal"), GetObjectName());
-	SetScale({ 5,5,5 });
+	SetScale({ 7,7,7 });
 	SetAngle({ 0,180,0 });
 	SetPosition(pos);
+	AddPosition({ 0,0,1 });
 }
 
 void Goal::Initialize()
 {
 	// îªíËÇçÏê¨
 	sphereDatas["main"].resize(1);
-	sphereDatas["main"][0].SetPosition(GetPosition() + MelLib::Vector3(0, -6, 0));
+	sphereDatas["main"][0].SetPosition(GetPosition() + MelLib::Vector3(0, -6, -1));
 
 	// ÇÌÇ¥Ç∆è¨Ç≥ÇﬂÇ…ÇµÇƒÇ¢ÇÈ
-	sphereDatas["main"][0].SetRadius(0.25f);
+	sphereDatas["main"][0].SetRadius(0.1f);
 }

@@ -391,6 +391,15 @@ void Player::ResetArmAnimationData()
 
 void Player::Clear()
 {
+	float cameraDis = MelLib::Camera::Get()->GetCameraToTargetDistance();
+	if (cameraDis > 20.0f)
+	{
+		modelObjects["main"].SetAnimation("Stop");
+		modelObjects["main"].SetAnimationFrame(0);
+		MelLib::Camera::Get()->SetCameraToTargetDistance(cameraDis - 2.0f);
+		return;
+	}
+
 	if (setGoalAnimData) return;
 
 	// ゴールアニメーション

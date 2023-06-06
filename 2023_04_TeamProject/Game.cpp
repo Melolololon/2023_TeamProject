@@ -93,7 +93,7 @@ void Game::Initialize()
 
 	MelLib::Camera::Get()->SetRotatePoint(MelLib::Camera::RotatePoint::ROTATE_POINT_TARGET_POSITION);
 	MelLib::Camera::Get()->SetRotateCriteriaPosition(MelLib::Vector3(0, 8, 0));
-	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
+	
 
 	bool res = MelLib::ModelData::Load("Resource/stage1_1/stage1_1.obj", false, "Stage");
 	res = MelLib::Texture::Load("Resource/title.png", "title");
