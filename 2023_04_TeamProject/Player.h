@@ -59,6 +59,11 @@ public:
 		const std::string& hitShapeName
 	) override;
 
+#pragma region sì’Ç‰ÁŠÖ”
+	bool GetClear()const;
+#pragma endregion
+
+
 private:
 
 	// ˆÚ“®

@@ -10,6 +10,17 @@
 #pragma endregion
 
 
+
+void Play::ClearUpdate()
+{
+	clearStaging.Update();
+}
+
+void Play::ClearDraw()
+{
+	clearStaging.Draw();
+}
+
 void Play::Initialize()
 {
 	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
@@ -17,7 +28,7 @@ void Play::Initialize()
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
-	std::shared_ptr<Player> player = std::make_shared<Player>();
+	player = std::make_shared<Player>();
 	MelLib::GameObjectManager::GetInstance()->AddObject(player);
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 
@@ -33,6 +44,9 @@ void Play::Initialize()
 
 	operationSprite.Create(MelLib::Texture::Get("operation"));
 
+	clearStaging.Initialize();
+
+
 	// テスト
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(10,0,0)));
 }
@@ -40,6 +54,25 @@ void Play::Initialize()
 void Play::Update()
 {
 	MelLib::GameObjectManager::GetInstance()->Update();
+
+
+	// クリア、ゲームオーバーチェック
+	if (player->GetClear()) 
+	{
+		gameState = GameState::CLEAR;
+	}
+
+	// 更新切替
+	switch (gameState)
+	{
+	case Play::GameState::CLEAR:
+		ClearUpdate();
+		break;
+	case Play::GameState::GAMEOVER:
+		break;
+	default:
+		break;
+	}
 }
 
 void Play::Draw()
@@ -47,6 +80,17 @@ void Play::Draw()
 	backGround.Draw();
 	MelLib::GameObjectManager::GetInstance()->Draw();
 	operationSprite.Draw();
+
+	switch (gameState)
+	{
+	case Play::GameState::CLEAR:
+		ClearDraw();
+		break;
+	case Play::GameState::GAMEOVER:
+		break;
+	default:
+		break;
+	}
 }
 
 void Play::Finalize()

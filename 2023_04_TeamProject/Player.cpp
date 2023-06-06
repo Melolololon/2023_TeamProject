@@ -157,6 +157,12 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 	}
 }
 
+bool Player::GetClear() const
+{
+	return modelObjects.at("main").GetCurrentAnimationName() == "Goal"
+		&& modelObjects.at("main").GetAnimationEndFlag();
+}
+
 void Player::Move()
 {
 	Vector3 position = GetPosition();

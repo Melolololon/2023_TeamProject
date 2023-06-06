@@ -5,6 +5,8 @@
 #include "Stage.h"
 #include"Goal.h"
 
+#include"ClearStaging.h"
+
 #pragma region ライブラリインクルード
 
 #include<Library.h>
@@ -102,7 +104,7 @@ void Game::Initialize()
 	BackGround::LoadResource();
 	Goal::LoadResource();
 
-
+	ClearStaging::LoadResource();
 
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
 }
@@ -142,5 +144,4 @@ void Game::Draw()
 	//for (std::unique_ptr<BaseEnemy>& enemyObj : enemy) {
 	//	enemyObj->Draw();
 	//}
-
 }

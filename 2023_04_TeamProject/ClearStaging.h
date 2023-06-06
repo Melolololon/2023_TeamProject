@@ -8,6 +8,12 @@ private:
 	MelLib::Sprite2D frameSpriteUp;
 	MelLib::Sprite2D frameSpriteDown;
 	MelLib::Sprite2D stringSprite;
+
+private:
+	void FrameMove();
+	void StringUpdate();
+
+
 public:
 	static void LoadResource();
 

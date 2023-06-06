@@ -24,7 +24,7 @@ void Stage::SetMeshTriangle()
 Stage::Stage():GameObject("Stage")
 {
 	modelObjects["main"].Create(MelLib::ModelData::Get("Stage"),GetObjectName());
-	
+	SetScale({ 2,1,1 });
 	
 	addPosY.SetData(0.0f, "StageTestWindow", "AddPosY", -20, 20);
 }
