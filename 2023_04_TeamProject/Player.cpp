@@ -2,6 +2,8 @@
 #include "BulletManager.h"
 
 #include<GameObjectManager.h>
+#include<Sound.h>
+
 #include "Input.h"
 #include "Library.h"
 #define PI 3.141592
@@ -12,6 +14,8 @@
 void Player::LoadResource()
 {
 	MelLib::ModelData::Load("Resource/player/player.fbx", false, "player");
+
+	//MelLib::SoundData::Load();
 }
 
 Player::Player()
