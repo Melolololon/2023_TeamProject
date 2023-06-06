@@ -143,7 +143,7 @@ private:
 	MelLib::FrameTimer shotAnimEndTimer;
 
 	bool hitGround = false;
-
+	bool setGoalAnimData = false;
 #pragma endregion
 };
 

@@ -33,7 +33,6 @@ Player* player;
 std::list<std::unique_ptr<BaseEnemy>> enemy;
 
 
-MelLib::ModelObject stage;
 
 void Game::Run()
 {
@@ -102,9 +101,6 @@ void Game::Initialize()
 	BackGround::LoadResource();
 	Goal::LoadResource();
 
-	stage.Create(MelLib::ModelData::Get("Goal"), "Stage");
-	stage.SetAngle({ 0, 90, 00 });
-	stage.SetPosition({ 0,20,0 });
 
 
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
@@ -146,5 +142,4 @@ void Game::Draw()
 	//	enemyObj->Draw();
 	//}
 
-	stage.Draw();
 }

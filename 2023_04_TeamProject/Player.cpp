@@ -79,7 +79,15 @@ void Player::Update()
 {
 	if (thisState == ThisState::CLEAR) 
 	{
-		Clear();
+		// 浮いたままゴールしないようにするために呼び出す
+		FallStart(0.0f);
+		CalcMovePhysics();
+		
+		modelObjects["main"].Update();
+
+		// ゴール処理
+		if(hitGround) Clear();
+
 		return;
 	}
 
@@ -106,8 +114,6 @@ std::shared_ptr<GameObject> Player::GetNewPtr()
 
 void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
-	if (thisState == ThisState::CLEAR)return;
-
 	Vector3 position = GetPosition();
 	if (typeid(object) == typeid(Stage)
 		&& shapeType == ShapeType3D::SEGMENT)
@@ -268,7 +274,7 @@ void Player::Animation()
 		break;
 	}
 
-	modelObjects["main"].SetAnimation	(animName);
+	modelObjects["main"].SetAnimation(animName);
 	SetArmAnimation(animName);
 	SetAnimationData();
 
@@ -362,5 +368,14 @@ void Player::SetArmAnimationData()
 
 void Player::Clear()
 {
+	if (setGoalAnimData) return;
+
 	// ゴールアニメーション
+	modelObjects["main"].SetAnimation("Goal");
+	modelObjects["main"].SetAnimationFrame(0);
+	modelObjects["main"].SetAnimationEndStopFlag(true);
+
+	setGoalAnimData = true;
+
+	SetAngle({ 0,90,0 });
 }

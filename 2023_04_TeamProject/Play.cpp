@@ -6,6 +6,7 @@
 #include"Player.h"
 #include"Stage.h"
 #include "BaseEnemy.h"
+#include"Goal.h"
 #pragma endregion
 
 
@@ -26,6 +27,9 @@ void Play::Initialize()
 	for (std::shared_ptr<BaseEnemy>& enemyObj : enemy) {
 		MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
 	}
+
+	// ƒeƒXƒg
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(10,0,0)));
 }
 
 void Play::Update()
