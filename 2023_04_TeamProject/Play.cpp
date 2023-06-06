@@ -79,7 +79,8 @@ void Play::Draw()
 {
 	backGround.Draw();
 	MelLib::GameObjectManager::GetInstance()->Draw();
-	operationSprite.Draw();
+
+	if(gameState == Play::GameState::PLAY) operationSprite.Draw();
 
 	switch (gameState)
 	{

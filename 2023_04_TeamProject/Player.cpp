@@ -46,12 +46,12 @@ void Player::Initialize()
 
 	segment3DDatas["ground"].resize(2);
 	// 右側
-	segmentPos.v1 = GetPosition() + MelLib::Vector3(+sphereDatas["main"][0].GetRadius() + offset, sphereDatas["main"][0].GetRadius(), 0);
-	segmentPos.v2 = GetPosition() - MelLib::Vector3(+sphereDatas["main"][0].GetRadius() + offset, sphereDatas["main"][0].GetRadius(), 0);
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(-0.5f, 9, 0);
+	segmentPos.v2 = GetPosition() + MelLib::Vector3(-0.5f, 0, 0);
 	segment3DDatas["ground"][0].SetPosition(segmentPos);
 	// 左側
-	segmentPos.v1 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
-	segmentPos.v2 = GetPosition() - MelLib::Vector3(-sphereDatas["main"][0].GetRadius() - offset, sphereDatas["main"][0].GetRadius(), 0);
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(0.5f, 9, 0);
+	segmentPos.v2 = GetPosition() + MelLib::Vector3(0.5f, 0, 0);
 	segment3DDatas["ground"][1].SetPosition(segmentPos);
 
 
@@ -59,16 +59,20 @@ void Player::Initialize()
 
 #pragma region 壁判定
 
-	segment3DDatas["wall"].resize(2);
+	segment3DDatas["wall"].resize(3);
 	// 上側
-	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), +sphereDatas["main"][0].GetRadius() + offset, 0);
-	segmentPos.v2 = GetPosition() - MelLib::Vector3(sphereDatas["main"][0].GetRadius(), +sphereDatas["main"][0].GetRadius() + offset, 0);
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), 9, 0);
+	segmentPos.v2 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius(), 9, 0);
 	segment3DDatas["wall"][0].SetPosition(segmentPos);
 	// 下側
-	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), -sphereDatas["main"][0].GetRadius() - offset, 0);
-	segmentPos.v2 = GetPosition() - MelLib::Vector3(sphereDatas["main"][0].GetRadius(), -sphereDatas["main"][0].GetRadius() - offset, 0);
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), 0, 0);
+	segmentPos.v2 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius(), 0, 0);
 	segment3DDatas["wall"][1].SetPosition(segmentPos);
 
+	// 中心
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), 4.5, 0);
+	segmentPos.v2 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius(), 4.5, 0);
+	segment3DDatas["wall"][2].SetPosition(segmentPos);
 #pragma endregion
 
 	tags.push_back("Player");
@@ -93,16 +97,27 @@ void Player::Update()
 		return;
 	}
 
+	if (thisState == ThisState::DEAD) 
+	{
+		modelObjects["main"].Update();
+		return;
+	}
+
 	GameObject::SetGravutationalAcceleration(gravity.GetValue());
+	
+	// 絶対上に書く
 	thisState = ThisState::STOP;
 
 	Jump();
 	Move();
 	Shot();
+
+	// アニメーション処理
 	Animation();
 	
-
+	// 絶対最後に書く
 	hitGround = false;
+
 }
 
 void Player::Draw()
@@ -128,7 +143,7 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 
 			Segment3DCalcResult result = GetSegmentCalcResult();
 			
-			const float ADD_Y = result.triangleHitPos.y - GetPosition().y + sphereDatas["main"][0].GetRadius();
+			const float ADD_Y = result.triangleHitPos.y - GetPosition().y;
 			AddPosition(Vector3(0, ADD_Y,0));
 			
 			jumping = false;
