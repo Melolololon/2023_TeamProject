@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /MyLibrary/imgui
 /MyLibrary/lib/fbx_sdk
 2023_04_TeamProject/imgui.ini
+/2023_04_TeamProject/Game.cpp
