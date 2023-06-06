@@ -12,7 +12,7 @@ Goal::Goal(const MelLib::Vector3& pos):GameObject("Goal")
 	SetScale({ 7,7,7 });
 	SetAngle({ 0,180,0 });
 	SetPosition(pos);
-	AddPosition({ 0,0,1 });
+	AddPosition({ 0,-0.5f,1 });
 }
 
 void Goal::Initialize()
