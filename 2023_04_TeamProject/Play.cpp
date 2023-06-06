@@ -2,6 +2,8 @@
 
 #include<GameObjectManager.h>
 
+#include"Title.h"
+
 #pragma region オブジェクト
 #include"Player.h"
 #include"Stage.h"
@@ -9,11 +11,13 @@
 #include"Goal.h"
 #pragma endregion
 
-
+#include"Fade.h"
 
 void Play::ClearUpdate()
 {
 	clearStaging.Update();
+
+	if (clearStaging.GetSceneChangeFlag())Fade::GetInstance()->Start();
 }
 
 void Play::ClearDraw()
@@ -62,6 +66,9 @@ void Play::Update()
 		gameState = GameState::CLEAR;
 	}
 
+	Fade::GetInstance()->Update();
+	if (Fade::GetInstance()->GetChangeSceneFlag())isEnd = true;
+
 	// 更新切替
 	switch (gameState)
 	{
@@ -92,6 +99,8 @@ void Play::Draw()
 	default:
 		break;
 	}
+
+	Fade::GetInstance()->Draw();
 }
 
 void Play::Finalize()
@@ -102,5 +111,5 @@ void Play::Finalize()
 
 MelLib::Scene* Play::GetNextScene()
 {
-	return new Play();
+	return new Title();
 }

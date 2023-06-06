@@ -19,6 +19,7 @@ void ClearStaging::StringUpdate()
 	if (SCALE_X <= 1.0f)
 	{
 		stringSprite.SetScale(1.0f);
+		sceneChangeTimer.SetStartFlag(true);
 	}
 }
 
@@ -43,6 +44,8 @@ void ClearStaging::Initialize()
 	stringSprite.SetPosition({ 270.0f,164.0f });
 	stringSprite.SetScalingPoint(0.5f);
 	stringSprite.SetScale(50);
+
+	sceneChangeTimer.SetMaxTime(60 * 1.5f);
 }
 
 void ClearStaging::Update()

@@ -418,6 +418,11 @@ void Player::Clear()
 		modelObjects["main"].SetAnimation("Stop");
 		modelObjects["main"].SetAnimationFrame(0);
 		MelLib::Camera::Get()->SetCameraToTargetDistance(cameraDis - 2.0f);
+
+		MelLib::Vector3 position = GetPosition();
+		MelLib::Vector3 cPos = Vector3(position.x, position.y + 10, 0);
+		Camera::Get()->SetRotateCriteriaPosition(cPos);
+
 		return;
 	}
 
