@@ -2,9 +2,9 @@
 #include<Sprite2D.h>
 #include<FrameTimer.h>
 
-// ÉNÉäÉAââèo
-class ClearStaging
+class GameOverStaging
 {
+
 private:
 	MelLib::Sprite2D frameSpriteUp;
 	MelLib::Sprite2D frameSpriteDown;
@@ -25,4 +25,5 @@ public:
 
 	bool GetSceneChangeFlag()const { return sceneChangeTimer.GetMaxOverFlag(); }
 };
+
 

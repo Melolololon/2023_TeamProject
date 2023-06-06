@@ -25,6 +25,16 @@ void Play::ClearDraw()
 	clearStaging.Draw();
 }
 
+void Play::GameOverUpdate()
+{
+	gameOverStaging.Update();
+}
+
+void Play::GameOverDraw()
+{
+	gameOverStaging.Draw();
+}
+
 void Play::Initialize()
 {
 	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
@@ -49,7 +59,7 @@ void Play::Initialize()
 	operationSprite.Create(MelLib::Texture::Get("operation"));
 
 	clearStaging.Initialize();
-
+	gameOverStaging.Initialize();
 
 	// テスト
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(10,0,0)));
@@ -59,11 +69,10 @@ void Play::Update()
 {
 	MelLib::GameObjectManager::GetInstance()->Update();
 
-
 	// クリア、ゲームオーバーチェック
 	if (player->GetClear()) 
 	{
-		gameState = GameState::CLEAR;
+		gameState = GameState::GAMEOVER;
 	}
 
 	Fade::GetInstance()->Update();
@@ -76,6 +85,7 @@ void Play::Update()
 		ClearUpdate();
 		break;
 	case Play::GameState::GAMEOVER:
+		GameOverUpdate();
 		break;
 	default:
 		break;
@@ -95,6 +105,7 @@ void Play::Draw()
 		ClearDraw();
 		break;
 	case Play::GameState::GAMEOVER:
+		GameOverDraw();
 		break;
 	default:
 		break;
