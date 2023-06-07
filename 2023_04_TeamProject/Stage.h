@@ -7,6 +7,8 @@ private:
 	// デバッグ用
 	MelLib::GuiFloat addPosY;
 
+	// 落下死判定になるY座標
+	static float deadPositionY;
 private:
 	// メッシュから三角形の判定を取得
 	void SetMeshTriangle();
@@ -39,5 +41,7 @@ public:
 	);
 
 	std::shared_ptr<GameObject> GetNewPtr();
+
+	static float GetDeadPositionY() { return deadPositionY; }
 };
 

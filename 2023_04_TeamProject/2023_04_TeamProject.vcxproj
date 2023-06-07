@@ -150,25 +150,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BaseEnemy.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="ClearStaging.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOverStaging.cpp" />
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="slime.cpp" />
     <ClCompile Include="Play.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackGround.h" />
     <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="ClearStaging.h" />
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOverStaging.h" />
+    <ClInclude Include="Goal.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="slime.h" />
     <ClInclude Include="Play.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
