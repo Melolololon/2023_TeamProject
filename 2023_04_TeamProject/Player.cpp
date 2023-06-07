@@ -130,6 +130,15 @@ void Player::Update()
 	Move();
 	Shot();
 
+	if (HP <= 0) 
+	{
+		thisState = ThisState::DEAD;
+		modelObjects["main"].SetAnimationFrame(0);
+		modelObjects["main"].SetAnimationEndStopFlag(true);
+	}
+
+	if (MelLib::Input::KeyTrigger(DIK_1))HP--;
+
 	// アニメーション処理
 	Animation();
 
