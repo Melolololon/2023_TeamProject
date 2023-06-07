@@ -46,7 +46,7 @@ void Play::Initialize()
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
-	//MelLib::SceneEditer::GetInstance()->LoadEditData("Stage1-1");
+	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage1-1");
 	player = std::make_shared<Player>();
 	MelLib::GameObjectManager::GetInstance()->AddObject(player);
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());

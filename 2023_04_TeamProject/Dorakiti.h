@@ -9,6 +9,7 @@ public:
 public:
 	Dorakiti(const std::string& name);
 
+	void Initialize()override;
 	void Move() override;
 
 	std::shared_ptr<GameObject> GetNewPtr() override;

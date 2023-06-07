@@ -16,7 +16,13 @@ Dorakiti::Dorakiti(const std::string& name)
 	//MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	//modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
-	easing = MelLib::Easing<float>(0.1f, -0.1f, 0.5f);
+	easing = MelLib::Easing<float>(GetPosition().y + 5.0f, GetPosition().y + 40.0f, 0.5f);
+
+}
+
+void Dorakiti::Initialize()
+{
+	//AddPosition({ 0,7,0 });
 }
 
 void Dorakiti::Move()
@@ -33,10 +39,10 @@ void Dorakiti::Move()
 		easing.SetAddPar(-0.5f);
 	}
 
-	moveX -= 0.01f;
-	moveY += easing.EaseInOut();
+	//moveX -= 0.01f;
+	moveY = easing.EaseInOut();
 
-	SetPosition({ moveX , moveY , ePos.z });
+	SetPosition({ ePos.x , moveY , ePos.z});
 	float angle = 0.0f;
 	if (ePos.x < pPos.x) {
 		angle = -90.0f;
