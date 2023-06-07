@@ -2,6 +2,8 @@
 #include "Input.h"
 #include"Stage.h"
 
+#include<LibMath.h>
+
 void Bullet::LoadResource()
 {
 	MelLib::ModelData::Load("Resource/playerBullet/playerBullet.obj", false, "PlayerBullet");
@@ -53,6 +55,15 @@ void Bullet::SetParameter(Vector3 position, float rotation, float velocityMagnif
 	velocity.y = velocity.y * sinf(rotation * (PI / 180));
 	velocity *= velocityMagnification;
 	this->power = power;
+
+	// 角度を指定
+	// velocityが0,0で左を向くようにするために90をセット
+	MelLib::Vector3 angle(0,0,90);
+
+	const float CALC_ANGLE = MelLib::LibMath::Vector2ToAngle({ velocity.x,velocity.y }, true);
+	angle.z += CALC_ANGLE;
+
+	SetAngle(angle);
 }
 
 void Bullet::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)

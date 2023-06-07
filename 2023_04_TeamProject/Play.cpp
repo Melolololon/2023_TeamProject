@@ -72,7 +72,7 @@ void Play::Update()
 	// クリア、ゲームオーバーチェック
 	if (player->GetClear()) 
 	{
-		gameState = GameState::GAMEOVER;
+		gameState = GameState::CLEAR;
 	}
 
 	Fade::GetInstance()->Update();
