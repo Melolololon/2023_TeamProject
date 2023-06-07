@@ -1,6 +1,8 @@
 #include "BulletManager.h"
 #include "GameObjectManager.h"
 
+
+
 BulletManager* BulletManager::GetInstance()
 {
 	static BulletManager instance;
