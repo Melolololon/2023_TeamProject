@@ -16,13 +16,16 @@ Dorakiti::Dorakiti(const std::string& name)
 	//MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	//modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
-	easing = MelLib::Easing<float>(GetPosition().y + 5.0f, GetPosition().y + 30.0f, 0.5f);
+	easing = MelLib::Easing<float>(GetPosition().y, GetPosition().y + 30.0f, 0.5f);
 
 }
 
 void Dorakiti::Initialize()
 {
 	//AddPosition({ 0,7,0 });
+	sphereDatas["main"].resize(1);
+	sphereDatas["main"][0].SetPosition(GetPosition());
+	sphereDatas["main"][0].SetRadius(1.5f);
 }
 
 void Dorakiti::Move()
@@ -53,6 +56,8 @@ void Dorakiti::Move()
 
 	SetAngle({ 0,angle,0 });
 }
+
+
 
 std::shared_ptr<GameObject> Dorakiti::GetNewPtr()
 {

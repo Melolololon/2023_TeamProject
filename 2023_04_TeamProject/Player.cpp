@@ -88,6 +88,8 @@ void Player::Initialize()
 	skipCollisionCheckTags.push_back("Bullet");
 
 	modelObjects["main"].SetAnimationPlayFlag(true);
+
+	SetPosition(MelLib::Vector3(690, 3.5f, 0));
 }
 
 void Player::Update()

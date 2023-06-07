@@ -110,6 +110,7 @@ void Game::Initialize()
 
 	bool res = MelLib::ModelData::Load("Resource/stage/stage.obj", false, "Stage");
 	 res = MelLib::ModelData::Load("Resource/dorakiti/dorakiti.obj", false, "Dorakiti");
+	 res = MelLib::ModelData::Load("Resource/surakiti/surakiti.obj", false, "surakiti");
 	res = MelLib::Texture::Load("Resource/title.png", "title");
 	MelLib::Texture::Load("Resource/operation.png", "operation");
 	Player::LoadResource();
@@ -126,7 +127,7 @@ void Game::Initialize()
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<BaseEnemy>("surakiti"),"Enemy");
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Dorakiti>("Dorakiti"),"Enemy");
 
-	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
+	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 }
 
 
@@ -139,7 +140,7 @@ void Game::Finalize()
 void Game::Update()
 {
 	MelLib::SceneManager::GetInstance()->Update();
-	//MelLib::SceneEditer::GetInstance()->Update();
+	MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
@@ -153,7 +154,7 @@ void Game::Update()
 void Game::Draw()
 {
 	MelLib::SceneManager::GetInstance()->Draw();
-	//MelLib::SceneEditer::GetInstance()->Draw();
+	MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::SceneManager::GetInstance()->Draw();
 	//MelLib::SceneEditer::GetInstance()->Draw();

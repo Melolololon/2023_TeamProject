@@ -17,7 +17,7 @@ BaseEnemy::BaseEnemy(const std::string& name)
 {
 	/*MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());*/
-	modelObjects["main"].Create(MelLib::ModelData::Get(ShapeType3D::BOX), GetObjectName());
+	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
 }
 
 BaseEnemy::~BaseEnemy()
@@ -26,14 +26,21 @@ BaseEnemy::~BaseEnemy()
 
 void BaseEnemy::Initialize()
 {
+	AddPosition({ 0,10,0 });
+
 	sphereDatas["main"].resize(1);
 	sphereDatas["main"][0].SetPosition(GetPosition());
 	sphereDatas["main"][0].SetRadius(GetScale().x / 2);
+
+	MelLib::Value2<MelLib::Vector3>segmentPos;
+	float offset = 0.01f;
 
 }
 
 void BaseEnemy::Update()
 {
+	FallStart(0.0f);
+	CalcMovePhysics();
 	Move();
 }
 
@@ -65,7 +72,8 @@ void BaseEnemy::Move()
 void BaseEnemy::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
 	if (typeid(object) == typeid(Bullet)) {
-		Damage();
+		//Damage();
+		eraseManager = true;
 	}
 }
 
