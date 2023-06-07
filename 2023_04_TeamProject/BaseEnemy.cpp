@@ -18,6 +18,8 @@ BaseEnemy::BaseEnemy(const std::string& name)
 	/*MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());*/
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
+
+	//tags.push_back("Enemy");
 }
 
 BaseEnemy::~BaseEnemy()
@@ -71,10 +73,13 @@ void BaseEnemy::Move()
 
 void BaseEnemy::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
-	if (typeid(object) == typeid(Bullet)) {
+	if (typeid(object) == typeid(Bullet)
+		|| typeid(object) == typeid(Player)) {
 		//Damage();
 		eraseManager = true;
 	}
+
+
 }
 
 void BaseEnemy::Damage()

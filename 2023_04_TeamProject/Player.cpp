@@ -1,6 +1,9 @@
 #include "Player.h"
 #include "BulletManager.h"
 
+#include"BaseEnemy.h"
+#include"Dorakiti.h"
+
 #include<GameObjectManager.h>
 #include<Sound.h>
 
@@ -136,7 +139,6 @@ void Player::Update()
 	// 絶対最後に書く
 	hitGround = false;
 
-	if (Input::KeyTrigger(DIK_0)) HP--;
 }
 
 void Player::Draw()
@@ -156,6 +158,11 @@ std::shared_ptr<GameObject> Player::GetNewPtr()
 
 void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
+	if (typeid(object) == typeid(BaseEnemy) || typeid(object) == typeid(Dorakiti))
+	{
+		HP--;
+	}
+
 	Vector3 position = GetPosition();
 	if (typeid(object) == typeid(Stage)
 		&& shapeType == ShapeType3D::SEGMENT)
