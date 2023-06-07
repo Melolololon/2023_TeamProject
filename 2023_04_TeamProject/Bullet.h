@@ -6,6 +6,8 @@ using namespace MelLib;
 class Bullet : public GameObject
 {
 public:
+	static void LoadResource();
+
 	Bullet();
 
 	void Initialize() override;
