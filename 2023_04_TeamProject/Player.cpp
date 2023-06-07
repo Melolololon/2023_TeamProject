@@ -30,6 +30,14 @@ Player::Player()
 
 	SetScale({ 4,4,4 });
 
+	for (int i = 0; i < HPMax; i++)
+	{
+		HPsprite[i].Create(Color(255, 200, 200, 255));
+		HPsprite[i].SetScale({ 10, 10 });
+
+		float offset = (HPsprite[i].GetScale().x * HPsprite[i].GetScale().y + 50) * i;
+		HPsprite[i].SetPosition({ 100 + offset, 100 });
+	}
 	// ƒVƒ‡ƒbƒgŒ‚‚Á‚Ä‚©‚ç0.25•b‚ÅUŒ‚’†Ž~
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
 
@@ -130,14 +138,16 @@ void Player::Update()
 
 
 	if(Input::KeyTrigger(DIK_0)) HP--;
-
-	HPGauge.Update();
 }
 
 void Player::Draw()
 {
 	AllDraw();
-	HPGauge.Draw();
+
+	for (int i = 0; i < HP; i++)
+	{
+		HPsprite[i].Draw();
+	}
 }
 
 std::shared_ptr<GameObject> Player::GetNewPtr()

@@ -12,8 +12,8 @@ void Gauge::Update()
 	float rate = 0;
 	rate = *value / valueMax;
 	Vector2 scale = sprite.GetScale();
-	//scale.x = *value;
-	scale.x = rate;
+	scale.x = *value;
+	//scale.x = rate;
 
 	sprite.SetScale(scale);
 }
