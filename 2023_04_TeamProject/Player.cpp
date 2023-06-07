@@ -95,7 +95,8 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 		&& shapeType == ShapeType3D::SEGMENT)
 	{
 		// è∞îªíË
-		if (GetHitTriangleData().GetNormal().y == 1.0f && shapeName == "ground")
+		if (GetHitTriangleData().GetNormal().y == 1.0f && shapeName == "ground" &&
+			GetVelocity().y <= 0.0f)
 		{
 			FallEnd();
 
