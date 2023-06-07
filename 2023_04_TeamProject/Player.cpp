@@ -30,7 +30,15 @@ Player::Player()
 
 	SetScale({ 4,4,4 });
 
-	// ƒVƒ‡ƒbƒgŒ‚‚Á‚Ä‚©‚ç0.25•b‚ÅUŒ‚’†~
+	for (int i = 0; i < HPMax; i++)
+	{
+		HPsprite[i].Create(Color(255, 200, 200, 255));
+		HPsprite[i].SetScale({ 10, 10 });
+
+		float offset = (HPsprite[i].GetScale().x * HPsprite[i].GetScale().y + 50) * i;
+		HPsprite[i].SetPosition({ 100 + offset, 100 });
+	}
+	// ã‚·ãƒ§ãƒƒãƒˆæ’ƒã£ã¦ã‹ã‚‰0.25ç§’ã§æ”»æ’ƒä¸­æ­¢
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
 
 	HPGauge.Initialize(MelLib::Color(255, 255, 255, 255), Vector2(100, 3), HP);
@@ -49,32 +57,32 @@ void Player::Initialize()
 	MelLib::Value2<MelLib::Vector3>segmentPos;
 	float offset = 0.01f;
 
-#pragma region °”»’è
+#pragma region åºŠåˆ¤å®š
 
 	segment3DDatas["ground"].resize(2);
-	// ‰E‘¤
+	// å³å´
 	segmentPos.v1 = GetPosition() + MelLib::Vector3(-0.5f, 9, 0);
 	segmentPos.v2 = GetPosition() + MelLib::Vector3(-0.5f, 0, 0);
 	segment3DDatas["ground"][0].SetPosition(segmentPos);
-	// ¶‘¤
+	// å·¦å´
 	segmentPos.v1 = GetPosition() + MelLib::Vector3(0.5f, 9, 0);
 	segmentPos.v2 = GetPosition() + MelLib::Vector3(0.5f, 0, 0);
 	segment3DDatas["ground"][1].SetPosition(segmentPos);
 #pragma endregion
 
-#pragma region •Ç”»’è
+#pragma region å£åˆ¤å®š
 
 	segment3DDatas["wall"].resize(3);
-	// ã‘¤
+	// ä¸Šå´
 	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), 9, 0);
 	segmentPos.v2 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius(), 9, 0);
 	segment3DDatas["wall"][0].SetPosition(segmentPos);
-	// ‰º‘¤
+	// ä¸‹å´
 	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), 0, 0);
 	segmentPos.v2 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius(), 0, 0);
 	segment3DDatas["wall"][1].SetPosition(segmentPos);
 
-	// ’†S
+	// ä¸­å¿ƒ
 	segmentPos.v1 = GetPosition() + MelLib::Vector3(sphereDatas["main"][0].GetRadius(), 4.5, 0);
 	segmentPos.v2 = GetPosition() + MelLib::Vector3(-sphereDatas["main"][0].GetRadius(), 4.5, 0);
 	segment3DDatas["wall"][2].SetPosition(segmentPos);
@@ -88,17 +96,17 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	// ˆê”Ôã‚É‘‚­
+	// ä¸€ç•ªä¸Šã«æ›¸ã
 
 	if (thisState == ThisState::CLEAR)
 	{
-		// •‚‚¢‚½‚Ü‚ÜƒS[ƒ‹‚µ‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·
+		// æµ®ã„ãŸã¾ã¾ã‚´ãƒ¼ãƒ«ã—ãªã„ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã«å‘¼ã³å‡ºã™
 		FallStart(0.0f);
 		CalcMovePhysics();
 
 		modelObjects["main"].Update();
 
-		// ƒS[ƒ‹ˆ—
+		// ã‚´ãƒ¼ãƒ«å‡¦ç†
 		if (hitGround) Clear();
 
 		return;
@@ -114,32 +122,33 @@ void Player::Update()
 
 	GameObject::SetGravutationalAcceleration(gravity.GetValue());
 
-	// â‘Îã‚É‘‚­
+	// çµ¶å¯¾ä¸Šã«æ›¸ã
 	thisState = ThisState::STOP;
 
 	Jump();
 	Move();
 	Shot();
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“ˆ—
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å‡¦ç†
 	Animation();
 
-	// —‰º€Šm”F
+	// è½ä¸‹æ­»ç¢ºèª
 	CheckFallDead();
 
-	// â‘ÎÅŒã‚É‘‚­
+	// çµ¶å¯¾æœ€å¾Œã«æ›¸ã
 	hitGround = false;
 
-
 	if (Input::KeyTrigger(DIK_0)) HP--;
-
-	HPGauge.Update();
 }
 
 void Player::Draw()
 {
 	AllDraw();
-	HPGauge.Draw();
+
+	for (int i = 0; i < HP; i++)
+	{
+		HPsprite[i].Draw();
+	}
 }
 
 std::shared_ptr<GameObject> Player::GetNewPtr()
@@ -153,7 +162,7 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 	if (typeid(object) == typeid(Stage)
 		&& shapeType == ShapeType3D::SEGMENT)
 	{
-		// °”»’è
+		// åºŠåˆ¤å®š
 		if (GetHitTriangleData().GetNormal().y >= 0.5f)
 		{
 			FallEnd();
@@ -166,7 +175,7 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 			//jumping = false;
 			hitGround = true;
 		}
-		else // •Ç”»’è 
+		else // å£åˆ¤å®š 
 		{
 			Segment3DCalcResult result = GetSegmentCalcResult();
 
@@ -220,8 +229,8 @@ void Player::Move()
 			playerDirLeft = false;
 		}
 
-		// ˆÚ“®‚Å­‚µ•‚‚­‚©‚çhitGround‚¶‚áƒ_ƒ
-		// ˆê’U•‚‚©‚È‚­‚µ‚½
+		// ç§»å‹•ã§å°‘ã—æµ®ãã‹ã‚‰hitGroundã˜ã‚ƒãƒ€ãƒ¡
+		// ä¸€æ—¦æµ®ã‹ãªãã—ãŸ
 		if (hitGround) thisState = ThisState::DASH;
 	}
 
@@ -275,12 +284,12 @@ void Player::Shot()
 
 		if (!isShotAnimation)
 		{
-			// ˜r‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ƒf[ƒ^‚ğƒŠƒZƒbƒg
+			// è…•ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆ
 			ResetArmAnimationData();
 		}
 
 		isShotAnimation = true;
-		// ƒVƒ‡ƒbƒgŒ‚‚Á‚½‚çƒŠƒZƒbƒg‚µ‚ÄÄ¶
+		// ã‚·ãƒ§ãƒƒãƒˆæ’ƒã£ãŸã‚‰ãƒªã‚»ãƒƒãƒˆã—ã¦å†ç”Ÿ
 		shotAnimEndTimer.ResetTimeZero();
 		shotAnimEndTimer.SetStartFlag(true);
 	}
@@ -290,10 +299,10 @@ void Player::CheckFallDead()
 {
 	if (GetPosition().y <= Stage::GetDeadPositionY())
 	{
-		// €–Sˆ—
+		// æ­»äº¡å‡¦ç†
 		thisState = ThisState::FALL_DEAD;
 
-		// ‚±‚±‚É‘Ì—Í‚ğƒ[ƒ‚É‚·‚éˆ—
+		// ã“ã“ã«ä½“åŠ›ã‚’ã‚¼ãƒ­ã«ã™ã‚‹å‡¦ç†
 
 	}
 }
@@ -301,14 +310,14 @@ void Player::CheckFallDead()
 void Player::MoveRot()
 {
 
-	// ‰ñ“]”ÍˆÍ‚ğ³‚Ì”‚¶‚á‚È‚­‚Ä•‰‚Ì”‚Ì•û‚ªU‚è•Ô‚è‚ÅƒvƒŒƒCƒ„[‚ÌŠçŒ©‚ê‚Ä‚¢‚¢‚©‚à
+	// å›è»¢ç¯„å›²ã‚’æ­£ã®æ•°ã˜ã‚ƒãªãã¦è² ã®æ•°ã®æ–¹ãŒæŒ¯ã‚Šè¿”ã‚Šã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é¡”è¦‹ã‚Œã¦ã„ã„ã‹ã‚‚
 
-	// Å‘å‰ñ“]—Ê
+	// æœ€å¤§å›è»¢é‡
 	const float ANGLE_MAX = 90.0f;
-	// 1ƒtƒŒ[ƒ€‚Ì‰ñ“]—Ê
+	// 1ãƒ•ãƒ¬ãƒ¼ãƒ ã®å›è»¢é‡
 	const float FRAME_ANGLE = 15.0f;
 
-	// ‰ñ“]—Ê
+	// å›è»¢é‡
 	float rotAngle = FRAME_ANGLE;
 	if (playerDirLeft) rotAngle *= -1;
 
@@ -357,22 +366,22 @@ void Player::Animation()
 
 void Player::SetArmAnimation(const std::string& animName)
 {
-	// ƒVƒ‡ƒbƒgƒAƒjƒ[ƒVƒ‡ƒ“‚Íƒ‹[ƒv‚µ‚È‚¢‚æ‚¤‚É‚·‚é
-	// ƒ_ƒbƒVƒ…‚Æ‚©’â~‚ÅƒVƒ‡ƒbƒgƒAƒjƒ[ƒVƒ‡ƒ“•ª‚¯‚È‚¢‚ÆñL‚Ñ‚ÄƒLƒ‚ƒC
+	// ã‚·ãƒ§ãƒƒãƒˆã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¯ãƒ«ãƒ¼ãƒ—ã—ãªã„ã‚ˆã†ã«ã™ã‚‹
+	// ãƒ€ãƒƒã‚·ãƒ¥ã¨ã‹åœæ­¢ã§ã‚·ãƒ§ãƒƒãƒˆã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åˆ†ã‘ãªã„ã¨é¦–ä¼¸ã³ã¦ã‚­ãƒ¢ã‚¤
 
-	// ŠÔ‚ÅƒVƒ‡ƒbƒgƒAƒjƒ[ƒVƒ‡ƒ“I—¹
+	// æ™‚é–“ã§ã‚·ãƒ§ãƒƒãƒˆã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†
 	if (shotAnimEndTimer.GetMaxOverFlag())
 	{
 		isShotAnimation = false;
 
-		// ƒ^ƒCƒ}[I—¹
+		// ã‚¿ã‚¤ãƒãƒ¼çµ‚äº†
 		shotAnimEndTimer.ResetTimeZero();
 		shotAnimEndTimer.SetStartFlag(false);
 	}
 
 	if (isShotAnimation)
 	{
-		// ƒVƒ‡ƒbƒgƒAƒjƒ[ƒVƒ‡ƒ“ƒZƒbƒg
+		// ã‚·ãƒ§ãƒƒãƒˆã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚»ãƒƒãƒˆ
 		for (const auto& bone : SET_SHOT_ANIM_BONE)
 		{
 			modelObjects["main"].SetAnimation("Shot", bone);
@@ -380,7 +389,7 @@ void Player::SetArmAnimation(const std::string& animName)
 	}
 	else
 	{
-		// ’ÊíƒZƒbƒg
+		// é€šå¸¸ã‚»ãƒƒãƒˆ
 		for (const auto& bone : SET_SHOT_ANIM_BONE)
 		{
 			modelObjects["main"].SetAnimation(animName, bone);
@@ -429,7 +438,7 @@ void Player::SetArmAnimationData()
 {
 	bool endStop = true;
 
-	// ƒ_ƒbƒVƒ…’†‚©‚ÂƒVƒ‡ƒbƒg‚µ‚Ä‚È‚©‚Á‚½‚ç‚¾‚Á‚½‚çƒAƒjƒ[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚µ‚È‚¢
+	// ãƒ€ãƒƒã‚·ãƒ¥ä¸­ã‹ã¤ã‚·ãƒ§ãƒƒãƒˆã—ã¦ãªã‹ã£ãŸã‚‰ã ã£ãŸã‚‰ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¹ãƒˆãƒƒãƒ—ã—ãªã„
 	if (thisState == ThisState::DASH && !isShotAnimation)
 	{
 		endStop = false;
@@ -467,7 +476,7 @@ void Player::Clear()
 
 	if (setGoalAnimData) return;
 
-	// ƒS[ƒ‹ƒAƒjƒ[ƒVƒ‡ƒ“
+	// ã‚´ãƒ¼ãƒ«ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	modelObjects["main"].SetAnimation("Goal");
 	modelObjects["main"].SetAnimationFrame(0);
 	modelObjects["main"].SetAnimationEndStopFlag(true);

@@ -123,9 +123,12 @@ private:
 	// ジャンプ中
 
 	// HP
-	float HP = 100;
+	static const int HPMax = 6;
+	int HP = HPMax;
 
 	// HPゲージ
+	//Gauge HPGauge{};
+	Sprite2D HPsprite[HPMax];
 	Gauge HPGauge{};
 
 #pragma region 市川追加変数
