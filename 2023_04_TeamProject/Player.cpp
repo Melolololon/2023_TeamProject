@@ -88,22 +88,24 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	if (thisState == ThisState::CLEAR) 
+	// 一番上に書く
+
+	if (thisState == ThisState::CLEAR)
 	{
 		// 浮いたままゴールしないようにするために呼び出す
 		FallStart(0.0f);
 		CalcMovePhysics();
-		
+
 		modelObjects["main"].Update();
 
 		// ゴール処理
-		if(hitGround) Clear();
+		if (hitGround) Clear();
 
 		return;
 	}
 
 	if (thisState == ThisState::DEAD
-		|| thisState == ThisState::FALL_DEAD) 
+		|| thisState == ThisState::FALL_DEAD)
 	{
 		modelObjects["main"].Update();
 		CalcMovePhysics();
@@ -111,7 +113,7 @@ void Player::Update()
 	}
 
 	GameObject::SetGravutationalAcceleration(gravity.GetValue());
-	
+
 	// 絶対上に書く
 	thisState = ThisState::STOP;
 
@@ -124,12 +126,12 @@ void Player::Update()
 
 	// 落下死確認
 	CheckFallDead();
-	
+
 	// 絶対最後に書く
 	hitGround = false;
 
 
-	if(Input::KeyTrigger(DIK_0)) HP--;
+	if (Input::KeyTrigger(DIK_0)) HP--;
 
 	HPGauge.Update();
 }
@@ -152,16 +154,16 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 		&& shapeType == ShapeType3D::SEGMENT)
 	{
 		// 床判定
-		if (GetHitTriangleData().GetNormal().y >= 0.5f) 
+		if (GetHitTriangleData().GetNormal().y >= 0.5f)
 		{
 			FallEnd();
 
 			Segment3DCalcResult result = GetSegmentCalcResult();
-			
+
 			const float ADD_Y = result.triangleHitPos.y - GetPosition().y;
-			AddPosition(Vector3(0, ADD_Y,0));
-			
-			jumping = false;
+			AddPosition(Vector3(0, ADD_Y, 0));
+
+			//jumping = false;
 			hitGround = true;
 		}
 		else // 壁判定 
@@ -181,7 +183,7 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 		}
 	}
 
-	if (typeid(object) == typeid(Goal)) 
+	if (typeid(object) == typeid(Goal))
 	{
 		thisState = ThisState::CLEAR;
 	}
@@ -220,7 +222,7 @@ void Player::Move()
 
 		// 移動で少し浮くからhitGroundじゃダメ
 		// 一旦浮かなくした
-		if(hitGround) thisState = ThisState::DASH;
+		if (hitGround) thisState = ThisState::DASH;
 	}
 
 	MoveRot();
@@ -235,19 +237,23 @@ void Player::Jump()
 {
 	Vector3 position = GetPosition();
 
-	if (Input::KeyTrigger(DIK_SPACE) && jump == ON_GROUND)
+	if (Input::KeyTrigger(DIK_SPACE)/* && jump == ON_GROUND*/)
 	{
 		power.SetValue(0.5f);
 		FallStart(power.GetValue());
-		jumping = true;
+		//jumping = true;
 
 	}
-	if (jump == STAY_IN_AIR)
-	{
-		power.SetValue(0.0f);
-		FallStart(power.GetValue());
-		jump = FALLING;
-	}
+	else
+		if (hitGround)FallStart(0);
+
+
+	////if (/*jump == STAY_IN_AIR*/)
+	//{
+	//	power.SetValue(0.0f);
+	//	FallStart(power.GetValue());
+	//	//jump = FALLING;
+	//}
 
 	if (!hitGround)thisState = ThisState::JUMP;
 
@@ -267,7 +273,7 @@ void Player::Shot()
 		MelLib::GameObjectManager::GetInstance()->AddObject(b);
 		b->SetParameter(position, angle);
 
-		if (!isShotAnimation) 
+		if (!isShotAnimation)
 		{
 			// 腕のアニメーションデータをリセット
 			ResetArmAnimationData();
@@ -282,7 +288,7 @@ void Player::Shot()
 
 void Player::CheckFallDead()
 {
-	if (GetPosition().y <= Stage::GetDeadPositionY()) 
+	if (GetPosition().y <= Stage::GetDeadPositionY())
 	{
 		// 死亡処理
 		thisState = ThisState::FALL_DEAD;
@@ -308,7 +314,7 @@ void Player::MoveRot()
 
 	MelLib::Vector3 angle = GetAngle();
 	angle.y += rotAngle;
-	if(angle.y >= ANGLE_MAX + DEFORT_ANGLE.y)
+	if (angle.y >= ANGLE_MAX + DEFORT_ANGLE.y)
 	{
 		angle.y = ANGLE_MAX + DEFORT_ANGLE.y;
 	}
@@ -358,13 +364,13 @@ void Player::SetArmAnimation(const std::string& animName)
 	if (shotAnimEndTimer.GetMaxOverFlag())
 	{
 		isShotAnimation = false;
-		
+
 		// タイマー終了
 		shotAnimEndTimer.ResetTimeZero();
 		shotAnimEndTimer.SetStartFlag(false);
 	}
 
-	if (isShotAnimation) 
+	if (isShotAnimation)
 	{
 		// ショットアニメーションセット
 		for (const auto& bone : SET_SHOT_ANIM_BONE)
@@ -372,7 +378,7 @@ void Player::SetArmAnimation(const std::string& animName)
 			modelObjects["main"].SetAnimation("Shot", bone);
 		}
 	}
-	else 
+	else
 	{
 		// 通常セット
 		for (const auto& bone : SET_SHOT_ANIM_BONE)
@@ -392,12 +398,12 @@ void Player::DashAnimationAddPosition()
 	down = down || ANIM_FRAME >= 90 && ANIM_FRAME < 120;
 
 	const float FRAME_ADD = 0.05f;
-	if (up) 
+	if (up)
 	{
 		//AddPosition(MelLib::Vector3(0, FRAME_ADD, 0));
 		modelObjects["main"].SetPosition(modelObjects["main"].GetPosition() + MelLib::Vector3(0, FRAME_ADD, 0));
 	}
-	else 
+	else
 	{
 		//AddPosition(MelLib::Vector3(0, -FRAME_ADD, 0));
 		modelObjects["main"].SetPosition(modelObjects["main"].GetPosition() + MelLib::Vector3(0, -FRAME_ADD, 0));
@@ -407,11 +413,11 @@ void Player::DashAnimationAddPosition()
 void Player::SetAnimationData()
 {
 	const std::string CURRENT_ANIMATION_OTHER = modelObjects["main"].GetCurrentAnimationName("UpBody");
-	if (CURRENT_ANIMATION_OTHER == "Dash") 
+	if (CURRENT_ANIMATION_OTHER == "Dash")
 	{
 		modelObjects["main"].SetAnimationEndStopFlag(false);
 	}
-	else 
+	else
 	{
 		modelObjects["main"].SetAnimationEndStopFlag(true);
 	}
