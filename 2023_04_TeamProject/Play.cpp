@@ -1,6 +1,7 @@
 #include "Play.h"
 
 #include<GameObjectManager.h>
+#include<SceneEditer.h>
 
 #include"Title.h"
 
@@ -45,19 +46,24 @@ void Play::Initialize()
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
+	//MelLib::SceneEditer::GetInstance()->LoadEditData("Stage1-1");
 	player = std::make_shared<Player>();
 	MelLib::GameObjectManager::GetInstance()->AddObject(player);
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 
-	std::list<std::shared_ptr<Dorakiti>> enemy;
-	for (int i = 0; i < 5; i++) {
-		enemy.push_back(Dorakiti::Create("Dorakiti", player.get()));
-	}
+	//std::vector<std::shared_ptr<Dorakiti>> dorakiti;
+	//for (int i = 0; i < 3; i++) {
+	//	dorakiti.push_back(Dorakiti::Create("Dorakiti", player.get()));
+	//}
 
-	for (std::shared_ptr<Dorakiti>& enemyObj : enemy) {
-		MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
-	}
+	////dorakiti[0]->SetPosition({300,20,0});
 
+
+	//for (std::shared_ptr<Dorakiti>& enemyObj : dorakiti) {
+	//	MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
+	//}
+
+	BaseEnemy::SetPlayer(player.get());
 
 	operationSprite.Create(MelLib::Texture::Get("operation"));
 

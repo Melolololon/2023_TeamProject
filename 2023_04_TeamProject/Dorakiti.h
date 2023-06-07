@@ -10,6 +10,8 @@ public:
 	Dorakiti(const std::string& name);
 
 	void Move() override;
+
+	std::shared_ptr<GameObject> GetNewPtr() override;
 private:
 	MelLib::Easing<float> easing;
 };

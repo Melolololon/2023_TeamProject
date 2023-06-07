@@ -4,7 +4,7 @@ std::shared_ptr<Dorakiti> Dorakiti::Create(const std::string& name, Player* play
 	std::shared_ptr<Dorakiti> enemy = std::make_shared<Dorakiti>(name);
 
 	enemy->SetPlayer(player);
-	enemy->SetPosition({ static_cast<float>(rand() % 10),0.0f,0.0f });
+	//enemy->SetPosition({ static_cast<float>(rand() % 10),0.0f,0.0f });
 
 	return enemy;
 }
@@ -46,4 +46,9 @@ void Dorakiti::Move()
 	}
 
 	SetAngle({ 0,angle,0 });
+}
+
+std::shared_ptr<GameObject> Dorakiti::GetNewPtr()
+{
+	return std::make_shared<Dorakiti>("Dorakiti");
 }

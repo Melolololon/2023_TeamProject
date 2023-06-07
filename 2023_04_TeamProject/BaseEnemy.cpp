@@ -1,5 +1,7 @@
 #include "BaseEnemy.h"
 
+Player* BaseEnemy::player;
+
 std::shared_ptr<BaseEnemy> BaseEnemy::Create(const std::string& name, Player* player) {
 	std::shared_ptr<BaseEnemy> enemy = std::make_shared<BaseEnemy>(name);
 
@@ -70,4 +72,9 @@ void BaseEnemy::Hit(const GameObject& object, const ShapeType3D shapeType, const
 void BaseEnemy::Damage()
 {
 	Vector3 ePos = GetPosition();
+}
+
+std::shared_ptr<GameObject> BaseEnemy::GetNewPtr()
+{
+	return std::make_shared<BaseEnemy>("surakiti");
 }

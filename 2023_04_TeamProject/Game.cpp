@@ -23,6 +23,7 @@
 
 #include"Title.h"
 #include"Play.h"
+#include"Dorakiti.h"
 
 Game::Game() {}
 
@@ -68,6 +69,7 @@ void Game::Run()
 void Game::Initialize()
 {
 
+
 	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0, 0, 255, 255), L"MELLib");
 	MelLib::Library::SetFramesPerSecond60(true);
 
@@ -84,7 +86,11 @@ void Game::Initialize()
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
 
-	MelLib::SceneEditer::GetInstance()->SetEditerFlag(false);
+	const bool EDITER_FLAG = false;
+
+	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(EDITER_FLAG);
+	MelLib::SceneEditer::GetInstance()->SetEditerFlag(EDITER_FLAG);
+	MelLib::SceneEditer::GetInstance()->SetReleaseEditFlag(!EDITER_FLAG);
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
@@ -115,6 +121,10 @@ void Game::Initialize()
 	GameOverStaging::LoadResource();
 
 	Fade::GetInstance()->Initializ();
+
+
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<BaseEnemy>("surakiti"),"Enemy");
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Dorakiti>("Dorakiti"),"Enemy");
 
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
 }
