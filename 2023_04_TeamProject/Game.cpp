@@ -106,6 +106,7 @@ void Game::Initialize()
 	 res = MelLib::ModelData::Load("Resource/dorakiti/dorakiti.obj", false, "Dorakiti");
 	res = MelLib::Texture::Load("Resource/title.png", "title");
 	MelLib::Texture::Load("Resource/operation.png", "operation");
+	MelLib::Texture::Load("Resource/hp.png", "hp");
 	Player::LoadResource();
 	Bullet::LoadResource();
 	BackGround::LoadResource();

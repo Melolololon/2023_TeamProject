@@ -40,7 +40,7 @@ void Play::GameOverDraw()
 
 void Play::Initialize()
 {
-	MelLib::Camera::Get()->SetCameraToTargetDistance(50.0f);
+	MelLib::Camera::Get()->SetCameraToTargetDistance(70.0f);
 
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
