@@ -26,7 +26,7 @@ Player::Player()
 	// imgui
 	power.SetData(1.0f, GetObjectName(), "JumpPower", 0.0f, 1.0f);
 	speed.SetData(0.5f, GetObjectName(), "MoveSpeed", 0.0f, 1.0f);
-	gravity.SetData(0.005f, "SceneParameter", "Gravity", 0.0f, 1.0f);
+	gravity.SetData(0.011f, "SceneParameter", "Gravity", 0.0f, 1.0f);
 
 	SetScale({ 4,4,4 });
 
