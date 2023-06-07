@@ -20,9 +20,14 @@ Player::Player()
 
 	SetScale({ 4,4,4 });
 
-	HPGauge.Initialize(MelLib::Color(255, 255, 255, 255), Vector2(100, 3), HP);
-	HPGauge.SetPosition({ 100, 100 });
-	HPGauge.SetValue(&HP);
+	for (int i = 0; i < HPMax; i++)
+	{
+		HPsprite[i].Create(Color(255, 200, 200, 255));
+		HPsprite[i].SetScale({ 10, 10 });
+
+		float offset = (HPsprite[i].GetScale().x * HPsprite[i].GetScale().y + 50) * i;
+		HPsprite[i].SetPosition({ 100 + offset, 100 });
+	}
 }
 
 void Player::Initialize()
@@ -73,14 +78,16 @@ void Player::Update()
 	Shot();
 
 	if(Input::KeyTrigger(DIK_0)) HP--;
-
-	HPGauge.Update();
 }
 
 void Player::Draw()
 {
 	AllDraw();
-	HPGauge.Draw();
+
+	for (int i = 0; i < HP; i++)
+	{
+		HPsprite[i].Draw();
+	}
 }
 
 std::shared_ptr<GameObject> Player::GetNewPtr()

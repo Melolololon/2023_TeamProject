@@ -74,9 +74,11 @@ private:
 	JumpState jump = STAY_IN_AIR;
 
 	// HP
-	float HP = 100;
+	static const int HPMax = 6;
+	int HP = HPMax;
 
 	// HPÉQÅ[ÉW
-	Gauge HPGauge{};
+	//Gauge HPGauge{};
+	Sprite2D HPsprite[HPMax];
 };
 
