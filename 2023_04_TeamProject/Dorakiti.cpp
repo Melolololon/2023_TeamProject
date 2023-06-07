@@ -16,7 +16,7 @@ Dorakiti::Dorakiti(const std::string& name)
 	//MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	//modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
-	easing = MelLib::Easing<float>(GetPosition().y + 5.0f, GetPosition().y + 40.0f, 0.5f);
+	easing = MelLib::Easing<float>(GetPosition().y + 5.0f, GetPosition().y + 30.0f, 0.5f);
 
 }
 
