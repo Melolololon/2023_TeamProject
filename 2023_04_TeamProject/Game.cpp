@@ -103,6 +103,7 @@ void Game::Initialize()
 	bool res = MelLib::ModelData::Load("Resource/stage/stage.obj", false, "Stage");
 	res = MelLib::Texture::Load("Resource/title.png", "title");
 	MelLib::Texture::Load("Resource/operation.png", "operation");
+	MelLib::Texture::Load("Resource/hp.png", "hp");
 	Player::LoadResource();
 	Bullet::LoadResource();
 	BackGround::LoadResource();
