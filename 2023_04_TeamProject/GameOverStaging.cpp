@@ -41,7 +41,7 @@ void GameOverStaging::Initialize()
 	frameSpriteDown.SetPosition({ 0,WIN_Y });
 
 	stringSprite.Create(MelLib::Texture::Get("gameoverString"));
-	stringSprite.SetPosition({ 270.0f,173.0f });
+	stringSprite.SetPosition({ 295.0f,173.0f });
 	stringSprite.SetScalingPoint(0.5f);
 	stringSprite.SetScale(50);
 
