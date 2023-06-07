@@ -129,7 +129,6 @@ private:
 	// HPƒQ[ƒW
 	//Gauge HPGauge{};
 	Sprite2D HPsprite[HPMax];
-	Gauge HPGauge{};
 
 #pragma region sì’Ç‰Á•Ï”
 

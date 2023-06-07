@@ -40,10 +40,6 @@ Player::Player()
 	}
 	// ショット撃ってから0.25秒で攻撃中止
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
-
-	HPGauge.Initialize(MelLib::Color(255, 255, 255, 255), Vector2(100, 3), HP);
-	HPGauge.SetPosition({ 100, 100 });
-	HPGauge.SetValue(&HP);
 }
 
 void Player::Initialize()
