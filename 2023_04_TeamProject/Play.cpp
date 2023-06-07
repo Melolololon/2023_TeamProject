@@ -1,8 +1,10 @@
 #include "Play.h"
 
 #include<GameObjectManager.h>
+#include<SceneEditer.h>
 
 #include"Title.h"
+#include"Input.h"
 
 #pragma region オブジェクト
 #include"Player.h"
@@ -45,19 +47,28 @@ void Play::Initialize()
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
+	// バグ対策
+	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
+	MelLib::GameObjectManager::GetInstance()->AllEraseObject();
+	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
+
 	player = std::make_shared<Player>();
 	MelLib::GameObjectManager::GetInstance()->AddObject(player);
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 
-	std::list<std::shared_ptr<Dorakiti>> enemy;
-	for (int i = 0; i < 5; i++) {
-		enemy.push_back(Dorakiti::Create("Dorakiti", player.get()));
-	}
+	//std::vector<std::shared_ptr<Dorakiti>> dorakiti;
+	//for (int i = 0; i < 3; i++) {
+	//	dorakiti.push_back(Dorakiti::Create("Dorakiti", player.get()));
+	//}
 
-	for (std::shared_ptr<Dorakiti>& enemyObj : enemy) {
-		MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
-	}
+	////dorakiti[0]->SetPosition({300,20,0});
 
+
+	//for (std::shared_ptr<Dorakiti>& enemyObj : dorakiti) {
+	//	MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
+	//}
+
+	BaseEnemy::SetPlayer(player.get());
 
 	operationSprite.Create(MelLib::Texture::Get("operation"));
 
@@ -65,7 +76,8 @@ void Play::Initialize()
 	gameOverStaging.Initialize();
 
 	// テスト
-	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(-20,12,0)));
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(707,11.0f,1)));
+
 }
 
 void Play::Update()
@@ -79,6 +91,8 @@ void Play::Update()
 
 	Fade::GetInstance()->Update();
 	if (Fade::GetInstance()->GetChangeSceneFlag())isEnd = true;
+
+
 
 	// 更新切替
 	switch (gameState)

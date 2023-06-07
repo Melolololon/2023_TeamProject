@@ -1,6 +1,9 @@
 #include "Player.h"
 #include "BulletManager.h"
 
+#include"BaseEnemy.h"
+#include"Dorakiti.h"
+
 #include<GameObjectManager.h>
 #include<Sound.h>
 
@@ -89,6 +92,8 @@ void Player::Initialize()
 	skipCollisionCheckTags.push_back("Bullet");
 
 	modelObjects["main"].SetAnimationPlayFlag(true);
+
+	SetPosition(MelLib::Vector3(-130, 3.5f, 0));
 }
 
 void Player::Update()
@@ -126,6 +131,15 @@ void Player::Update()
 	Move();
 	Shot();
 
+	if (HP <= 0) 
+	{
+		thisState = ThisState::DEAD;
+		modelObjects["main"].SetAnimationFrame(0);
+		modelObjects["main"].SetAnimationEndStopFlag(true);
+	}
+
+	if (MelLib::Input::KeyTrigger(DIK_1))HP--;
+
 	// アニメーション処理
 	Animation();
 
@@ -161,6 +175,11 @@ std::shared_ptr<GameObject> Player::GetNewPtr()
 
 void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
+	if (typeid(object) == typeid(BaseEnemy) || typeid(object) == typeid(Dorakiti))
+	{
+		HP--;
+	}
+
 	Vector3 position = GetPosition();
 	if (typeid(object) == typeid(Stage)
 		&& shapeType == ShapeType3D::SEGMENT)

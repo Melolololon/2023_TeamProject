@@ -8,6 +8,8 @@ class BaseEnemy:public GameObject
 {
 public:
 	static std::shared_ptr<BaseEnemy> Create(const std::string& name, Player* player);
+
+	
 public:
 	BaseEnemy(const std::string& name);
 	~BaseEnemy();
@@ -27,10 +29,13 @@ public:
 
 	void Damage();
 
-	void SetPlayer(Player* player) { this->player = player; }
+	static void SetPlayer(Player* p) { player = p; }
 	Player* GetPlayer() { return player; }
+
+	std::shared_ptr<GameObject> GetNewPtr() override;
 protected:
-	Player* player = nullptr;
+	static Player* player;
+	//Player* player = nullptr;
 	float moveX = 0.0f;
 	float moveY = 0.0f;
 	float moveAmount = 0.1f;

@@ -924,7 +924,7 @@ void MelLib::SceneEditer::Update()
 
 			// 全て削除
 			// (登録したオブジェクトのコンストラクタにオブジェクトを追加する処理がある場合、追加されたオブジェクトが表示されるため)
-			GameObjectManager::GetInstance()->AllEraseObject();
+			//GameObjectManager::GetInstance()->AllEraseObject();
 			addObjects.push_back(pObject);
 			addObjectNames.push_back(pEditSelectObject->GetObjectName());
 
