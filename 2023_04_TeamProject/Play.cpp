@@ -28,6 +28,8 @@ void Play::ClearDraw()
 void Play::GameOverUpdate()
 {
 	gameOverStaging.Update();
+
+	if (gameOverStaging.GetSceneChangeFlag())Fade::GetInstance()->Start();
 }
 
 void Play::GameOverDraw()
@@ -70,10 +72,9 @@ void Play::Update()
 	MelLib::GameObjectManager::GetInstance()->Update();
 
 	// クリア、ゲームオーバーチェック
-	if (player->GetClear()) 
-	{
-		gameState = GameState::CLEAR;
-	}
+	if (player->GetClear()) gameState = GameState::CLEAR;
+	if (player->GetDead()) gameState = GameState::GAMEOVER;
+
 
 	Fade::GetInstance()->Update();
 	if (Fade::GetInstance()->GetChangeSceneFlag())isEnd = true;

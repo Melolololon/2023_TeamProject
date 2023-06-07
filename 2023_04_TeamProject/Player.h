@@ -23,6 +23,7 @@ class Player : public GameObject
 		DASH,
 		JUMP,
 		DEAD,
+		FALL_DEAD,
 		CLEAR
 	};
 #pragma endregion
@@ -61,6 +62,7 @@ public:
 
 #pragma region 市川追加関数
 	bool GetClear()const;
+	bool GetDead()const;
 #pragma endregion
 
 
@@ -75,6 +77,9 @@ private:
 
 #pragma region 市川追加関数
 	
+	// 落下死確認
+	void CheckFallDead();
+
 	/// <summary>
 	/// 移動による回転
 	/// </summary>
@@ -97,9 +102,8 @@ private:
 
 	// アニメーションデータのセット
 	void SetAnimationData();
-
 	void SetArmAnimationData();
-
+	// 腕アニメのリセと
 	void ResetArmAnimationData();
 
 	// ゴールした時

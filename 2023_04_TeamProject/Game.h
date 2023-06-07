@@ -5,7 +5,7 @@
 class Game final
 {
 private:
-
+	const bool EDITER_FLAG = false;
 private:
 	Game();
 	~Game();

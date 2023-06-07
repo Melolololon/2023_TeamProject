@@ -1,5 +1,7 @@
 #include "Stage.h"
 
+float Stage::deadPositionY = FLT_MAX;
+
 void Stage::SetMeshTriangle()
 {
 	std::vector<std::vector<MelLib::TriangleData>> triDatas;
@@ -16,6 +18,12 @@ void Stage::SetMeshTriangle()
 		if (t.GetNormal().x != 0.0f)continue;
 
 		triangleDatas["main"].push_back(t);
+
+		// ステージの一番低い座標を格納
+		if (deadPositionY >= t.GetPosition().v1.y) 
+		{
+			deadPositionY = t.GetPosition().v1.y;
+		}
 	}
 
 	triangleDatas["main"].shrink_to_fit();
@@ -26,7 +34,9 @@ Stage::Stage():GameObject("Stage")
 	modelObjects["main"].Create(MelLib::ModelData::Get("Stage"),GetObjectName());
 	
 	// これのせいででかくした時判定バグってる可能性大
-	addPosY.SetData(-200.0f, "StageTestWindow", "AddPosY", -200, 20);
+	addPosY.SetData(0, "StageTestWindow", "AddPosY", -200, 20);
+
+	deadPositionY = FLT_MAX;
 }
 
 void Stage::Initialize()
@@ -34,12 +44,14 @@ void Stage::Initialize()
 	// メッシュをセット
 	SetMeshTriangle();
 
+
+	SetAngle({ 0, 270, 00 });
+	//SetPosition({ 0,-40 + addPosY.GetValue(),0 });
+
 }
 
 void Stage::Update()
 {
-	SetAngle({ 0, 270, 00 });
-	SetPosition({ 0,-40 + addPosY.GetValue(),0});
 }
 
 void Stage::Draw()

@@ -101,9 +101,11 @@ void Player::Update()
 		return;
 	}
 
-	if (thisState == ThisState::DEAD) 
+	if (thisState == ThisState::DEAD
+		|| thisState == ThisState::FALL_DEAD) 
 	{
 		modelObjects["main"].Update();
+		CalcMovePhysics();
 		return;
 	}
 
@@ -118,6 +120,9 @@ void Player::Update()
 
 	// アニメーション処理
 	Animation();
+
+	// 落下死確認
+	CheckFallDead();
 	
 	// 絶対最後に書く
 	hitGround = false;
@@ -180,6 +185,13 @@ bool Player::GetClear() const
 {
 	return modelObjects.at("main").GetCurrentAnimationName() == "Goal"
 		&& modelObjects.at("main").GetAnimationEndFlag();
+}
+
+bool Player::GetDead() const
+{
+	return modelObjects.at("main").GetCurrentAnimationName() == "Dead"
+		&& modelObjects.at("main").GetAnimationEndFlag()
+		|| thisState == ThisState::FALL_DEAD;
 }
 
 void Player::Move()
@@ -260,6 +272,18 @@ void Player::Shot()
 		// ショット撃ったらリセットして再生
 		shotAnimEndTimer.ResetTimeZero();
 		shotAnimEndTimer.SetStartFlag(true);
+	}
+}
+
+void Player::CheckFallDead()
+{
+	if (GetPosition().y <= Stage::GetDeadPositionY()) 
+	{
+		// 死亡処理
+		thisState = ThisState::FALL_DEAD;
+
+		// ここに体力をゼロにする処理
+
 	}
 }
 
