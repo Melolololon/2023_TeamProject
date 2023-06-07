@@ -50,12 +50,12 @@ void Player::Initialize()
 
 	segment3DDatas["ground"].resize(2);
 	// ‰E‘¤
-	segmentPos.v1 = GetPosition() + MelLib::Vector3(-0.5f, 9, 0);
-	segmentPos.v2 = GetPosition() + MelLib::Vector3(-0.5f, 0, 0);
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(-0.01f, 9, 0);
+	segmentPos.v2 = GetPosition() + MelLib::Vector3(-0.01f, 0, 0);
 	segment3DDatas["ground"][0].SetPosition(segmentPos);
 	// ¶‘¤
-	segmentPos.v1 = GetPosition() + MelLib::Vector3(0.5f, 9, 0);
-	segmentPos.v2 = GetPosition() + MelLib::Vector3(0.5f, 0, 0);
+	segmentPos.v1 = GetPosition() + MelLib::Vector3(0.01f, 9, 0);
+	segmentPos.v2 = GetPosition() + MelLib::Vector3(0.01f, 0, 0);
 	segment3DDatas["ground"][1].SetPosition(segmentPos);
 
 
@@ -141,7 +141,7 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 		&& shapeType == ShapeType3D::SEGMENT)
 	{
 		// °”»’è
-		if (GetHitTriangleData().GetNormal().y == 1.0f) 
+		if (GetHitTriangleData().GetNormal().y >= 0.5f) 
 		{
 			FallEnd();
 

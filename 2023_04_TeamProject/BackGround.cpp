@@ -8,7 +8,8 @@ void BackGround::LoadResource()
 BackGround::BackGround()
 {
 	sprite.Create(MelLib::Texture::Get("BackGround"));
-	sprite.SetScale({ 1.05f,1.05f });
+	sprite.SetScale({ 1.2f,1.2f });
+	
 }
 
 void BackGround::Update()

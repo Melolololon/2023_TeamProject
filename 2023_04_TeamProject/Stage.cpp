@@ -24,20 +24,21 @@ void Stage::SetMeshTriangle()
 Stage::Stage():GameObject("Stage")
 {
 	modelObjects["main"].Create(MelLib::ModelData::Get("Stage"),GetObjectName());
-	SetScale({ 2,1,1 });
 	
-	addPosY.SetData(0.0f, "StageTestWindow", "AddPosY", -20, 20);
+	// これのせいででかくした時判定バグってる可能性大
+	addPosY.SetData(-200.0f, "StageTestWindow", "AddPosY", -200, 20);
 }
 
 void Stage::Initialize()
 {
 	// メッシュをセット
 	SetMeshTriangle();
+
 }
 
 void Stage::Update()
 {
-	SetAngle({ 0, 90, 00 });
+	SetAngle({ 0, 270, 00 });
 	SetPosition({ 0,-40 + addPosY.GetValue(),0});
 }
 
