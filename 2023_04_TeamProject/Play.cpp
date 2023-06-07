@@ -64,7 +64,7 @@ void Play::Initialize()
 	gameOverStaging.Initialize();
 
 	// ƒeƒXƒg
-	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(10,0,0)));
+	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(-20,12,0)));
 }
 
 void Play::Update()
