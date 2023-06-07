@@ -1,6 +1,9 @@
 #include "Player.h"
 #include "BulletManager.h"
 
+#include"BaseEnemy.h"
+#include"Dorakiti.h"
+
 #include<GameObjectManager.h>
 #include<Sound.h>
 
@@ -26,17 +29,18 @@ Player::Player()
 	// imgui
 	power.SetData(1.0f, GetObjectName(), "JumpPower", 0.0f, 1.0f);
 	speed.SetData(0.5f, GetObjectName(), "MoveSpeed", 0.0f, 1.0f);
-	gravity.SetData(0.005f, "SceneParameter", "Gravity", 0.0f, 1.0f);
+	gravity.SetData(0.011f, "SceneParameter", "Gravity", 0.0f, 1.0f);
 
 	SetScale({ 4,4,4 });
 
+	// HP
 	for (int i = 0; i < HPMax; i++)
 	{
-		HPsprite[i].Create(Color(255, 200, 200, 255));
-		HPsprite[i].SetScale({ 10, 10 });
+		HPsprite[i].Create(MelLib::Texture::Get("hp"));
+		HPsprite[i].SetScale({ 1, 1 });
 
-		float offset = (HPsprite[i].GetScale().x * HPsprite[i].GetScale().y + 50) * i;
-		HPsprite[i].SetPosition({ 100 + offset, 100 });
+		float offset = (128 + 20) * i;
+		HPsprite[i].SetPosition({ 32 + offset,32 });
 	}
 	// ショット撃ってから0.25秒で攻撃中止
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
@@ -88,6 +92,8 @@ void Player::Initialize()
 	skipCollisionCheckTags.push_back("Bullet");
 
 	modelObjects["main"].SetAnimationPlayFlag(true);
+
+	SetPosition(MelLib::Vector3(-130, 3.5f, 0));
 }
 
 void Player::Update()
@@ -125,6 +131,15 @@ void Player::Update()
 	Move();
 	Shot();
 
+	if (HP <= 0) 
+	{
+		thisState = ThisState::DEAD;
+		modelObjects["main"].SetAnimationFrame(0);
+		modelObjects["main"].SetAnimationEndStopFlag(true);
+	}
+
+	if (MelLib::Input::KeyTrigger(DIK_1))HP--;
+
 	// アニメーション処理
 	Animation();
 
@@ -134,14 +149,20 @@ void Player::Update()
 	// 絶対最後に書く
 	hitGround = false;
 
-	if (Input::KeyTrigger(DIK_0)) HP--;
+	if (Input::KeyTrigger(DIK_0) && HP > 0) HP--;
+
+	// HPが減ったらハートの色を暗くする
+	for (int i = HPMax - 1; i >= HP; i--)
+	{
+		HPsprite[i].SetSubColor(Color(80, 80, 80,0));
+	}
 }
 
 void Player::Draw()
 {
 	AllDraw();
 
-	for (int i = 0; i < HP; i++)
+	for (int i = 0; i < HPMax; i++)
 	{
 		HPsprite[i].Draw();
 	}
@@ -154,6 +175,11 @@ std::shared_ptr<GameObject> Player::GetNewPtr()
 
 void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const std::string& shapeName, const ShapeType3D hitObjShapeType, const std::string& hitShapeName)
 {
+	if (typeid(object) == typeid(BaseEnemy) || typeid(object) == typeid(Dorakiti))
+	{
+		HP--;
+	}
+
 	Vector3 position = GetPosition();
 	if (typeid(object) == typeid(Stage)
 		&& shapeType == ShapeType3D::SEGMENT)
@@ -267,8 +293,15 @@ void Player::Jump()
 
 void Player::Shot()
 {
-
 	Vector3 position = GetPosition();
+	if (playerDirLeft)	position.x -= 2.5f;
+	else				position.x += 2.5f;
+	position.y += 7;
+
+	Vector2 mousecenter = Vector2(Library::GetWindowWidth() / 2.0f, 750.0);
+	if (playerDirLeft)	mousecenter.x -= 40;
+	else				mousecenter.x += 40;
+	mousecenter.y -= 160;
 	Vector2 mousevec = Input::GetMouseVector(mousecenter);
 	float angle = -atan2f(mousevec.y, mousevec.x) * 180 / PI;
 

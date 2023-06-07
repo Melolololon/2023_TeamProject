@@ -23,6 +23,7 @@
 
 #include"Title.h"
 #include"Play.h"
+#include"Dorakiti.h"
 
 Game::Game() {}
 
@@ -68,7 +69,8 @@ void Game::Run()
 void Game::Initialize()
 {
 
-	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0, 0, 255, 255), L"MELLib");
+
+	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0, 0, 255, 255), L"洞窟");
 	MelLib::Library::SetFramesPerSecond60(true);
 
 #pragma region マネージャー初期化
@@ -84,7 +86,11 @@ void Game::Initialize()
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
 
-	MelLib::SceneEditer::GetInstance()->SetEditerFlag(false);
+	const bool EDITER_FLAG = false;
+
+	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(EDITER_FLAG);
+	MelLib::SceneEditer::GetInstance()->SetEditerFlag(EDITER_FLAG);
+	MelLib::SceneEditer::GetInstance()->SetReleaseEditFlag(!EDITER_FLAG);
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
@@ -104,8 +110,10 @@ void Game::Initialize()
 
 	bool res = MelLib::ModelData::Load("Resource/stage/stage.obj", false, "Stage");
 	 res = MelLib::ModelData::Load("Resource/dorakiti/dorakiti.obj", false, "Dorakiti");
+	 res = MelLib::ModelData::Load("Resource/surakiti/surakiti.obj", false, "surakiti");
 	res = MelLib::Texture::Load("Resource/title.png", "title");
 	MelLib::Texture::Load("Resource/operation.png", "operation");
+	MelLib::Texture::Load("Resource/hp.png", "hp");
 	Player::LoadResource();
 	Bullet::LoadResource();
 	BackGround::LoadResource();
@@ -115,6 +123,10 @@ void Game::Initialize()
 	GameOverStaging::LoadResource();
 
 	Fade::GetInstance()->Initializ();
+
+
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<BaseEnemy>("surakiti"),"Enemy");
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Dorakiti>("Dorakiti"),"Enemy");
 
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
 }
@@ -129,7 +141,7 @@ void Game::Finalize()
 void Game::Update()
 {
 	MelLib::SceneManager::GetInstance()->Update();
-	//MelLib::SceneEditer::GetInstance()->Update();
+	MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::SceneManager::GetInstance()->Update();
 	//MelLib::SceneEditer::GetInstance()->Update();
 	//MelLib::GameObjectManager::GetInstance()->Update();
@@ -143,7 +155,7 @@ void Game::Update()
 void Game::Draw()
 {
 	MelLib::SceneManager::GetInstance()->Draw();
-	//MelLib::SceneEditer::GetInstance()->Draw();
+	MelLib::SceneEditer::GetInstance()->Draw();
 
 	//MelLib::SceneManager::GetInstance()->Draw();
 	//MelLib::SceneEditer::GetInstance()->Draw();

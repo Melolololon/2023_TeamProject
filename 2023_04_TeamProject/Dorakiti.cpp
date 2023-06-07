@@ -4,7 +4,7 @@ std::shared_ptr<Dorakiti> Dorakiti::Create(const std::string& name, Player* play
 	std::shared_ptr<Dorakiti> enemy = std::make_shared<Dorakiti>(name);
 
 	enemy->SetPlayer(player);
-	enemy->SetPosition({ static_cast<float>(rand() % 10),0.0f,0.0f });
+	//enemy->SetPosition({ static_cast<float>(rand() % 10),0.0f,0.0f });
 
 	return enemy;
 }
@@ -15,7 +15,17 @@ Dorakiti::Dorakiti(const std::string& name)
 {
 	MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
-	easing = MelLib::Easing<float>(0.1f, -0.1f, 0.5f);
+	easing = MelLib::Easing<float>(GetPosition().y + 4.1f, GetPosition().y + 30.0f, 0.5f);
+	
+}
+
+void Dorakiti::Initialize()
+{
+	//AddPosition({ 0,7,0 });
+	sphereDatas["main"].resize(1);
+	sphereDatas["main"][0].SetPosition(GetPosition());
+	sphereDatas["main"][0].SetRadius(1.5f);
+
 }
 
 void Dorakiti::Move()
@@ -32,12 +42,26 @@ void Dorakiti::Move()
 		easing.SetAddPar(-0.5f);
 	}
 
-	moveX -= 0.01f;
-	moveY += easing.EaseInOut();
+	//moveX -= 0.01f;
+	moveY = easing.EaseInOut();
 
 	SetPosition({ moveX , moveY , ePos.z });
-
 	float angle = 65.0f;
 
 	SetAngle({ 0,angle,0 });
+
+	// ÉoÉOëŒçÙ
+	MelLib::Vector3 p = GetPosition();
+	std::string n = GetObjectName();
+	if (GetObjectName() == "Dorakiti_1")
+	{
+		eraseManager = true;
+	}
+}
+
+
+
+std::shared_ptr<GameObject> Dorakiti::GetNewPtr()
+{
+	return std::make_shared<Dorakiti>("Dorakiti");
 }
