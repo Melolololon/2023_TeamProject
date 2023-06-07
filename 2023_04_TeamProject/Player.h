@@ -113,8 +113,6 @@ private:
 
 private:
 
-	Vector2 mousecenter = Vector2(Library::GetWindowWidth() / 2.0f, 750.0);
-
 	// ’e
 	static const int BULLET_MAX = 20;
 	//std::array<std::shared_ptr<Bullet>, BULLET_MAX>bullets;
