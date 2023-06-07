@@ -13,8 +13,7 @@ std::shared_ptr<Dorakiti> Dorakiti::Create(const std::string& name, Player* play
 Dorakiti::Dorakiti(const std::string& name)
 	:BaseEnemy(name)
 {
-	//MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
-	//modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
+	MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
 	easing = MelLib::Easing<float>(0.1f, -0.1f, 0.5f);
 }
@@ -37,13 +36,8 @@ void Dorakiti::Move()
 	moveY += easing.EaseInOut();
 
 	SetPosition({ moveX , moveY , ePos.z });
-	float angle = 0.0f;
-	if (ePos.x < pPos.x) {
-		angle = -90.0f;
-	}
-	else if (ePos.x > pPos.x) {
-		angle = 90.0f;
-	}
+
+	float angle = 65.0f;
 
 	SetAngle({ 0,angle,0 });
 }

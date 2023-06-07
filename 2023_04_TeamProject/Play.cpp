@@ -51,7 +51,7 @@ void Play::Initialize()
 
 	std::list<std::shared_ptr<Dorakiti>> enemy;
 	for (int i = 0; i < 5; i++) {
-		enemy.push_back(Dorakiti::Create("Dorakiti", player.get()));
+		enemy.push_back(Dorakiti::Create("dorakiti", player.get()));
 	}
 
 	for (std::shared_ptr<Dorakiti>& enemyObj : enemy) {
