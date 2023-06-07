@@ -63,6 +63,8 @@ void Game::Run()
 	Finalize();
 }
 
+
+
 void Game::Initialize()
 {
 
@@ -101,6 +103,7 @@ void Game::Initialize()
 
 
 	bool res = MelLib::ModelData::Load("Resource/stage/stage.obj", false, "Stage");
+	 res = MelLib::ModelData::Load("Resource/dorakiti/dorakiti.obj", false, "Dorakiti");
 	res = MelLib::Texture::Load("Resource/title.png", "title");
 	MelLib::Texture::Load("Resource/operation.png", "operation");
 	Player::LoadResource();

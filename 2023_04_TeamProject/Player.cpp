@@ -66,7 +66,7 @@ void Player::Initialize()
 	segment3DDatas["ground"][1].SetPosition(segmentPos);
 #pragma endregion
 
-#pragma region 壁判定
+#pragma region 
 
 	segment3DDatas["wall"].resize(3);
 	// 上側
