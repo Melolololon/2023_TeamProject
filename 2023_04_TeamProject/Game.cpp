@@ -70,7 +70,7 @@ void Game::Initialize()
 {
 
 
-	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0, 0, 255, 255), L"MELLib");
+	MelLib::Library::Initialize(1920, 1080, MelLib::Color(0, 0, 255, 255), L"洞窟");
 	MelLib::Library::SetFramesPerSecond60(true);
 
 #pragma region マネージャー初期化
@@ -127,7 +127,7 @@ void Game::Initialize()
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<BaseEnemy>("surakiti"),"Enemy");
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Dorakiti>("Dorakiti"),"Enemy");
 
-	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
+	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
 }
 
 

@@ -37,6 +37,7 @@ void BaseEnemy::Initialize()
 	MelLib::Value2<MelLib::Vector3>segmentPos;
 	float offset = 0.01f;
 
+	
 }
 
 void BaseEnemy::Update()

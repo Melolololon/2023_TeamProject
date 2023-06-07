@@ -92,7 +92,7 @@ void Player::Initialize()
 
 	modelObjects["main"].SetAnimationPlayFlag(true);
 
-	SetPosition(MelLib::Vector3(690, 3.5f, 0));
+	SetPosition(MelLib::Vector3(-130, 3.5f, 0));
 }
 
 void Player::Update()

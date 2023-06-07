@@ -4,6 +4,7 @@
 #include<SceneEditer.h>
 
 #include"Title.h"
+#include"Input.h"
 
 #pragma region オブジェクト
 #include"Player.h"
@@ -46,7 +47,11 @@ void Play::Initialize()
 	// オブジェクトのInitializeを呼び出す
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
-	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage1-1_Dorakiti");
+	// バグ対策
+	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
+	MelLib::GameObjectManager::GetInstance()->AllEraseObject();
+	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
+
 	player = std::make_shared<Player>();
 	MelLib::GameObjectManager::GetInstance()->AddObject(player);
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
@@ -72,6 +77,7 @@ void Play::Initialize()
 
 	// テスト
 	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(707,11.0f,1)));
+
 }
 
 void Play::Update()
@@ -85,6 +91,8 @@ void Play::Update()
 
 	Fade::GetInstance()->Update();
 	if (Fade::GetInstance()->GetChangeSceneFlag())isEnd = true;
+
+
 
 	// 更新切替
 	switch (gameState)
