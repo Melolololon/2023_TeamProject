@@ -1,8 +1,11 @@
 #pragma once
 #include<GuiValue.h>
+#include<Sprite2D.h>
 
 class Game final
 {
+private:
+	const bool EDITER_FLAG = false;
 private:
 	Game();
 	~Game();
