@@ -48,13 +48,13 @@ void Play::Initialize()
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
 	// バグ対策
-	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
-	MelLib::GameObjectManager::GetInstance()->AllEraseObject();
-	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
+	//MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
+	//MelLib::GameObjectManager::GetInstance()->AllEraseObject();
+//	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
 
 	player = std::make_shared<Player>();
-	MelLib::GameObjectManager::GetInstance()->AddObject(player);
-	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
+	//MelLib::GameObjectManager::GetInstance()->AddObject(player);
+	//MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 
 	//std::vector<std::shared_ptr<Dorakiti>> dorakiti;
 	//for (int i = 0; i < 3; i++) {
@@ -76,7 +76,7 @@ void Play::Initialize()
 	gameOverStaging.Initialize();
 
 	// テスト
-	MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(707,11.0f,1)));
+	//MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Goal>(MelLib::Vector3(707,11.0f,1)));
 
 }
 

@@ -86,7 +86,7 @@ void Game::Initialize()
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
 
-	const bool EDITER_FLAG = false;
+	const bool EDITER_FLAG = true;
 
 	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(EDITER_FLAG);
 	MelLib::SceneEditer::GetInstance()->SetEditerFlag(EDITER_FLAG);
@@ -109,8 +109,8 @@ void Game::Initialize()
 
 
 	bool res = MelLib::ModelData::Load("Resource/stage/stage.obj", false, "Stage");
-	 res = MelLib::ModelData::Load("Resource/dorakiti/dorakiti.obj", false, "Dorakiti");
-	 res = MelLib::ModelData::Load("Resource/surakiti/surakiti.obj", false, "surakiti");
+	res = MelLib::ModelData::Load("Resource/dorakiti/dorakiti.obj", false, "Dorakiti");
+	res = MelLib::ModelData::Load("Resource/surakiti/surakiti.obj", false, "surakiti");
 	res = MelLib::Texture::Load("Resource/title.png", "title");
 	MelLib::Texture::Load("Resource/operation.png", "operation");
 	MelLib::Texture::Load("Resource/hp.png", "hp");
@@ -127,8 +127,11 @@ void Game::Initialize()
 
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<BaseEnemy>("surakiti"),"Enemy");
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Dorakiti>("Dorakiti"),"Enemy");
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Player>(),"Player");
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Goal>(),"Stage");
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Stage>(),"Stage");
 
-	MelLib::SceneManager::GetInstance()->SetStartScene(new Title());
+	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 }
 
 
