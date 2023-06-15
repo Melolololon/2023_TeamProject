@@ -118,15 +118,18 @@ private:
 	//std::array<std::shared_ptr<Bullet>, BULLET_MAX>bullets;
 	Bullet bullets[BULLET_MAX]{};
 
-	// ジャンプ中
-
 	// HP
-	static const int HPMax = 6;
+	static const int HPMax = 5;
 	int HP = HPMax;
-
-	// HPゲージ
-	//Gauge HPGauge{};
 	Sprite2D HPsprite[HPMax];
+
+	// MP
+	static const int MPMax = 20;
+	int MP = MPMax;
+	Sprite2D MPsprite[MPMax];
+
+	int recastMax = 90;
+	int recast = recastMax;
 
 #pragma region 市川追加変数
 
