@@ -42,6 +42,20 @@ Player::Player()
 		float offset = (128 + 20) * i;
 		HPsprite[i].SetPosition({ 32 + offset,32 });
 	}
+
+	// MP
+	for (int i = 0; i < MPMax; i++)
+	{
+		MPsprite[i].Create(Color(100, 100, 255, 255));
+		MPsprite[i].SetScale({ 6, 6 });
+		MPsprite[i].SetRotationPoint({ -2, -2 });
+		MPsprite[i].SetAngle(-90 * i + 135);
+
+		float offset = (128 + 20) * (i / 4);
+
+		MPsprite[i].SetPosition({ 96 + offset,240 });
+	}
+
 	// ショット撃ってから0.25秒で攻撃中止
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
 }
@@ -151,10 +165,32 @@ void Player::Update()
 
 	if (Input::KeyTrigger(DIK_0) && HP > 0) HP--;
 
+	if (MP < (MPMax / 5) * 2)
+	{
+		recast--;
+
+		if (recast <= 0)
+		{
+			MP++;
+			//MPsprite[MP - 1].SetAddColor(Color(100, 100, 255, 255));
+
+ 			recast = recastMax;
+		}
+	}
+
 	// HPが減ったらハートの色を暗くする
 	for (int i = HPMax - 1; i >= HP; i--)
 	{
 		HPsprite[i].SetSubColor(Color(80, 80, 80,0));
+	}
+	// MPが減ったらアイコンの色を暗くする
+	for (int i = MPMax - 1; i >= MP; i--)
+	{
+		MPsprite[i].SetColor(Color(0, 0, 150,255));
+	}
+	for (int i = MP - 1; i >= 0; i--)
+	{
+		MPsprite[i].SetColor(Color(100, 100, 255, 255));
 	}
 }
 
@@ -165,6 +201,10 @@ void Player::Draw()
 	for (int i = 0; i < HPMax; i++)
 	{
 		HPsprite[i].Draw();
+	}
+	for (int i = 0; i < MPMax; i++)
+	{
+		MPsprite[i].Draw();
 	}
 }
 
@@ -305,11 +345,14 @@ void Player::Shot()
 	Vector2 mousevec = Input::GetMouseVector(mousecenter);
 	float angle = -atan2f(mousevec.y, mousevec.x) * 180 / PI;
 
-	if (Input::MouseButtonTrigger(MouseButton::LEFT))
+	if (Input::MouseButtonTrigger(MouseButton::LEFT) && MP > 0)
 	{
 		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
 		MelLib::GameObjectManager::GetInstance()->AddObject(b);
 		b->SetParameter(position, angle);
+
+		MP--; // MP消費
+		recast = recastMax;
 
 		if (!isShotAnimation)
 		{
