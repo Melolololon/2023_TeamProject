@@ -333,6 +333,11 @@ void Player::Jump()
 
 void Player::Shot()
 {
+	if (interval > 0)
+	{
+		interval--;
+	}
+
 	Vector3 position = GetPosition();
 	if (playerDirLeft)	position.x -= 2.5f;
 	else				position.x += 2.5f;
@@ -345,13 +350,9 @@ void Player::Shot()
 	Vector2 mousevec = Input::GetMouseVector(mousecenter);
 	float angle = -atan2f(mousevec.y, mousevec.x) * 180 / PI;
 
-	if (Input::MouseButtonTrigger(MouseButton::LEFT) && MP > 0)
+	if (Input::MouseButtonState(MouseButton::LEFT))
 	{
-		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
-		MelLib::GameObjectManager::GetInstance()->AddObject(b);
-		b->SetParameter(position, angle);
-
-		MP--; // MP消費
+		// 入力中、常にMPが一つ回復するまでの時間をリセットし続ける (離さないと回復しない)
 		recast = recastMax;
 
 		if (!isShotAnimation)
@@ -364,6 +365,18 @@ void Player::Shot()
 		// ショット撃ったらリセットして再生
 		shotAnimEndTimer.ResetTimeZero();
 		shotAnimEndTimer.SetStartFlag(true);
+
+		// MPが0のときは弾を撃たずに終了
+		if (MP == 0) return;
+		// 攻撃の間隔が0になっていなければ弾を撃たずに終了
+		if (interval > 0) return;
+
+		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
+		MelLib::GameObjectManager::GetInstance()->AddObject(b);
+		b->SetParameter(position, angle);
+
+		MP--; // MP消費
+		interval = intervalMax;
 	}
 }
 
