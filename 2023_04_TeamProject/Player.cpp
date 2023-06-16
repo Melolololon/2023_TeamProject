@@ -330,9 +330,6 @@ void Player::CheckFallDead()
 	{
 		// 死亡処理
 		thisState = ThisState::FALL_DEAD;
-
-		// ここに体力をゼロにする処理
-
 	}
 }
 
