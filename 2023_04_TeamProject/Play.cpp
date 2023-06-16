@@ -52,7 +52,7 @@ void Play::Initialize()
 	//MelLib::GameObjectManager::GetInstance()->AllEraseObject();
 //	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
 
-	player = std::make_shared<Player>();
+
 	//MelLib::GameObjectManager::GetInstance()->AddObject(player);
 	//MelLib::GameObjectManager::GetInstance()->AddObject(std::make_shared<Stage>());
 
@@ -67,8 +67,10 @@ void Play::Initialize()
 	//for (std::shared_ptr<Dorakiti>& enemyObj : dorakiti) {
 	//	MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
 	//}
+	player = Player::GetPPlayer();
 
-	BaseEnemy::SetPlayer(player.get());
+	BaseEnemy::SetPlayer(player);
+	backGround = std::make_unique<BackGround>(player);
 
 	operationSprite.Create(MelLib::Texture::Get("operation"));
 
@@ -91,7 +93,7 @@ void Play::Update()
 
 	Fade::GetInstance()->Update();
 	if (Fade::GetInstance()->GetChangeSceneFlag())isEnd = true;
-
+	backGround->Update();
 
 
 	// 更新切替
@@ -110,7 +112,7 @@ void Play::Update()
 
 void Play::Draw()
 {
-	backGround.Draw();
+	backGround->Draw();
 	MelLib::GameObjectManager::GetInstance()->Draw();
 
 	if(gameState == Play::GameState::PLAY) operationSprite.Draw();

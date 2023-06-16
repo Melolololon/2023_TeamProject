@@ -4,7 +4,6 @@
 #include"Player.h"
 #include"BackGround.h"
 
-
 #include"ClearStaging.h"
 #include"GameOverStaging.h"
 
@@ -21,10 +20,10 @@ private:
 
     GameState gameState = GameState::PLAY;
 
-    BackGround backGround;
+    std::unique_ptr<BackGround> backGround;
     MelLib::Sprite2D operationSprite;
 
-    std::shared_ptr<Player> player;
+    Player* player = nullptr;
 
     ClearStaging clearStaging; 
     GameOverStaging gameOverStaging;

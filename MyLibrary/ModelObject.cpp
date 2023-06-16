@@ -2261,6 +2261,7 @@ void MelLib::ModelObject::GetFbxAnimationData(const std::string& boneName, FbxAn
 
 bool ModelObject::Create(ModelData* pModelData, const std::string& objectName, ConstBufferData* userConstBufferData)
 {
+
 #pragma region –¼‘O
 
 	this->objectName = objectName;

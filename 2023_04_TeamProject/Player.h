@@ -64,6 +64,10 @@ public:
 #pragma region sì’Ç‰ÁŠÖ”
 	bool GetClear()const;
 	bool GetDead()const;
+
+	bool GetHitWall()const { return hitWall; }
+
+	static Player* GetPPlayer() { return pPlayer; }
 #pragma endregion
 
 
@@ -109,6 +113,7 @@ private:
 
 	// ƒS[ƒ‹‚µ‚½
 	void Clear();
+
 #pragma endregion
 
 private:
@@ -129,6 +134,10 @@ private:
 	Sprite2D HPsprite[HPMax];
 
 #pragma region sì’Ç‰Á•Ï”
+	static Player* pPlayer;
+
+	// •Ç‚É“–‚½‚Á‚½‚©‚Ç‚¤‚©
+	bool hitWall = false;
 
 	const MelLib::Vector3 START_ANGLE = MelLib::Vector3(0, 0, 0);
 	const MelLib::Vector3 DEFORT_ANGLE = MelLib::Vector3(0, -90, 0);
