@@ -56,14 +56,6 @@ void Dorakiti::Move()
 	}
 
 	SetAngle({ 0,angle,0 });
-
-	// ƒoƒO‘Îô
-	MelLib::Vector3 p = GetPosition();
-	std::string n = GetObjectName();
-	if (GetObjectName() == "Dorakiti_1")
-	{
-		eraseManager = true;
-	}
 }
 
 
