@@ -17,7 +17,8 @@ BaseEnemy::BaseEnemy(const std::string& name)
 {
 	/*MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());*/
-	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
+	
+	if(typeid(*this) == typeid(BaseEnemy)) modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
 
 	//tags.push_back("Enemy");
 }
