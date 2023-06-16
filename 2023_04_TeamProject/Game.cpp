@@ -90,7 +90,7 @@ void Game::Initialize()
 
 	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(EDITER_FLAG);
 	MelLib::SceneEditer::GetInstance()->SetEditerFlag(EDITER_FLAG);
-	MelLib::SceneEditer::GetInstance()->SetReleaseEditFlag(!EDITER_FLAG);
+	MelLib::SceneEditer::GetInstance()->SetReleaseEditFlag(EDITER_FLAG);
 	MelLib::SceneEditer::GetInstance()->Initialize();
 	//MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<>);
 #pragma endregion
