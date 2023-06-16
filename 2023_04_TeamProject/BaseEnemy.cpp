@@ -28,7 +28,7 @@ BaseEnemy::~BaseEnemy()
 
 void BaseEnemy::Initialize()
 {
-	AddPosition({ 0,10,0 });
+	//AddPosition({ 0,10,0 });
 
 	sphereDatas["main"].resize(1);
 	sphereDatas["main"][0].SetPosition(GetPosition());
