@@ -350,6 +350,17 @@ void MelLib::SceneEditer::LoadEditData(const std::string& sceneName)
 	file.close();
 }
 
+void MelLib::SceneEditer::LoadTestPlaySaveData()
+{
+	if (editorFlag) 
+	{
+		// 一旦falseにしてゲームオブジェクトManagerに突っ込む
+		editorFlag = false;
+		LoadEditData(TEST_START_EDIT_DATA_NAME);
+		editorFlag = true;
+	}
+}
+
 void MelLib::SceneEditer::UpdateSelectObject()
 {
 	if (!editorFlag || ReleaseCheck())return;

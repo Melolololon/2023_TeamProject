@@ -67,6 +67,8 @@ void Play::Initialize()
 	//for (std::shared_ptr<Dorakiti>& enemyObj : dorakiti) {
 	//	MelLib::GameObjectManager::GetInstance()->AddObject(enemyObj);
 	//}
+	gameState = GameState::PLAY;
+
 	player = Player::GetPPlayer();
 
 	BaseEnemy::SetPlayer(player);
