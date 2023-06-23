@@ -3,6 +3,7 @@
 
 #include"Player.h"
 #include"BackGround.h"
+#include"CursorTexture.h"
 
 #include"ClearStaging.h"
 #include"GameOverStaging.h"
@@ -21,6 +22,8 @@ private:
     GameState gameState = GameState::PLAY;
 
     std::unique_ptr<BackGround> backGround;
+    // 照準
+    std::unique_ptr<CursorTexture> cursorTexture;
     MelLib::Sprite2D operationSprite;
 
     Player* player = nullptr;
@@ -29,6 +32,9 @@ private:
     GameOverStaging gameOverStaging;
     // 各状態ごとの更新処理
     
+
+private:
+
     // クリア
     void ClearUpdate();
     void ClearDraw();

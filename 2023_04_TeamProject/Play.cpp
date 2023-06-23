@@ -71,6 +71,7 @@ void Play::Initialize()
 
 	BaseEnemy::SetPlayer(player);
 	backGround = std::make_unique<BackGround>(player);
+	cursorTexture = std::make_unique<CursorTexture>();
 
 	operationSprite.Create(MelLib::Texture::Get("operation"));
 
@@ -94,7 +95,7 @@ void Play::Update()
 	Fade::GetInstance()->Update();
 	if (Fade::GetInstance()->GetChangeSceneFlag())isEnd = true;
 	backGround->Update();
-
+	cursorTexture->Update();
 
 	// 更新切替
 	switch (gameState)
@@ -114,6 +115,8 @@ void Play::Draw()
 {
 	backGround->Draw();
 	MelLib::GameObjectManager::GetInstance()->Draw();
+
+	cursorTexture->Draw();
 
 	if(gameState == Play::GameState::PLAY) operationSprite.Draw();
 
