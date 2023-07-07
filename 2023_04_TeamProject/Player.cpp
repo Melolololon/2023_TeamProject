@@ -14,6 +14,8 @@
 #include"Stage.h"
 #include"Goal.h"
 
+Player* Player::pPlayer;
+
 void Player::LoadResource()
 {
 	MelLib::ModelData::Load("Resource/player/player.fbx", false, "player");
@@ -58,6 +60,8 @@ Player::Player()
 
 	// ショット撃ってから0.25秒で攻撃中止
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
+
+	pPlayer = this;
 }
 
 void Player::Initialize()
@@ -162,6 +166,7 @@ void Player::Update()
 
 	// 絶対最後に書く
 	hitGround = false;
+	hitWall = false;
 
 	if (Input::KeyTrigger(DIK_0) && HP > 0) HP--;
 
@@ -191,6 +196,10 @@ void Player::Update()
 	for (int i = MP - 1; i >= 0; i--)
 	{
 		MPsprite[i].SetColor(Color(100, 100, 255, 255));
+	}
+	if(MP != 0)
+	{
+		MPsprite[MP - 1].SetColor(Color(200, 200, 255, 255));
 	}
 }
 
@@ -251,6 +260,8 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 				const float ADD_X = result.triangleHitPos.x - GetPosition().x - sphereDatas["main"][0].GetRadius();
 				AddPosition(Vector3(ADD_X, 0, 0));
 			}
+
+			hitWall = true;
 		}
 	}
 
@@ -333,6 +344,11 @@ void Player::Jump()
 
 void Player::Shot()
 {
+	if (interval > 0)
+	{
+		interval--;
+	}
+
 	Vector3 position = GetPosition();
 	if (playerDirLeft)	position.x -= 2.5f;
 	else				position.x += 2.5f;
@@ -345,13 +361,9 @@ void Player::Shot()
 	Vector2 mousevec = Input::GetMouseVector(mousecenter);
 	float angle = -atan2f(mousevec.y, mousevec.x) * 180 / PI;
 
-	if (Input::MouseButtonTrigger(MouseButton::LEFT) && MP > 0)
+	if (Input::MouseButtonState(MouseButton::LEFT))
 	{
-		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
-		MelLib::GameObjectManager::GetInstance()->AddObject(b);
-		b->SetParameter(position, angle);
-
-		MP--; // MP消費
+		// 入力中、常にMPが一つ回復するまでの時間をリセットし続ける (離さないと回復しない)
 		recast = recastMax;
 
 		if (!isShotAnimation)
@@ -364,6 +376,18 @@ void Player::Shot()
 		// ショット撃ったらリセットして再生
 		shotAnimEndTimer.ResetTimeZero();
 		shotAnimEndTimer.SetStartFlag(true);
+
+		// MPが0のときは弾を撃たずに終了
+		if (MP == 0) return;
+		// 攻撃の間隔が0になっていなければ弾を撃たずに終了
+		if (interval > 0) return;
+
+		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
+		MelLib::GameObjectManager::GetInstance()->AddObject(b);
+		b->SetParameter(position, angle);
+
+		MP--; // MP消費
+		interval = intervalMax;
 	}
 }
 
@@ -373,15 +397,11 @@ void Player::CheckFallDead()
 	{
 		// 死亡処理
 		thisState = ThisState::FALL_DEAD;
-
-		// ここに体力をゼロにする処理
-
 	}
 }
 
 void Player::MoveRot()
 {
-
 	// 回転範囲を正の数じゃなくて負の数の方が振り返りでプレイヤーの顔見れていいかも
 
 	// 最大回転量

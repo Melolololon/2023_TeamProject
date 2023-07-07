@@ -17,8 +17,10 @@ BaseEnemy::BaseEnemy(const std::string& name)
 {
 	/*MelLib::ModelData::Load("Resource/" + name + "/" + name + ".obj", false, name);
 	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());*/
-	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
+	
 
+	modelObjects["main"].Create(MelLib::ModelData::Get(name), GetObjectName());
+	
 	//tags.push_back("Enemy");
 }
 
@@ -28,7 +30,7 @@ BaseEnemy::~BaseEnemy()
 
 void BaseEnemy::Initialize()
 {
-	AddPosition({ 0,10,0 });
+	//AddPosition({ 0,10,0 });
 
 	sphereDatas["main"].resize(1);
 	sphereDatas["main"][0].SetPosition(GetPosition());
