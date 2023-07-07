@@ -4,8 +4,8 @@
 
 CursorTexture::CursorTexture()
 {
-	sprite.Create(MelLib::Color(255, 0, 0, 255));
-	sprite.SetScale(60);
+	sprite.Create(MelLib::Texture::Get("cursorTex"));
+	sprite.SetScale(0.6f);
 
 	MelLib::Input::SetDrawCursorFlag(false);
 }

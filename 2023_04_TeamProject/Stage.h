@@ -9,12 +9,14 @@ private:
 
 	// 落下死判定になるY座標
 	static float deadPositionY;
+
+	const short STAGE_NUM;
 private:
 	// メッシュから三角形の判定を取得
 	void SetMeshTriangle();
 
 public:
-	Stage();
+	Stage(const short stageNum);
 
 	void Initialize();
 

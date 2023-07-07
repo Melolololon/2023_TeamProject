@@ -1,5 +1,6 @@
 #include "Stage.h"
 
+
 float Stage::deadPositionY = FLT_MAX;
 
 void Stage::SetMeshTriangle()
@@ -29,9 +30,10 @@ void Stage::SetMeshTriangle()
 	triangleDatas["main"].shrink_to_fit();
 }
 
-Stage::Stage():GameObject("Stage")
+Stage::Stage(const short stageNum) :GameObject("Stage" + std::to_string(stageNum))
+, STAGE_NUM(stageNum)
 {
-	modelObjects["main"].Create(MelLib::ModelData::Get("Stage"),GetObjectName());
+	modelObjects["main"].Create(MelLib::ModelData::Get("Stage" + std::to_string(stageNum)),GetObjectName());
 	
 	// ‚±‚ê‚Ì‚¹‚¢‚Å‚Å‚©‚­‚µ‚½”»’èƒoƒO‚Á‚Ä‚é‰Â”\«‘å
 	addPosY.SetData(0, "StageTestWindow", "AddPosY", -200, 20);
@@ -65,5 +67,5 @@ void Stage::Hit(const GameObject& object, const MelLib::ShapeType3D shapeType, c
 
 std::shared_ptr<MelLib::GameObject> Stage::GetNewPtr()
 {
-	return std::make_shared<Stage>();
+	return std::make_shared<Stage>(STAGE_NUM);
 }
