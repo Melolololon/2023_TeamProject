@@ -49,7 +49,7 @@ Player::Player()
 	for (int i = 0; i < MPMax; i++)
 	{
 		MPsprite[i].Create(Color(100, 100, 255, 255));
-		MPsprite[i].SetScale({ 6, 6 });
+		MPsprite[i].SetScale({ 45, 45 });
 		MPsprite[i].SetRotationPoint({ -2, -2 });
 		MPsprite[i].SetAngle(-90 * i + 135);
 
