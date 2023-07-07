@@ -192,6 +192,10 @@ void Player::Update()
 	{
 		MPsprite[i].SetColor(Color(100, 100, 255, 255));
 	}
+	if(MP != 0)
+	{
+		MPsprite[MP - 1].SetColor(Color(200, 200, 255, 255));
+	}
 }
 
 void Player::Draw()
