@@ -256,12 +256,12 @@ namespace MelLib
 		/// <summary>
 		/// アニメーションをリセットします。
 		/// </summary>
-		void SetAnimationFrameStart(const std::string& boneName);//{fbxAnimationData.currentTime = 0;}
+		void SetAnimationFrameStart(const std::string& boneName = "");//{fbxAnimationData.currentTime = 0;}
 
 		/// <summary>
 		/// アニメーションの現在のフレームをアニメーション終了時のフレームにします。
 		/// </summary>
-		void SetAnimationFrameEnd(const std::string& boneName);//{ fbxAnimationData.currentTime = fbxAnimationData.animationTimes.endTime; }
+		void SetAnimationFrameEnd(const std::string& boneName = "");//{ fbxAnimationData.currentTime = fbxAnimationData.animationTimes.endTime; }
 
 		/// <summary>
 		/// アニメーションのフレームをセットします。
@@ -399,6 +399,7 @@ namespace MelLib
 		/// モデルのポリゴンを当たり判定に使えるデータに変換して返します。
 		/// </summary>
 		void GetModelTriangleData(std::vector<std::vector<TriangleData>>& vec)const;
+		
 #pragma endregion
 
 		/// <summary>

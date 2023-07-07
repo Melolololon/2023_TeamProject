@@ -14,6 +14,8 @@
 #include"Stage.h"
 #include"Goal.h"
 
+Player* Player::pPlayer;
+
 void Player::LoadResource()
 {
 	MelLib::ModelData::Load("Resource/player/player.fbx", false, "player");
@@ -44,6 +46,8 @@ Player::Player()
 	}
 	// ショット撃ってから0.25秒で攻撃中止
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
+
+	pPlayer = this;
 }
 
 void Player::Initialize()
@@ -148,6 +152,7 @@ void Player::Update()
 
 	// 絶対最後に書く
 	hitGround = false;
+	hitWall = false;
 
 	if (Input::KeyTrigger(DIK_0) && HP > 0) HP--;
 
@@ -211,6 +216,8 @@ void Player::Hit(const GameObject& object, const ShapeType3D shapeType, const st
 				const float ADD_X = result.triangleHitPos.x - GetPosition().x - sphereDatas["main"][0].GetRadius();
 				AddPosition(Vector3(ADD_X, 0, 0));
 			}
+
+			hitWall = true;
 		}
 	}
 
@@ -330,15 +337,11 @@ void Player::CheckFallDead()
 	{
 		// 死亡処理
 		thisState = ThisState::FALL_DEAD;
-
-		// ここに体力をゼロにする処理
-
 	}
 }
 
 void Player::MoveRot()
 {
-
 	// 回転範囲を正の数じゃなくて負の数の方が振り返りでプレイヤーの顔見れていいかも
 
 	// 最大回転量
