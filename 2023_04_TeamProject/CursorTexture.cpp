@@ -19,7 +19,7 @@ CursorTexture::~CursorTexture()
 void CursorTexture::Update()
 {
 	MelLib::Input::SetDrawCursorFlag(false);
-	const MelLib::Vector2 TEX_SIZE_HALF =30;
+	const MelLib::Vector2 TEX_SIZE_HALF = 30;
 	sprite.SetPosition(MelLib::Input::GetMousePosition() - TEX_SIZE_HALF);
 	
 }
