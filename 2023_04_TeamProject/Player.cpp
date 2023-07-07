@@ -44,6 +44,20 @@ Player::Player()
 		float offset = (128 + 20) * i;
 		HPsprite[i].SetPosition({ 32 + offset,32 });
 	}
+
+	// MP
+	for (int i = 0; i < MPMax; i++)
+	{
+		MPsprite[i].Create(Color(100, 100, 255, 255));
+		MPsprite[i].SetScale({ 6, 6 });
+		MPsprite[i].SetRotationPoint({ -2, -2 });
+		MPsprite[i].SetAngle(-90 * i + 135);
+
+		float offset = (128 + 20) * (i / 4);
+
+		MPsprite[i].SetPosition({ 96 + offset,240 });
+	}
+
 	// ショット撃ってから0.25秒で攻撃中止
 	shotAnimEndTimer.SetMaxTime(60 * 0.25f);
 
@@ -156,10 +170,36 @@ void Player::Update()
 
 	if (Input::KeyTrigger(DIK_0) && HP > 0) HP--;
 
+	if (MP < (MPMax / 5) * 2)
+	{
+		recast--;
+
+		if (recast <= 0)
+		{
+			MP++;
+			//MPsprite[MP - 1].SetAddColor(Color(100, 100, 255, 255));
+
+ 			recast = recastMax;
+		}
+	}
+
 	// HPが減ったらハートの色を暗くする
 	for (int i = HPMax - 1; i >= HP; i--)
 	{
 		HPsprite[i].SetSubColor(Color(80, 80, 80,0));
+	}
+	// MPが減ったらアイコンの色を暗くする
+	for (int i = MPMax - 1; i >= MP; i--)
+	{
+		MPsprite[i].SetColor(Color(0, 0, 150,255));
+	}
+	for (int i = MP - 1; i >= 0; i--)
+	{
+		MPsprite[i].SetColor(Color(100, 100, 255, 255));
+	}
+	if(MP != 0)
+	{
+		MPsprite[MP - 1].SetColor(Color(200, 200, 255, 255));
 	}
 }
 
@@ -170,6 +210,10 @@ void Player::Draw()
 	for (int i = 0; i < HPMax; i++)
 	{
 		HPsprite[i].Draw();
+	}
+	for (int i = 0; i < MPMax; i++)
+	{
+		MPsprite[i].Draw();
 	}
 }
 
@@ -300,6 +344,11 @@ void Player::Jump()
 
 void Player::Shot()
 {
+	if (interval > 0)
+	{
+		interval--;
+	}
+
 	Vector3 position = GetPosition();
 	if (playerDirLeft)	position.x -= 2.5f;
 	else				position.x += 2.5f;
@@ -312,11 +361,10 @@ void Player::Shot()
 	Vector2 mousevec = Input::GetMouseVector(mousecenter);
 	float angle = -atan2f(mousevec.y, mousevec.x) * 180 / PI;
 
-	if (Input::MouseButtonTrigger(MouseButton::LEFT))
+	if (Input::MouseButtonState(MouseButton::LEFT))
 	{
-		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
-		MelLib::GameObjectManager::GetInstance()->AddObject(b);
-		b->SetParameter(position, angle);
+		// 入力中、常にMPが一つ回復するまでの時間をリセットし続ける (離さないと回復しない)
+		recast = recastMax;
 
 		if (!isShotAnimation)
 		{
@@ -328,6 +376,18 @@ void Player::Shot()
 		// ショット撃ったらリセットして再生
 		shotAnimEndTimer.ResetTimeZero();
 		shotAnimEndTimer.SetStartFlag(true);
+
+		// MPが0のときは弾を撃たずに終了
+		if (MP == 0) return;
+		// 攻撃の間隔が0になっていなければ弾を撃たずに終了
+		if (interval > 0) return;
+
+		std::shared_ptr<Bullet>b = std::make_shared<Bullet>();
+		MelLib::GameObjectManager::GetInstance()->AddObject(b);
+		b->SetParameter(position, angle);
+
+		MP--; // MP消費
+		interval = intervalMax;
 	}
 }
 
