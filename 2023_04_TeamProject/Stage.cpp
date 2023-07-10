@@ -8,22 +8,30 @@ void Stage::SetMeshTriangle()
 	std::vector<std::vector<MelLib::TriangleData>> triDatas;
 	modelObjects["main"].GetModelTriangleData(triDatas);
 
-	triangleDatas["main"].reserve(triDatas[0].size());
+	size_t allTriSize = 0;
+	for (const auto tri : triDatas) 
+	{
+		allTriSize += tri.size();
+	}
+	triangleDatas["main"].reserve(allTriSize);
 	
 	// ”»’è‚ðŠi”[
-	for (size_t i = 0; i < triDatas[0].size(); i++)
+	for (size_t i = 0; i < triDatas.size(); i++) 
 	{
-		MelLib::TriangleData& t = triDatas[0][i];
-
-		// ‰¡‚Í–³Ž‹
-		//if (t.GetNormal().x != 0.0f)continue;
-
-		triangleDatas["main"].push_back(t);
-
-		// ƒXƒe[ƒW‚Ìˆê”Ô’á‚¢À•W‚ðŠi”[
-		if (deadPositionY >= t.GetPosition().v1.y) 
+		for (size_t j = 0; j < triDatas[i].size(); j++)
 		{
-			deadPositionY = t.GetPosition().v1.y;
+			MelLib::TriangleData& tri = triDatas[i][j];
+
+			// ‰¡‚Í–³Ž‹
+			//if (t.GetNormal().x != 0.0f)continue;
+
+			triangleDatas["main"].push_back(tri);
+
+			// ƒXƒe[ƒW‚Ìˆê”Ô’á‚¢À•W‚ðŠi”[
+			if (deadPositionY >= tri.GetPosition().v1.y)
+			{
+				deadPositionY = tri.GetPosition().v1.y;
+			}
 		}
 	}
 
