@@ -9,8 +9,8 @@
 #pragma region オブジェクト
 #include"Player.h"
 #include"Stage.h"
-#include "BaseEnemy.h"
-#include "Dorakiti.h"
+#include"BaseEnemy.h"
+#include"Dorakiti.h"
 #include"Goal.h"
 #pragma endregion
 
