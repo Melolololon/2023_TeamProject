@@ -9,8 +9,8 @@
 #pragma region オブジェクト
 #include"Player.h"
 #include"Stage.h"
-#include "BaseEnemy.h"
-#include "Dorakiti.h"
+#include"BaseEnemy.h"
+#include"Dorakiti.h"
 #include"Goal.h"
 #pragma endregion
 
@@ -48,6 +48,7 @@ void Play::Initialize()
 	//MelLib::GameObjectManager::GetInstance()->InitializeObject();
 
 	// バグ対策
+	MelLib::SceneEditer::GetInstance()->LoadEditData("07_12_Test");
 	//MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
 	//MelLib::GameObjectManager::GetInstance()->AllEraseObject();
 //	MelLib::SceneEditer::GetInstance()->LoadEditData("Stage_Dorakiti");
