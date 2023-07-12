@@ -55,7 +55,7 @@ void Stage::Initialize()
 	SetMeshTriangle();
 
 
-	SetAngle({ 0, 270, 00 });
+	//SetAngle({ 0, 270, 00 });
 	//SetPosition({ 0,-40 + addPosY.GetValue(),0 });
 
 }

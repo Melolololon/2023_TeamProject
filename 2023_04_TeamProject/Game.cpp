@@ -10,6 +10,8 @@
 #include"ClearStaging.h"
 #include"GameOverStaging.h"
 
+#include"MoveFloor.h"
+
 #pragma region ライブラリインクルード
 
 #include<Library.h>
@@ -86,7 +88,7 @@ void Game::Initialize()
 	MelLib::GameObjectManager::GetInstance()->SetMouseCollisionFlag(true);
 	MelLib::GameObjectManager::GetInstance()->ReserveObjectArray(100);
 
-	const bool EDITER_FLAG = false;
+	const bool EDITER_FLAG = true;
 
 	MelLib::ImguiManager::GetInstance()->SetReleaseDrawFlag(EDITER_FLAG);
 	MelLib::SceneEditer::GetInstance()->SetEditerFlag(EDITER_FLAG);
@@ -133,6 +135,7 @@ void Game::Initialize()
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Goal>(),"Stage");
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Stage>(1),"Stage");
 	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<Stage>(2),"Stage");
+	MelLib::SceneEditer::GetInstance()->RegisterObject(std::make_shared<MoveFloor>(),"Stage");
 
 	MelLib::SceneManager::GetInstance()->SetStartScene(new Play());
 }
