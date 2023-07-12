@@ -14,7 +14,7 @@ void MoveFloor::Initialize()
 	std::vector<std::vector<MelLib::TriangleData>>triData;
 
 	// 移動範囲を設定
-	easing = MelLib::Easing<float>(GetPosition().y, GetPosition().y + moveUp.GetMaxValue(), 0.5f);
+	easing = MelLib::Easing<float>(GetPosition().y, GetPosition().y + moveUp.GetValue());
 
 	SetScale(5);
 	
@@ -26,6 +26,16 @@ void MoveFloor::Update()
 	MelLib::Vector3 pos = GetPosition();
 
 	// addParがMAXになったらaddParをマイナスにする処理を追加する
+	const float FRAME_ADD_PAR = 0.75f;
+	const float ADD_PAR = easing.GetPar();
+	if(ADD_PAR >= 100.0f)
+	{
+		easing.SetAddPar(-FRAME_ADD_PAR);
+	}
+	else if(ADD_PAR <= 0)
+	{
+		easing.SetAddPar(FRAME_ADD_PAR);
+	}
 	pos.y = easing.EaseInOut();
 	SetPosition(pos);
 }
