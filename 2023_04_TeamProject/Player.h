@@ -64,6 +64,10 @@ public:
 #pragma region sì’Ç‰ÁŠÖ”
 	bool GetClear()const;
 	bool GetDead()const;
+
+	bool GetHitWall()const { return hitWall; }
+
+	static Player* GetPPlayer() { return pPlayer; }
 #pragma endregion
 
 
@@ -109,6 +113,7 @@ private:
 
 	// ƒS[ƒ‹‚µ‚½
 	void Clear();
+
 #pragma endregion
 
 private:
@@ -117,18 +122,28 @@ private:
 	static const int BULLET_MAX = 20;
 	//std::array<std::shared_ptr<Bullet>, BULLET_MAX>bullets;
 	Bullet bullets[BULLET_MAX]{};
-
-	// ƒWƒƒƒ“ƒv’†
+	// ”­Ë‚ÌŠÔŠu
+	int intervalMax = 20;
+	int interval = intervalMax;
 
 	// HP
-	static const int HPMax = 6;
+	static const int HPMax = 5;
 	int HP = HPMax;
-
-	// HPƒQ[ƒW
-	//Gauge HPGauge{};
 	Sprite2D HPsprite[HPMax];
 
+	// MP
+	static const int MPMax = 20;
+	int MP = MPMax;
+	Sprite2D MPsprite[MPMax];
+
+	int recastMax = 50;
+	int recast = recastMax;
+
 #pragma region sì’Ç‰Á•Ï”
+	static Player* pPlayer;
+
+	// •Ç‚É“–‚½‚Á‚½‚©‚Ç‚¤‚©
+	bool hitWall = false;
 
 	const MelLib::Vector3 START_ANGLE = MelLib::Vector3(0, 0, 0);
 	const MelLib::Vector3 DEFORT_ANGLE = MelLib::Vector3(0, -90, 0);
